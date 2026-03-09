@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PBCG — Prosperous Breakthrough Coaching Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── GLOBAL ── */
+:root {
+  --bg:#f3f4f2; --white:#ffffff; --border:#e0e2dc;
+  --ink:#2c3a2e; --soft:#4d5c50; --muted:#8f9a91; --accent:#7a9db5;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;line-height:1.75;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── HEADER ── */
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;padding:0 60px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{background:none;border:none;cursor:pointer;font-family:'Lora',serif;font-size:18px;font-weight:500;letter-spacing:5px;color:var(--ink);display:flex;align-items:center;gap:10px;}
+.logo svg{width:28px;height:28px;}
+nav{display:flex;align-items:center;}
+.nt{background:none;border:none;padding:8px 15px;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--muted);cursor:pointer;position:relative;transition:color 0.2s;}
+.nt::after{content:'';position:absolute;bottom:-1px;left:15px;right:15px;height:1px;background:var(--accent);transform:scaleX(0);transition:transform 0.25s;}
+.nt:hover{color:var(--soft);}
+.nt.on{color:var(--ink);font-weight:500;}
+.nt.on::after{transform:scaleX(1);}
+.ncta{background:none;border:1px solid var(--border);border-radius:4px;padding:8px 18px;margin-left:10px;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--soft);cursor:pointer;transition:all 0.2s;}
+.ncta:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── PAGES ── */
+.page{display:none;flex:1;}
+.page.on{display:block;animation:arr 0.35s ease;}
+@keyframes arr{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.c{max-width:980px;margin:0 auto;padding:0 60px;}
+h1{font-family:'Lora',serif;font-weight:400;font-size:clamp(38px,5vw,64px);line-height:1.1;color:var(--ink);letter-spacing:-0.5px;}
+h2{font-family:'Lora',serif;font-weight:400;font-size:clamp(24px,3vw,36px);line-height:1.2;color:var(--ink);}
+h3{font-family:'Lora',serif;font-weight:400;font-size:18px;line-height:1.3;color:var(--ink);}
+em{font-style:italic;color:var(--accent);}
+.ey{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:block;}
+p{font-size:15px;color:var(--soft);line-height:1.85;}
+p+p{margin-top:14px;}
+.btn{display:inline-block;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:11px 26px;border-radius:4px;transition:all 0.2s;}
+.bf{background:var(--accent);color:var(--white);}
+.bf:hover{background:var(--ink);transform:translateY(-1px);}
+.bl{background:transparent;border:1px solid var(--border);color:var(--soft);}
+.bl:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── HOME ── */
+.hero{background:var(--white);padding:96px 0 84px;border-bottom:1px solid var(--border);}
+.hero .c{max-width:660px;}
+.hero h1{margin-bottom:20px;}
+.hero .sub{font-size:16px;color:var(--soft);line-height:1.8;max-width:480px;margin-bottom:34px;}
+.hact{display:flex;gap:11px;flex-wrap:wrap;}
+.hmid{padding:76px 0 92px;}
+.hmid .c{display:grid;grid-template-columns:1fr 1fr;gap:76px;align-items:start;}
+.hmid-l h2{margin-bottom:18px;}
+.hmid-l .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px;}
+.hmid-r{display:flex;flex-direction:column;}
+.hv{padding:20px 0;border-bottom:1px solid var(--border);}
+.hv:first-child{padding-top:0;}
+.hv:last-child{border-bottom:none;padding-bottom:0;}
+.hvl{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:7px;display:block;}
+.hv p{font-size:13.5px;color:var(--muted);line-height:1.75;}
+
+/* ── COACHES ── */
+.cp{padding:76px 0 96px;}
+.ci{margin-bottom:48px;}
+.ci h2{margin-bottom:13px;max-width:420px;}
+.ci p{max-width:500px;}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.cc{background:var(--white);padding:42px;transition:background 0.2s;}
+.cc:hover{background:#fcfcfb;}
+.cav{width:56px;height:56px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:16px;color:var(--accent);margin-bottom:20px;}
+.cn{font-family:'Lora',serif;font-size:21px;font-weight:400;color:var(--ink);margin-bottom:3px;}
+.cr{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:block;}
+.cln{width:22px;height:1px;background:var(--border);margin-bottom:20px;}
+.cb p{font-size:14px;color:var(--soft);line-height:1.85;}
+.cb p+p{margin-top:11px;}
+.ctags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;}
+.tag{font-size:10px;background:var(--bg);border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:20px;}
+
+/* ── TOOLS INDEX ── */
+.tp{padding:76px 0 96px;}
+.ti{margin-bottom:48px;max-width:540px;}
+.ti h2{margin-bottom:13px;}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
+.tc{background:var(--white);padding:38px;transition:all 0.2s;cursor:pointer;position:relative;}
+.tc:hover{background:#f8f9f8;}
+.tc-arrow{position:absolute;bottom:38px;right:38px;font-size:18px;color:var(--muted);transition:all 0.2s;}
+.tc:hover .tc-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.ts{display:inline-flex;align-items:center;gap:7px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;}
+.sd{width:5px;height:5px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+.tn{font-family:'Lora',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:3px;}
+.tsub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:13px;display:block;}
+.td{font-size:13.5px;color:var(--soft);line-height:1.8;max-width:360px;}
+.tnote{background:var(--white);border:1px solid var(--border);padding:20px 24px;font-size:13px;color:var(--muted);line-height:1.75;}
+.il{background:none;border:none;color:var(--accent);cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;padding:0;text-decoration:underline;text-underline-offset:3px;}
+
+/* ── APPROACH ── */
+.ap{padding:76px 0 96px;}
+.ai{margin-bottom:48px;max-width:500px;}
+.ai h2{margin-bottom:13px;}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}
+.acell{background:var(--white);padding:34px;}
+.anum{font-family:'Lora',serif;font-size:28px;font-style:italic;color:var(--border);line-height:1;margin-bottom:11px;display:block;}
+.acell h3{margin-bottom:8px;font-size:15px;font-weight:500;}
+.acell p{font-size:13px;color:var(--muted);line-height:1.75;}
+.aquote{background:var(--ink);padding:50px;grid-column:span 2;}
+.aquote p{font-family:'Lora',serif;font-style:italic;font-size:clamp(16px,2.2vw,23px);color:rgba(255,255,255,0.7);line-height:1.6;max-width:580px;}
+
+/* ── CONTACT ── */
+.kp{padding:76px 0 96px;}
+.ki{margin-bottom:48px;max-width:420px;}
+.ki h2{margin-bottom:13px;}
+.kg{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.kpanel{background:var(--white);padding:42px;}
+.kpanel h3{margin-bottom:9px;}
+.kcoaches{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+.kp2{display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--bg);border:1px solid var(--border);border-radius:4px;}
+.kav{width:36px;height:36px;border-radius:50%;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:12px;color:var(--accent);flex-shrink:0;}
+.kname{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:1px;}
+.kemail{font-size:12px;color:var(--accent);text-decoration:none;}
+.kemail:hover{text-decoration:underline;}
+.fg{margin-bottom:12px;}
+.fg label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.fg input,.fg textarea,.fg select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:9px 11px;font-family:'Jost',sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color 0.2s;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(122,157,181,0.1);}
+.fg textarea{height:88px;resize:none;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+
+footer{background:var(--white);border-top:1px solid var(--border);padding:18px 60px;display:flex;align-items:center;justify-content:space-between;}
+.fn{font-family:'Lora',serif;font-size:14px;font-weight:500;letter-spacing:4px;color:var(--ink);}
+.fc{font-size:11px;color:var(--muted);}
+
+/* ── TOOL SHELL (shared by Curio + Symbio) ── */
+.tool-shell{min-height:calc(100vh - 64px);background:var(--bg);display:flex;flex-direction:column;}
+.tool-topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 48px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.tool-back{background:none;border:1px solid var(--border);border-radius:4px;padding:5px 13px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+.tool-back:hover{border-color:var(--accent);color:var(--accent);}
+.tool-topbar-name{font-family:'Lora',serif;font-size:16px;color:var(--ink);}
+.tool-topbar-right{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+/* ════════════════════════
+   CURIO TOOL
+════════════════════════ */
+.curio-wrap{max-width:900px;margin:0 auto;padding:32px 48px 60px;width:100%;}
+
+/* mode tabs */
+.cv-tabs{display:flex;border:1px solid var(--border);width:fit-content;margin-bottom:24px;border-radius:6px;overflow:hidden;}
+.cv-tab{background:var(--white);border:none;border-right:1px solid var(--border);padding:9px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--muted);transition:all 0.15s;}
+.cv-tab:last-child{border-right:none;}
+.cv-tab.on{background:var(--ink);color:var(--white);}
+
+/* setup bar */
+.cv-setup{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;}
+.cv-field label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
+.cv-field input,.cv-field select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:'Jost',sans-serif;font-size:13px;color:var(--ink);outline:none;}
+.cv-field input:focus,.cv-field select:focus{border-color:var(--accent);}
+
+/* record */
+.cv-record-area{display:flex;flex-direction:column;align-items:center;padding:44px 0 32px;text-align:center;}
+.cv-rec-btn{width:96px;height:96px;border-radius:50%;border:2px solid var(--ink);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;transition:all 0.2s;box-shadow:3px 3px 0 var(--border);}
+.cv-rec-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--border);}
+.cv-rec-btn.recording{background:#e63946;border-color:#e63946;animation:cvpulse 1.5s ease-in-out infinite;}
+@keyframes cvpulse{0%,100%{box-shadow:3px 3px 0 rgba(230,57,70,0.3)}50%{box-shadow:3px 3px 0 rgba(230,57,70,0.3),0 0 0 12px rgba(230,57,70,0)}}
+.cv-rec-icon{font-size:24px;line-height:1;}
+.cv-rec-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);}
+.cv-rec-btn.recording .cv-rec-lbl{color:white;}
+.cv-status{margin-top:14px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.cv-timer{font-family:'IBM Plex Mono',monospace;font-size:36px;letter-spacing:4px;color:var(--ink);margin-top:8px;opacity:0;transition:opacity 0.3s;min-height:44px;}
+.cv-timer.vis{opacity:1;}
+.cv-ticker{margin-top:12px;max-width:480px;width:100%;background:var(--white);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-size:11px;color:var(--muted);line-height:1.6;text-align:left;display:none;}
+.cv-ticker.vis{display:block;}
+.cv-ticker-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:0.5;margin-bottom:3px;}
+.cv-livekpis{display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;max-width:520px;width:100%;}
+.cv-livekpis.vis{display:grid;}
+.cv-lkpi{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:10px;text-align:center;}
+.cv-lkpi-n{font-family:'IBM Plex Mono',monospace;font-size:28px;line-height:1;font-weight:500;}
+.cv-lkpi-n.q{color:#e63946}.cv-lkpi-n.g{color:#2a9d8f}.cv-lkpi-n.c{color:#e76f51}.cv-lkpi-n.p{color:var(--accent)}
+.cv-lkpi-l{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.cv-err{margin-top:11px;font-size:11px;color:#e63946;display:none;max-width:420px;text-align:center;line-height:1.6;}
+.cv-note{font-size:10px;color:var(--muted);margin-top:8px;opacity:0.6;}
+
+/* upload */
+.cv-upload-area{display:none;flex-direction:column;align-items:center;padding:20px 0;width:100%;max-width:560px;margin:0 auto;}
+.cv-upload-area.vis{display:flex;}
+.cv-drop{width:100%;border:2px dashed var(--border);border-radius:8px;padding:32px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--white);transition:all 0.15s;cursor:pointer;}
+.cv-drop:hover,.cv-drop.drag{border-color:var(--accent);background:#f8fafb;}
+.cv-drop-icon{font-size:26px;}
+.cv-drop-title{font-family:'Lora',serif;font-size:16px;color:var(--ink);}
+.cv-drop-sub{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.cv-file-btn{background:var(--ink);color:var(--white);padding:7px 16px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;border-radius:4px;}
+.cv-div{display:flex;align-items:center;width:100%;gap:10px;margin:14px 0;opacity:0.35;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.cv-div::before,.cv-div::after{content:'';flex:1;height:1px;background:var(--border);}
+.cv-pastebox{width:100%;background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.cv-paste-lbl{padding:8px 13px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);}
+.cv-pastebox textarea{width:100%;height:150px;background:transparent;border:none;outline:none;color:var(--ink);font-family:'Jost',sans-serif;font-size:13px;line-height:1.7;padding:11px 13px;resize:none;}
+.cv-paste-foot{padding:8px 13px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cv-charcount{font-size:11px;color:var(--muted);}
+.cv-analyze-btn{background:var(--ink);color:var(--white);border:none;padding:7px 16px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;}
+
+/* results */
+.cv-results{display:none;}
+.cv-results.vis{display:block;}
+.cv-res-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:8px;flex-wrap:wrap;gap:6px;}
+.cv-res-title{font-family:'Lora',serif;font-size:24px;color:var(--ink);}
+.cv-res-meta{font-size:11px;color:var(--muted);text-align:right;line-height:1.8;}
+.cv-transcript-box{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:20px;max-height:110px;overflow-y:auto;}
+.cv-transcript-text{font-size:11px;color:var(--muted);line-height:1.8;white-space:pre-wrap;}
+
+.cv-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:20px;}
+.cv-kpi{background:var(--white);padding:20px 16px;position:relative;}
+.cv-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.cv-kpi.q::before{background:#e63946}.cv-kpi.g::before{background:#2a9d8f}.cv-kpi.c::before{background:#e76f51}.cv-kpi.p::before{background:var(--accent)}
+.cv-kpi-cat{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.cv-kpi-num{font-family:'IBM Plex Mono',monospace;font-size:48px;line-height:1;font-weight:500;margin-bottom:3px;}
+.cv-kpi.q .cv-kpi-num{color:#e63946}.cv-kpi.g .cv-kpi-num{color:#2a9d8f}.cv-kpi.c .cv-kpi-num{color:#e76f51}.cv-kpi.p .cv-kpi-num{color:var(--accent)}
+.cv-kpi-desc{font-size:10px;color:var(--muted);line-height:1.5;}
+
+.cv-score-strip{background:var(--ink);color:var(--white);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;border-radius:4px;}
+.cv-score-left{display:flex;align-items:baseline;gap:8px;}
+.cv-score-num{font-family:'IBM Plex Mono',monospace;font-size:44px;line-height:1;font-weight:500;}
+.cv-score-out{font-size:12px;opacity:0.4;}
+.cv-grade{font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border:1px solid currentColor;border-radius:3px;}
+.cv-grade.excellent{color:#2a9d8f}.cv-grade.good{color:var(--accent)}.cv-grade.developing{color:#e76f51}.cv-grade.needs-work{color:#e63946}
+.cv-score-right{text-align:right;font-size:11px;opacity:0.5;line-height:1.8;}
+
+.cv-bench{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:20px;}
+.cv-bench-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:11px;}
+.cv-bench-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.cv-bench-lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.cv-bench-track{height:5px;background:var(--border);position:relative;border-radius:3px;margin-bottom:3px;}
+.cv-bench-fill{position:absolute;top:0;left:0;bottom:0;transition:width 1s cubic-bezier(.25,1,.5,1);border-radius:3px;}
+.cv-bench-fill.q{background:#e63946}.cv-bench-fill.g{background:#2a9d8f}.cv-bench-fill.c{background:#e76f51}.cv-bench-fill.p{background:var(--accent)}
+.cv-bench-marker{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:0.2;border-radius:2px;}
+.cv-bench-nums{font-size:10px;color:var(--muted);}
+
+.cv-bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.cv-panel{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:14px;}
+.cv-panel-title{font-family:'Lora',serif;font-size:14px;color:var(--ink);margin-bottom:11px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.cv-bar-item{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.cv-bar-name{width:76px;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
+.cv-bar-track{flex:1;height:5px;background:var(--border);position:relative;border-radius:3px;}
+.cv-bar-fill{position:absolute;top:0;left:0;bottom:0;width:0%;transition:width 1s cubic-bezier(.25,1,.5,1);border-radius:3px;}
+.cv-bar-fill.q{background:#e63946}.cv-bar-fill.g{background:#2a9d8f}.cv-bar-fill.c{background:#e76f51}.cv-bar-fill.p{background:var(--accent)}
+.cv-bar-pct{width:26px;font-size:10px;text-align:right;color:var(--muted);flex-shrink:0;}
+.cv-match-sec-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:8px 0 3px;}
+.cv-match-tag{display:inline-block;border:1px solid var(--border);padding:2px 7px;font-size:10px;margin:2px;border-radius:3px;color:var(--muted);}
+
+.cv-insights{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:20px;}
+.cv-insight-line{font-size:12px;line-height:1.7;padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;color:var(--soft);}
+.cv-insight-line:last-child{border-bottom:none;}
+
+.cv-reset-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:8px 0 20px;}
+.cv-reset-btn{background:transparent;border:1px solid var(--border);border-radius:4px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--soft);transition:all 0.15s;}
+.cv-reset-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+.cv-history{border-top:1px solid var(--border);padding-top:18px;margin-top:4px;}
+.cv-hist-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
+.cv-hist-title{font-family:'Lora',serif;font-size:16px;color:var(--ink);}
+.cv-hist-clear{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;background:transparent;border:1px solid var(--border);padding:4px 9px;cursor:pointer;color:var(--muted);border-radius:3px;}
+.cv-hist-clear:hover{color:#e63946;border-color:#e63946;}
+.cv-hist-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;}
+.cv-hist-chip{flex-shrink:0;border:1px solid var(--border);background:var(--white);padding:10px 12px;min-width:150px;border-radius:6px;cursor:pointer;transition:border-color 0.15s;}
+.cv-hist-chip:hover{border-color:var(--accent);}
+.cv-hist-name{font-size:11px;font-weight:500;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cv-hist-date{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.cv-hist-nums{display:flex;gap:5px;align-items:baseline;}
+.cv-hn{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:500;}
+.cv-hn.q{color:#e63946}.cv-hn.g{color:#2a9d8f}.cv-hn.c{color:#e76f51}.cv-hn.p{color:var(--accent)}
+.cv-hs{font-size:9px;color:var(--muted);margin-left:auto;}
+
+/* ════════════════════════
+   SYMBIO TOOL
+════════════════════════ */
+.sb-wrap{max-width:880px;margin:0 auto;padding:36px 48px 60px;width:100%;}
+
+/* step bar */
+.sb-steps{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;align-items:center;}
+.sb-step{display:flex;align-items:center;gap:9px;flex:1;}
+.sb-step-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;transition:all 0.3s;}
+.sb-step-num.idle{background:var(--bg);color:var(--muted);}
+.sb-step-num.active{background:var(--accent);color:var(--white);}
+.sb-step-num.done{background:#8fa89a;color:var(--white);}
+.sb-step-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s;}
+.sb-step-label.idle{color:var(--muted);}
+.sb-step-label.active{color:var(--ink);font-weight:500;}
+.sb-step-label.done{color:#8fa89a;}
+.sb-connector{flex:1;height:1px;background:var(--border);margin:0 12px;max-width:52px;}
+
+/* shared form styles within symbio */
+.sb-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:18px;}
+.sb-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.sb-card-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--ink);}
+.sb-lbl{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.sb-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:9px 11px;font-family:'Jost',sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color 0.2s;box-sizing:border-box;}
+.sb-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(122,157,181,0.1);}
+.sb-select{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:9px 11px;font-family:'Jost',sans-serif;font-size:12px;color:var(--ink);outline:none;}
+.sb-row{display:flex;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:9px 11px;margin-bottom:7px;}
+.sb-row .sb-input{background:var(--white);margin:0;flex:1;}
+.sb-row-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:17px;padding:0 3px;flex-shrink:0;transition:color 0.2s;}
+.sb-row-btn:hover{color:#e63946;}
+.sb-add-btn{width:100%;background:none;border:1px dashed var(--border);border-radius:6px;padding:7px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;margin-top:4px;transition:all 0.2s;}
+.sb-add-btn:hover{border-color:var(--accent);color:var(--accent);}
+.sb-add-sm{background:var(--accent);color:var(--white);border:none;border-radius:4px;padding:6px 12px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+.sb-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.sb-fg{margin-bottom:12px;}
+
+/* chat */
+.sb-chat-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:18px;}
+.sb-messages{padding:22px;min-height:300px;max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;}
+.sb-msg{display:flex;gap:11px;max-width:82%;}
+.sb-msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.sb-msg.agent{align-self:flex-start;}
+.sb-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-style:italic;font-size:13px;color:var(--white);}
+.sb-av.a{background:var(--accent);}
+.sb-av.u{background:var(--ink);}
+.sb-bubble{padding:12px 16px;border-radius:10px;font-size:14px;line-height:1.72;white-space:pre-wrap;}
+.sb-bubble.a{background:var(--white);border:1px solid var(--border);color:var(--ink);border-bottom-left-radius:2px;}
+.sb-bubble.u{background:var(--ink);color:var(--white);border-bottom-right-radius:2px;}
+.sb-typing{display:flex;align-items:center;gap:5px;padding:10px 14px;}
+.sb-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:sbounce 1.2s ease-in-out infinite;}
+.sb-dot:nth-child(2){animation-delay:0.2s;}
+.sb-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes sbounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.sb-input-area{border-top:1px solid var(--border);padding:14px 18px;display:flex;gap:9px;background:var(--white);}
+.sb-input-area textarea{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:9px 12px;font-family:'Jost',sans-serif;font-size:13px;color:var(--ink);outline:none;resize:none;height:66px;}
+.sb-input-area textarea:focus{border-color:var(--accent);}
+.sb-send{background:var(--accent);border:none;border-radius:6px;padding:0 18px;color:var(--white);cursor:pointer;font-size:18px;transition:background 0.2s;flex-shrink:0;}
+.sb-send:hover{background:var(--ink);}
+.sb-send:disabled{background:var(--muted);cursor:default;}
+
+/* workflow output */
+.sb-wf-intro{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:22px 24px;margin-bottom:28px;font-size:13.5px;color:var(--soft);line-height:1.75;}
+.sb-wf-phase{margin-bottom:28px;}
+.sb-wf-phase-head{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
+.sb-wf-phase-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--white);flex-shrink:0;}
+.sb-wf-phase-num.p1{background:var(--accent);}
+.sb-wf-phase-num.p2{background:#8a7bc4;}
+.sb-wf-phase-num.p3{background:#8fa89a;}
+.sb-wf-item{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:9px;display:flex;gap:13px;align-items:flex-start;}
+.sb-wf-item.p1{border-left:3px solid var(--accent);}
+.sb-wf-item.p2{border-left:3px solid #8a7bc4;}
+.sb-wf-item.p3{border-left:3px solid #8fa89a;}
+.sb-wf-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.sb-wf-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px;}
+.sb-wf-desc{font-size:13px;color:var(--soft);line-height:1.7;}
+.sb-wf-meta{font-size:11px;color:var(--muted);margin-top:6px;display:flex;gap:14px;flex-wrap:wrap;}
+.sb-wf-success{background:#edf3f0;border:1px solid #c8ddd4;border-radius:8px;padding:22px 24px;margin-top:24px;}
+.sb-wf-success h3{font-family:'Lora',serif;font-weight:400;font-size:17px;color:#8fa89a;margin-bottom:7px;}
+.sb-wf-success p{font-size:13.5px;color:var(--soft);line-height:1.75;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:820px){
+  header{padding:0 20px;}
+  .nt{padding:8px 9px;font-size:10px;letter-spacing:1px;}
+  .c,.curio-wrap,.sb-wrap{padding:24px 20px;}
+  .tool-topbar{padding:0 20px;}
+  .sb-steps{padding:12px 20px;}
+  .hmid .c,.cg,.tg,.ag,.kg,.fr,.cv-kpi-row,.cv-bench-bars,.cv-bottom,.sb-2col{grid-template-columns:1fr 1fr;}
+  .cv-kpi-row,.cv-bench-bars{grid-template-columns:1fr 1fr;}
+  .aquote{grid-column:span 1;}
+  .hero,.cp,.tp,.ap,.kp{padding:52px 0 68px;}
+  .hmid{padding:52px 0 68px;}
+  footer{flex-direction:column;gap:5px;text-align:center;padding:14px 20px;}
+  .fr{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<script>
+function go(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.nt').forEach(function(t){ t.classList.remove('on'); });
+  var page = document.getElementById('p-' + id);
+  if (page) page.classList.add('on');
+  var tab = document.getElementById('t-' + id);
+  if (tab) tab.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.go = go;
+</script>
+<header>
+  <button class="logo" onclick="go('home')">
+    <svg viewBox="0 0 28 28" fill="none">
+      <circle cx="10" cy="14" r="8.5" stroke="#7a9db5" stroke-width="1.2" fill="none"/>
+      <circle cx="18" cy="14" r="8.5" stroke="#7a9db5" stroke-width="1.2" fill="none" opacity="0.38"/>
+      <circle cx="14" cy="14" r="1.4" fill="#7a9db5"/>
+    </svg>
+    PBCG
+  </button>
+  <nav>
+    <button class="nt on" id="t-home"     onclick="go('home')">Home</button>
+    <button class="nt"    id="t-coaches"  onclick="go('coaches')">The Coaches</button>
+    <button class="nt"    id="t-tools"    onclick="go('tools')">Tools</button>
+    <button class="nt"    id="t-approach" onclick="go('approach')">Approach</button>
+    <button class="ncta"                  onclick="go('contact')">Work With Us</button>
+  </nav>
+</header>
+
+<!-- ══ HOME ══ -->
+<div class="page on" id="p-home">
+  <div class="hero">
+    <div class="c">
+      <span class="ey">Prosperous Breakthrough Coaching Group</span>
+      <h1>We are a coaching practice<br>for leaders navigating<br><em>complex systems.</em></h1>
+      <p class="sub">Where the human meets the system — helping leaders develop the clarity, steadiness, and relational intelligence that sustains performance over time.</p>
+      <div class="hact">
+        <button class="btn bf" onclick="go('coaches')">Meet the Coaches</button>
+        <button class="btn bl" onclick="go('approach')">How We Work</button>
+      </div>
+    </div>
+  </div>
+  <div class="hmid">
+    <div class="c">
+      <div class="hmid-l">
+        <span class="ey">Our Work</span>
+        <h2>Coaching that stays<br><em>close to real conditions</em></h2>
+        <p style="margin-top:16px;">Leadership challenges are rarely about capability. They are about how much internal noise someone is carrying while trying to move forward — pressure, responsibility, expectation accumulating quietly beneath the surface.</p>
+        <p>Our work creates the space for leaders to see what is happening, name what matters, and move from there. The tools we build extend that same work into the systems leaders operate inside every day.</p>
+        <div class="acts">
+          <button class="btn bl" onclick="go('coaches')">The Coaches</button>
+          <button class="btn bl" onclick="go('tools')">Our Tools</button>
+        </div>
+      </div>
+      <div class="hmid-r">
+        <div class="hv"><span class="hvl">Curiosity</span><p>The capacity to ask honest questions — of systems, of others, and of oneself — is the ground from which sustained growth develops.</p></div>
+        <div class="hv"><span class="hvl">Steadiness</span><p>Effective leadership is not the absence of difficulty. It is a practiced orientation that holds through complexity without losing direction.</p></div>
+        <div class="hv"><span class="hvl">Integration</span><p>Growth built through reflection, relationship, and real conditions tends to carry. We build for that kind of durability.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COACHES ══ -->
+<div class="page" id="p-coaches">
+  <div class="cp"><div class="c">
+    <div class="ci">
+      <span class="ey">The Coaches</span>
+      <h2>Two perspectives.<br><em>One direction.</em></h2>
+      <p>Carmella works with seasoned executives navigating scale and complexity. Parshawn works with emerging leaders developing their footing inside demanding systems. Together, we hold the full arc of leadership development.</p>
+    </div>
+    <div class="cg">
+      <div class="cc">
+        <div class="cav">CG</div>
+        <div class="cn">Carmella Granado</div>
+        <span class="cr">Executive &amp; Organizational Coach</span>
+        <div class="cln"></div>
+        <div class="cb">
+          <p>Carmella brings thirty years inside global organizations — including Flex, a $24B Fortune Global 500 company — where she led Global Leadership &amp; Development for a workforce of over 200,000 people across 30 countries.</p>
+          <p>Her path from Silicon Valley's early days through executive leadership gave her direct experience building the systems leaders are asked to operate inside. That operational grounding shapes how she coaches — with equal fluency in the human dimension of leadership and the organizational context surrounding it.</p>
+          <p>An ICF-certified coach trained in QuestionThinking™ methodology, Carmella works with executives committed to high performance — facilitating conversations that surface what is actually blocking progress, and coaching individuals toward the clarity that organizational pressure tends to obscure.</p>
+        </div>
+        <div class="ctags"><span class="tag">Seasoned Executives</span><span class="tag">High-Performance Teams</span><span class="tag">Global Organizations</span></div>
+      </div>
+      <div class="cc">
+        <div class="cav">PB</div>
+        <div class="cn">Parshawn Beheshtian</div>
+        <span class="cr">Leadership &amp; Workforce Development Coach</span>
+        <div class="cln"></div>
+        <div class="cb">
+          <p>Parshawn works with leaders who are operating inside complex systems — environments where decisions, people, and priorities intersect every day. His focus is on what lives beneath the surface: the internal noise that accumulates quietly and begins to shape how a leader moves.</p>
+          <p>His background spans founding a coaching startup, receiving extensive executive coaching, and working with diverse organizations across tech, education, and hospitality. That range has sharpened his ability to recognize patterns early, name blind spots with care, and work alongside people without projecting a path they haven't chosen.</p>
+          <p>His work is reflective, grounded, and practical. Over time, leaders tend to experience more steadiness in how they lead, clearer communication with others, and greater confidence in their direction.</p>
+        </div>
+        <div class="ctags"><span class="tag">Emerging Leaders</span><span class="tag">Workforce Development</span><span class="tag">Internal Clarity</span></div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══ TOOLS INDEX ══ -->
+<div class="page" id="p-tools">
+  <div class="tp"><div class="c">
+    <div class="ti">
+      <span class="ey">Coaching Tools</span>
+      <h2>Growth made <em>visible</em></h2>
+      <p>Coaching has always tracked curiosity, ownership, and relational quality. We've built instruments that make those patterns visible over time — extending the coaching relationship into the systems leaders work inside every day.</p>
+      <p style="margin-top:13px;">These tools are offered as part of an active coaching engagement, not as standalone products.</p>
+    </div>
+    <div class="tg">
+      <div class="tc" onclick="go('curio')">
+        <div class="ts"><div class="sd"></div>Available</div>
+        <div class="tn">Curio</div>
+        <span class="tsub">Conversation Growth Tracker</span>
+        <p class="td">Records live meetings or analyzes uploaded transcripts. Counts four core conversational skills and tracks behavioral growth across sessions.</p>
+        <div class="tc-arrow">↗</div>
+      </div>
+      <div class="tc" onclick="go('symbio')">
+        <div class="ts"><div class="sd"></div>Available</div>
+        <div class="tn">Symbio</div>
+        <span class="tsub">Onboarding Humanization Engine</span>
+        <p class="td">Manager defines the role. New hire answers three questions. Symbio produces a personalized onboarding workflow built for that specific person.</p>
+        <div class="tc-arrow">↗</div>
+      </div>
+    </div>
+    <div class="tnote">
+      Access to PBCG tools is offered through active coaching engagements. The tools are most meaningful when the patterns they surface can be explored in conversation. <button class="il" onclick="go('contact')">Reach out to begin.</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══ CURIO TOOL ══ -->
+<div class="page" id="p-curio">
+  <div class="tool-shell">
+    <div class="tool-topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="tool-back" onclick="go('tools')">← Tools</button>
+        <span class="tool-topbar-name">Curio</span>
+      </div>
+      <span class="tool-topbar-right">Conversation Growth Tracker</span>
+    </div>
+    <div class="curio-wrap">
+
+      <div class="cv-tabs">
+        <button class="cv-tab on" id="cv-t-rec" onclick="cvMode('record')">🎙 Live Recording</button>
+        <button class="cv-tab" id="cv-t-up" onclick="cvMode('upload')">📄 Upload / Paste</button>
+      </div>
+
+      <div class="cv-setup">
+        <div class="cv-field"><label>Session Name</label><input type="text" id="cv-sname" placeholder="e.g. Week 3 Check-in"></div>
+        <div class="cv-field"><label>Week</label>
+          <select id="cv-week">
+            <option value="1">Week 1</option><option value="2">Week 2</option><option value="3">Week 3</option>
+            <option value="4">Week 4</option><option value="5">Week 5</option><option value="6">Week 6</option>
+            <option value="7">Week 7</option><option value="8">Week 8</option><option value="9">Week 9</option>
+            <option value="10">Week 10</option><option value="11">Week 11</option><option value="12">Week 12</option>
+          </select>
+        </div>
+        <div class="cv-field"><label>Speaker Mode</label>
+          <select id="cv-spkmode" onchange="cvSpkToggle()">
+            <option value="all">All Together</option>
+            <option value="two">Two Speakers</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Record area -->
+      <div class="cv-record-area" id="cv-rec-area">
+        <button class="cv-rec-btn" id="cv-btn" onclick="cvToggle()">
+          <div class="cv-rec-icon" id="cv-icon">🎙</div>
+          <div class="cv-rec-lbl" id="cv-lbl">Record</div>
+        </button>
+        <div class="cv-status" id="cv-status">Tap to begin</div>
+        <div class="cv-timer" id="cv-timer">00:00</div>
+        <div class="cv-ticker" id="cv-ticker"><div class="cv-ticker-lbl">Live transcript</div><div id="cv-tick-text">Listening...</div></div>
+        <div class="cv-livekpis" id="cv-lkpis">
+          <div class="cv-lkpi"><div class="cv-lkpi-n q" id="cv-lq">0</div><div class="cv-lkpi-l">Questions</div></div>
+          <div class="cv-lkpi"><div class="cv-lkpi-n g" id="cv-lg">0</div><div class="cv-lkpi-l">Gratitude</div></div>
+          <div class="cv-lkpi"><div class="cv-lkpi-n c" id="cv-lc">0</div><div class="cv-lkpi-l">Commits</div></div>
+          <div class="cv-lkpi"><div class="cv-lkpi-n p" id="cv-lp">0</div><div class="cv-lkpi-l">Proactive</div></div>
+        </div>
+        <div class="cv-err" id="cv-err"></div>
+        <div class="cv-note">Best in Chrome or Edge · Requires localhost or https for microphone access</div>
+      </div>
+
+      <!-- Upload area -->
+      <div class="cv-upload-area" id="cv-up-area">
+        <div class="cv-drop" id="cv-drop" ondragover="cvDragOver(event)" ondragleave="cvDragLeave()" ondrop="cvDrop(event)">
+          <div class="cv-drop-icon">📄</div>
+          <div class="cv-drop-title">Drop a .txt file here</div>
+          <div class="cv-drop-sub">or</div>
+          <label class="cv-file-btn">Browse<input type="file" accept=".txt,text/plain" style="display:none;" onchange="cvFileIn(event)"></label>
+        </div>
+        <div class="cv-div">or paste directly</div>
+        <div class="cv-pastebox">
+          <div class="cv-paste-lbl">Paste transcript</div>
+          <textarea id="cv-paste" placeholder="Paste your transcript here...&#10;&#10;For two-speaker mode, prefix lines:&#10;Manager: How did the week go?&#10;Employee: Really well, thank you!" oninput="document.getElementById('cv-cc').textContent=this.value.length+' chars'"></textarea>
+          <div class="cv-paste-foot">
+            <span class="cv-charcount" id="cv-cc">0 chars</span>
+            <button class="cv-analyze-btn" onclick="cvAnalyze()">Analyze →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="cv-results" id="cv-results">
+        <div class="cv-res-head">
+          <div class="cv-res-title" id="cv-res-title">Report</div>
+          <div class="cv-res-meta" id="cv-res-meta"></div>
+        </div>
+        <div class="cv-transcript-box"><div class="cv-transcript-text" id="cv-tx"></div></div>
+        <div class="cv-kpi-row">
+          <div class="cv-kpi q"><div class="cv-kpi-cat">Questions</div><div class="cv-kpi-num" id="cv-rq">0</div><div class="cv-kpi-desc">Clarifying &amp; open-ended</div></div>
+          <div class="cv-kpi g"><div class="cv-kpi-cat">Gratitude</div><div class="cv-kpi-num" id="cv-rg">0</div><div class="cv-kpi-desc">Respect &amp; appreciation</div></div>
+          <div class="cv-kpi c"><div class="cv-kpi-cat">Commitments</div><div class="cv-kpi-num" id="cv-rc">0</div><div class="cv-kpi-desc">Ownership &amp; follow-through</div></div>
+          <div class="cv-kpi p"><div class="cv-kpi-cat">Proactive Help</div><div class="cv-kpi-num" id="cv-rp">0</div><div class="cv-kpi-desc">Blocker &amp; resource checks</div></div>
+        </div>
+        <div class="cv-score-strip">
+          <div class="cv-score-left"><div class="cv-score-num" id="cv-score">—</div><div class="cv-score-out">/ 100</div></div>
+          <div class="cv-grade" id="cv-grade">—</div>
+          <div class="cv-score-right" id="cv-score-right"></div>
+        </div>
+        <div class="cv-bench">
+          <div class="cv-bench-title">Counts vs Week Target — <span id="cv-bwk"></span></div>
+          <div class="cv-bench-bars">
+            <div><div class="cv-bench-lbl">Questions</div><div class="cv-bench-track"><div class="cv-bench-fill q" id="cv-bq"></div><div class="cv-bench-marker" id="cv-bmq"></div></div><div class="cv-bench-nums"><span id="cv-bqv">0</span> / <span id="cv-bqt">0</span></div></div>
+            <div><div class="cv-bench-lbl">Gratitude</div><div class="cv-bench-track"><div class="cv-bench-fill g" id="cv-bg"></div><div class="cv-bench-marker" id="cv-bmg"></div></div><div class="cv-bench-nums"><span id="cv-bgv">0</span> / <span id="cv-bgt">0</span></div></div>
+            <div><div class="cv-bench-lbl">Commits</div><div class="cv-bench-track"><div class="cv-bench-fill c" id="cv-bc"></div><div class="cv-bench-marker" id="cv-bmc"></div></div><div class="cv-bench-nums"><span id="cv-bcv">0</span> / <span id="cv-bct">0</span></div></div>
+            <div><div class="cv-bench-lbl">Proactive</div><div class="cv-bench-track"><div class="cv-bench-fill p" id="cv-bp"></div><div class="cv-bench-marker" id="cv-bmp"></div></div><div class="cv-bench-nums"><span id="cv-bpv">0</span> / <span id="cv-bpt">0</span></div></div>
+          </div>
+        </div>
+        <div class="cv-bottom">
+          <div class="cv-panel">
+            <div class="cv-panel-title">Score Breakdown</div>
+            <div class="cv-bar-item"><div class="cv-bar-name">Questions</div><div class="cv-bar-track"><div class="cv-bar-fill q" id="cv-br-q"></div></div><div class="cv-bar-pct" id="cv-br-qv">—</div></div>
+            <div class="cv-bar-item"><div class="cv-bar-name">Gratitude</div><div class="cv-bar-track"><div class="cv-bar-fill g" id="cv-br-g"></div></div><div class="cv-bar-pct" id="cv-br-gv">—</div></div>
+            <div class="cv-bar-item"><div class="cv-bar-name">Commits</div><div class="cv-bar-track"><div class="cv-bar-fill c" id="cv-br-c"></div></div><div class="cv-bar-pct" id="cv-br-cv">—</div></div>
+            <div class="cv-bar-item"><div class="cv-bar-name">Proactive</div><div class="cv-bar-track"><div class="cv-bar-fill p" id="cv-br-p"></div></div><div class="cv-bar-pct" id="cv-br-pv">—</div></div>
+          </div>
+          <div class="cv-panel">
+            <div class="cv-panel-title">Detected Phrases</div>
+            <div id="cv-matches"></div>
+          </div>
+        </div>
+        <div class="cv-insights" id="cv-insights"></div>
+        <div class="cv-reset-row">
+          <button class="cv-reset-btn" onclick="cvDownload()">↓ Download</button>
+          <button class="cv-reset-btn" onclick="cvReset()">↩ New Session</button>
+        </div>
+        <div class="cv-history" id="cv-hist-wrap" style="display:none;">
+          <div class="cv-hist-head">
+            <div class="cv-hist-title">Past Sessions</div>
+            <button class="cv-hist-clear" onclick="cvClearHist()">Clear All</button>
+          </div>
+          <div class="cv-hist-row" id="cv-hist-row"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ SYMBIO TOOL ══ -->
+<div class="page" id="p-symbio">
+  <div class="tool-shell">
+    <div class="tool-topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="tool-back" onclick="go('tools')">← Tools</button>
+        <span class="tool-topbar-name">Symbio</span>
+      </div>
+      <span class="tool-topbar-right">Onboarding Humanization Engine</span>
+    </div>
+
+    <!-- Step bar -->
+    <div class="sb-steps" id="sb-steps">
+      <div class="sb-step">
+        <div class="sb-step-num active" id="sb-sn1">1</div>
+        <span class="sb-step-label active" id="sb-sl1">System Input</span>
+      </div>
+      <div class="sb-connector"></div>
+      <div class="sb-step">
+        <div class="sb-step-num idle" id="sb-sn2">2</div>
+        <span class="sb-step-label idle" id="sb-sl2">Assessment</span>
+      </div>
+      <div class="sb-connector"></div>
+      <div class="sb-step">
+        <div class="sb-step-num idle" id="sb-sn3">3</div>
+        <span class="sb-step-label idle" id="sb-sl3">Your Workflow</span>
+      </div>
+    </div>
+
+    <!-- Step 1: System Input -->
+    <div id="sb-v1" class="sb-wrap">
+      <div style="margin-bottom:28px;">
+        <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block;">Manager / HR / Coach View</span>
+        <h1 style="font-family:'Lora',serif;font-weight:400;font-size:clamp(26px,4vw,36px);line-height:1.15;color:var(--ink);margin-bottom:9px;">Define the role context</h1>
+        <p style="font-size:14px;color:var(--soft);max-width:500px;">This information shapes the onboarding workflow. Fill it out before the new hire begins their assessment.</p>
+      </div>
+
+      <!-- Who is filling this out -->
+      <div class="sb-card" style="background:linear-gradient(135deg,#f0f4f7,#edf1f5);">
+        <div class="sb-card-head"><div class="sb-card-title">👤 Who is filling this out?</div></div>
+        <p style="font-size:13px;color:var(--soft);margin-bottom:14px;line-height:1.7;">This travels through to the new hire's workflow so they know where the plan came from.</p>
+        <div class="sb-2col">
+          <div class="sb-fg"><label class="sb-lbl">Your Name</label><input class="sb-input" id="sb-by" placeholder="Your full name"></div>
+          <div class="sb-fg"><label class="sb-lbl">Your Role</label><input class="sb-input" id="sb-cap" placeholder="e.g. Hiring Manager, Coach"></div>
+        </div>
+        <div class="sb-fg"><label class="sb-lbl">Relationship to this hire</label><input class="sb-input" id="sb-rel" placeholder="e.g. Direct manager, external coach, onboarding partner"></div>
+      </div>
+
+      <!-- Role context -->
+      <div class="sb-card">
+        <div class="sb-card-head"><div class="sb-card-title">🎯 Role Context</div></div>
+        <div class="sb-2col">
+          <div class="sb-fg"><label class="sb-lbl">Role Title</label><input class="sb-input" id="sb-title" placeholder="e.g. Workforce Development Coordinator"></div>
+          <div class="sb-fg"><label class="sb-lbl">Team / Department</label><input class="sb-input" id="sb-dept" placeholder="e.g. Programs & Partnerships"></div>
+        </div>
+        <div class="sb-fg"><label class="sb-lbl">Success at 30 days</label><textarea class="sb-input" id="sb-s30" rows="2" style="resize:none;" placeholder="Familiar with team, systems accessed..."></textarea></div>
+        <div class="sb-2col">
+          <div class="sb-fg"><label class="sb-lbl">Success at 60 days</label><textarea class="sb-input" id="sb-s60" rows="2" style="resize:none;" placeholder="Contributing independently..."></textarea></div>
+          <div class="sb-fg"><label class="sb-lbl">Success at 90 days</label><textarea class="sb-input" id="sb-s90" rows="2" style="resize:none;" placeholder="Fully integrated, leading..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- Systems -->
+      <div class="sb-card">
+        <div class="sb-card-head"><div class="sb-card-title">🛠 Systems & Tools to Learn</div><button class="sb-add-sm" onclick="sbAddRow('sb-sys','sys')">+ Add</button></div>
+        <div id="sb-sys">
+          <div class="sb-row"><input class="sb-input" placeholder="System or tool name" data-f="name"><select class="sb-select" data-f="priority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div>
+        </div>
+        <button class="sb-add-btn" onclick="sbAddRow('sb-sys','sys')">+ Add system</button>
+      </div>
+
+      <!-- People -->
+      <div class="sb-card">
+        <div class="sb-card-head"><div class="sb-card-title">👥 People to Connect With</div><button class="sb-add-sm" onclick="sbAddRow('sb-ppl','ppl')">+ Add</button></div>
+        <div id="sb-ppl">
+          <div class="sb-row"><input class="sb-input" placeholder="Name" data-f="name" style="flex:1"><input class="sb-input" placeholder="Role / expertise" data-f="exp" style="flex:2"><select class="sb-select" data-f="when"><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div>
+        </div>
+        <button class="sb-add-btn" onclick="sbAddRow('sb-ppl','ppl')">+ Add person</button>
+      </div>
+
+      <!-- Learning -->
+      <div class="sb-card">
+        <div class="sb-card-head"><div class="sb-card-title">📚 Learning Sequence</div><button class="sb-add-sm" onclick="sbAddRow('sb-lrn','lrn')">+ Add</button></div>
+        <div id="sb-lrn">
+          <div class="sb-row"><input class="sb-input" placeholder="Topic or concept to learn" data-f="topic" style="flex:3"><select class="sb-select" data-f="timing"><option value="immediate">Day 1</option><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div>
+        </div>
+        <button class="sb-add-btn" onclick="sbAddRow('sb-lrn','lrn')">+ Add topic</button>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;padding-top:8px;">
+        <button class="btn bf" onclick="sbSaveStep1()">Save & Continue to Assessment →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Assessment -->
+    <div id="sb-v2" class="sb-wrap" style="display:none;max-width:700px;">
+      <div style="margin-bottom:24px;">
+        <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block;">New Hire View</span>
+        <h1 style="font-family:'Lora',serif;font-weight:400;font-size:clamp(24px,4vw,34px);line-height:1.15;color:var(--ink);margin-bottom:9px;">Let's understand how you work</h1>
+        <p style="font-size:14px;color:var(--soft);">A short conversation — no right answers. We're learning how to build an onboarding plan that actually fits you.</p>
+      </div>
+      <div class="sb-chat-box">
+        <div class="sb-messages" id="sb-msgs"></div>
+        <div class="sb-input-area">
+          <textarea id="sb-input" placeholder="Type your response... (Enter to send)" onkeydown="sbKeyDown(event)"></textarea>
+          <button class="sb-send" id="sb-send-btn" onclick="sbSend()">↑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Workflow -->
+    <div id="sb-v3" class="sb-wrap" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block;">Your Personalized Plan</span>
+        <h1 style="font-family:'Lora',serif;font-weight:400;font-size:clamp(24px,4vw,36px);line-height:1.15;color:var(--ink);margin-bottom:9px;">Built for how you work</h1>
+        <p style="font-size:14px;color:var(--soft);max-width:480px;">This workflow organizes the role requirements around your profile — not a standard template.</p>
+      </div>
+      <div id="sb-wf-output"></div>
+      <div style="padding-top:20px;">
+        <button class="btn bl" onclick="sbReset()">↩ Start New</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ APPROACH ══ -->
+<div class="page" id="p-approach">
+  <div class="ap"><div class="c">
+    <div class="ai">
+      <span class="ey">How We Work</span>
+      <h2>Discovery first.<br><em>Everything else follows.</em></h2>
+      <p>Every engagement begins with understanding — not with a predetermined offering. We listen for where the real challenge lives before saying anything about how to address it. The path emerges from what we find together.</p>
+    </div>
+    <div class="ag" style="margin-bottom:2px;">
+      <div class="acell"><span class="anum">01</span><h3>We start by listening</h3><p>The first conversation is not a pitch. It is an inquiry. What is actually happening, what is being carried, and what the person or organization genuinely needs — those things are rarely on the surface.</p></div>
+      <div class="acell"><span class="anum">02</span><h3>We work to the humanity of the circumstance</h3><p>Every situation is different. The offering — 1:1 coaching, team development, workshops, tools, or a combination — is determined by what will actually serve the people involved.</p></div>
+    </div>
+    <div class="ag" style="margin-bottom:2px;">
+      <div class="aquote"><p>"The goal is not for leadership to become easier. It is for the person to become more aligned — so that how they lead reflects who they actually are."</p></div>
+    </div>
+    <div class="ag">
+      <div class="acell"><span class="anum">03</span><h3>We measure what matters</h3><p>The tools we build track behavioral signals — the things people say and do that reflect development. Not activity metrics. The behaviors that actually predict long-term growth.</p></div>
+      <div class="acell"><span class="anum">04</span><h3>We build for durability</h3><p>Short-term results without lasting change is not the goal. We work at the pace the person needs, building growth that carries through the next challenge, and the one after that.</p></div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div class="page" id="p-contact">
+  <div class="kp"><div class="c">
+    <div class="ki">
+      <span class="ey">Get In Touch</span>
+      <h2>Start the<br><em>conversation.</em></h2>
+      <p>Whether you are an individual leader, a team, or an organization — reach out directly. We respond personally to every message.</p>
+    </div>
+    <div class="kg">
+      <div class="kpanel">
+        <h3>Reach us directly</h3>
+        <p style="margin-top:9px;font-size:13px;color:var(--muted);">No intake forms. A direct conversation about whether working together makes sense for where you are right now.</p>
+        <div class="kcoaches">
+          <div class="kp2"><div class="kav">CG</div><div><div class="kname">Carmella Granado</div><a href="/cdn-cgi/l/email-protection#a5c6c4d7c8c0c9c9c4c2d7c4cbc4c1cae5c2c8c4ccc98bc6cac8" class="kemail"><span class="__cf_email__" data-cfemail="b1d2d0c3dcd4ddddd0d6c3d0dfd0d5def1d6dcd0d8dd9fd2dedc">[email&#160;protected]</span></a></div></div>
+          <div class="kp2"><div class="kav">PB</div><div><div class="kname">Parshawn Beheshtian</div><a href="/cdn-cgi/l/email-protection#0979687b7a61687e674961667e6c6f6c6c656067276a6664" class="kemail"><span class="__cf_email__" data-cfemail="5b2b3a2928333a2c351b33342c3e3d3e3e37323575383436">[email&#160;protected]</span></a></div></div>
+        </div>
+      </div>
+      <div class="kpanel">
+        <h3>Send a message</h3>
+        <div style="margin-top:16px;">
+          <div class="fr">
+            <div class="fg"><label>First Name</label><input type="text" placeholder="First name"></div>
+            <div class="fg"><label>Last Name</label><input type="text" placeholder="Last name"></div>
+          </div>
+          <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+          <div class="fg"><label>Organization</label><input type="text" placeholder="Optional"></div>
+          <div class="fg"><label>What brings you here?</label>
+            <select><option value="">Select one...</option><option>1:1 coaching for myself</option><option>Coaching for my team</option><option>Organizational coaching and tools</option><option>Learning more about PBCG</option><option>Something else</option></select>
+          </div>
+          <div class="fg"><label>Message</label><textarea placeholder="Tell us a bit about what you're navigating..."></textarea></div>
+          <button class="btn bf" style="width:100%;">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<footer>
+  <div class="fn">PBCG</div>
+  <div class="fc">© 2026 Prosperous Breakthrough Coaching Group</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ══ NAVIGATION ══
+window.go = function(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nt').forEach(t => t.classList.remove('on'));
+  document.getElementById('p-' + id).classList.add('on');
+  const tab = document.getElementById('t-' + id);
+  if (tab) tab.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════
+// CURIO TOOL
+// ══════════════════════════
+const CV_PAT = {
+  q:[/\b(who|what|where|when|why|how)\b[^.!?\n]*\?/gi,/\b(can you|could you|do you|is there|are there|will you|have you|did you|should i|should we)\b[^.!?\n]*\?/gi,/\b(tell me|explain|clarify|walk me through|help me understand)\b[^.!?\n]*/gi,/[^.!?\n]{4,}\?/g],
+  g:[/\b(thank you|thanks|thank you so much|many thanks)\b/gi,/\b(i appreciate|i'm grateful|appreciate that|appreciate your)\b/gi,/\b(please|kindly)\b/gi,/\b(that's (really |very |so )?(helpful|great|perfect|wonderful|amazing|fantastic|excellent))\b/gi,/\b(good (point|call|idea|thinking|catch|question))\b/gi],
+  c:[/\b(i will|i'll|i commit|i promise|i agree|i can do that|i'll make sure)\b/gi,/\b(got it|understood|absolutely|count on me|on it|will do|sounds good)\b/gi,/\b(by (monday|tuesday|wednesday|thursday|friday|tomorrow|next week|end of (day|week)))\b/gi,/\b(i'll (send|have|deliver|complete|finish|get|share|update|follow up|circle back))\b/gi],
+  p:[/\b(what (do you need|help do you need|can i (do|help with)))\b/gi,/\b(what's (going to get in the way|blocking you|the blocker))\b/gi,/\b(is there anything (i can|we can) (help|support|assist))\b/gi,/\b(how can i (help|support|assist))\b/gi,/\b(let me know if you need|here if you need)\b/gi,/\b(any (blockers|obstacles|challenges) (i should know about))\b/gi]
+};
+
+function cvExtract(text, k) {
+  const found = new Set();
+  for (const p of CV_PAT[k]) { const r=new RegExp(p.source,p.flags); let m; while((m=r.exec(text))!==null){const c=m[0].trim().replace(/\s+/g,' ');if(c.length>3)found.add(c.toLowerCase());} }
+  return [...found];
+}
+function cvBench(w){const wk=Math.min(parseInt(w)||1,8);return{q:Math.round(3+wk*0.625),g:Math.round(2+wk*0.375),c:Math.round(1+wk*0.375),p:Math.round(1+wk*0.25)};}
+function cvFmt(s){return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+
+let cvRec=false,cvRecog=null,cvText='',cvTimerInt=null,cvSecs=0,cvCurrentMode='record';
+
+window.cvMode = function(m){
+  cvCurrentMode=m;
+  document.getElementById('cv-t-rec').classList.toggle('on',m==='record');
+  document.getElementById('cv-t-up').classList.toggle('on',m==='upload');
+  document.getElementById('cv-rec-area').style.display=m==='record'?'flex':'none';
+  document.getElementById('cv-up-area').classList.toggle('vis',m==='upload');
+}
+
+window.cvToggle = function(){cvRec?cvStop():cvStart();}
+
+function cvStart(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){const e=document.getElementById('cv-err');e.textContent='⚠ Live recording requires Chrome or Edge on localhost or https.';e.style.display='block';return;}
+  cvRecog=new SR();cvRecog.continuous=true;cvRecog.interimResults=true;cvRecog.lang='en-US';
+  cvRecog.onstart=()=>{
+    cvRec=true;
+    document.getElementById('cv-btn').classList.add('recording');
+    document.getElementById('cv-icon').textContent='⏹';document.getElementById('cv-lbl').textContent='Stop';
+    document.getElementById('cv-status').textContent='● Recording';
+    document.getElementById('cv-timer').classList.add('vis');
+    document.getElementById('cv-ticker').classList.add('vis');document.getElementById('cv-lkpis').classList.add('vis');
+    document.getElementById('cv-err').style.display='none';
+    cvSecs=0;cvTimerInt=setInterval(()=>{cvSecs++;document.getElementById('cv-timer').textContent=cvFmt(cvSecs);},1000);
+  };
+  cvRecog.onresult=(e)=>{let int='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)cvText+=e.results[i][0].transcript+' ';else int+=e.results[i][0].transcript;}const d=cvText+int;document.getElementById('cv-tick-text').textContent=d.slice(-160)||'Listening...';['q','g','c','p'].forEach(k=>{document.getElementById('cv-l'+k).textContent=cvExtract(d,k).length;});};
+  cvRecog.onerror=(e)=>{if(e.error==='not-allowed'){const el=document.getElementById('cv-err');el.textContent='⚠ Mic access denied. Run on localhost or https.';el.style.display='block';}cvStop();};
+  cvRecog.onend=()=>{if(cvRec)cvRecog.start();};
+  try{cvRecog.start();}catch(e){const el=document.getElementById('cv-err');el.textContent='⚠ '+e.message;el.style.display='block';}
+}
+
+function cvStop(){
+  cvRec=false;if(cvRecog)cvRecog.stop();clearInterval(cvTimerInt);
+  cvShowResults(cvText,cvFmt(cvSecs));
+}
+
+window.cvAnalyze = function(){const t=document.getElementById('cv-paste').value.trim();if(!t)return;cvText=t;cvShowResults(t,'—');}
+function cvDragOver(e){e.preventDefault();document.getElementById('cv-drop').classList.add('drag');}
+function cvDragLeave(){document.getElementById('cv-drop').classList.remove('drag');}
+function cvDrop(e){e.preventDefault();document.getElementById('cv-drop').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)cvReadFile(f);}
+function cvFileIn(e){const f=e.target.files[0];if(f)cvReadFile(f);}
+function cvReadFile(f){const r=new FileReader();r.onload=(ev)=>{const t=ev.target.result;document.getElementById('cv-paste').value=t;document.getElementById('cv-cc').textContent=t.length+' chars';cvAnalyze();};r.readAsText(f);}
+
+function cvShowResults(text,dur){
+  document.getElementById('cv-rec-area').style.display='none';
+  document.getElementById('cv-up-area').classList.remove('vis');
+  document.getElementById('cv-results').classList.add('vis');
+  const sn=document.getElementById('cv-sname').value.trim()||'Untitled Session';
+  const week=document.getElementById('cv-week').value;
+  const now=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const q=cvExtract(text,'q'),g=cvExtract(text,'g'),c=cvExtract(text,'c'),p=cvExtract(text,'p');
+  document.getElementById('cv-rq').textContent=q.length;document.getElementById('cv-rg').textContent=g.length;document.getElementById('cv-rc').textContent=c.length;document.getElementById('cv-rp').textContent=p.length;
+  document.getElementById('cv-tx').textContent=text.trim()||'(No speech detected)';
+  document.getElementById('cv-res-title').textContent=sn;
+  document.getElementById('cv-res-meta').innerHTML=`Ended ${now}<br>Duration: ${dur}<br>Week ${week}`;
+  document.getElementById('cv-score-right').innerHTML=`${dur}<br>${sn}`;
+  const bench=cvBench(week);
+  const sc={q:Math.min(100,Math.round((q.length/bench.q)*100)),g:Math.min(100,Math.round((g.length/bench.g)*100)),c:Math.min(100,Math.round((c.length/bench.c)*100)),p:Math.min(100,Math.round((p.length/bench.p)*100))};
+  const overall=Math.round((sc.q+sc.g+sc.c+sc.p)/4);
+  document.getElementById('cv-score').textContent=overall;
+  let gr,gc;if(overall>=75){gr='Excellent';gc='excellent';}else if(overall>=50){gr='Good';gc='good';}else if(overall>=25){gr='Developing';gc='developing';}else{gr='Needs Work';gc='needs-work';}
+  const ge=document.getElementById('cv-grade');ge.textContent=gr;ge.className='cv-grade '+gc;
+  setTimeout(()=>{
+    ['q','g','c','p'].forEach(k=>{document.getElementById('cv-br-'+k).style.width=sc[k]+'%';document.getElementById('cv-br-'+k+'v').textContent=sc[k];});
+    document.getElementById('cv-bwk').textContent='Week '+week;
+    const bm={q:[q.length,bench.q],g:[g.length,bench.g],c:[c.length,bench.c],p:[p.length,bench.p]};
+    for(const[k,[a,t2]]of Object.entries(bm)){const mx=Math.max(a,t2,1);document.getElementById('cv-b'+k).style.width=Math.min(100,(a/mx)*100)+'%';document.getElementById('cv-bm'+k).style.left=Math.min(98,(t2/mx)*100)+'%';document.getElementById('cv-b'+k+'v').textContent=a;document.getElementById('cv-b'+k+'t').textContent=t2;}
+  },150);
+  const mp=document.getElementById('cv-matches');mp.innerHTML='';
+  [{k:'q',l:'Questions',m:q},{k:'g',l:'Gratitude',m:g},{k:'c',l:'Commits',m:c},{k:'p',l:'Proactive',m:p}].forEach(md=>{if(!md.m.length)return;mp.innerHTML+=`<div class="cv-match-sec-lbl">${md.l}</div>`;md.m.slice(0,4).forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});});
+  if(!mp.innerHTML)mp.innerHTML='<div style="font-size:11px;color:var(--muted);padding:6px 0;">No skill phrases detected.</div>';
+  const ins=cvInsights(q.length,g.length,c.length,p.length,overall,bench);
+  document.getElementById('cv-insights').innerHTML='<div class="cv-panel-title">Insights</div>'+ins.map(i=>`<div class="cv-insight-line"><span style="flex-shrink:0;">${i.e}</span><span>${i.t}</span></div>`).join('');
+  cvSaveHist({name:sn,week:parseInt(week),q:q.length,g:g.length,c:c.length,p:p.length,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})});
+  cvRenderHist();
+}
+
+function cvInsights(q,g,c,p,overall,bench){
+  const ins=[];
+  if(q===0)ins.push({e:'❓',t:'No questions detected. Questions are the primary signal of active engagement. Try "How does that work?" or "What would be most useful here?"'});
+  else if(q>=bench.q)ins.push({e:'💡',t:`${q} questions — met the week target of ${bench.q}. Strong curiosity throughout.`});
+  else ins.push({e:'❓',t:`${q} question(s). Week target is ${bench.q}. More questions signal deeper engagement and care for the other person.`});
+  if(g===0)ins.push({e:'🤝',t:'No gratitude expressed. Acknowledgment builds the psychological safety that makes honest conversation possible over time.'});
+  else if(g>=bench.g)ins.push({e:'✨',t:`${g} expressions of gratitude — above the week target of ${bench.g}. Warm, respectful tone throughout.`});
+  else ins.push({e:'🤝',t:`${g} gratitude expression(s). Week target is ${bench.g}. Consistent acknowledgment builds trust over the coaching arc.`});
+  if(c===0)ins.push({e:'✅',t:'No commitments made. Closing with a specific next step — "I will have that done by Friday" — is a clear signal of ownership.'});
+  else ins.push({e:'✅',t:`${c} commitment(s). Each topic should end with a concrete next step and an owner.`});
+  if(p===0)ins.push({e:'🚀',t:'No proactive help offered. Asking "What is getting in the way?" marks a shift from individual performance to shared accountability.'});
+  else ins.push({e:'🚀',t:`${p} proactive check(s) for blockers or resources. This reflects a growing orientation toward collective success.`});
+  return ins;
+}
+
+function cvSaveHist(session){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');h.unshift(session);localStorage.setItem('curio-hist',JSON.stringify(h.slice(0,20)));}catch(e){}}
+function cvRenderHist(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');if(!h.length)return;document.getElementById('cv-hist-wrap').style.display='block';document.getElementById('cv-hist-row').innerHTML=h.map(s=>`<div class="cv-hist-chip"><div class="cv-hist-name">${s.name}</div><div class="cv-hist-date">${s.date} · Wk ${s.week}</div><div class="cv-hist-nums"><span class="cv-hn q">${s.q}</span><span class="cv-hn g">${s.g}</span><span class="cv-hn c">${s.c}</span><span class="cv-hn p">${s.p}</span><span class="cv-hs">${s.overall}/100</span></div></div>`).join('');}catch(e){}}
+window.cvClearHist = function(){localStorage.removeItem('curio-hist');document.getElementById('cv-hist-wrap').style.display='none';}
+window.cvDownload = function(){const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='curio-report.txt';a.click();}
+window.cvReset = function(){cvText='';cvRec=false;if(cvRecog)cvRecog.stop();clearInterval(cvTimerInt);cvSecs=0;document.getElementById('cv-results').classList.remove('vis');document.getElementById('cv-timer').classList.remove('vis');document.getElementById('cv-ticker').classList.remove('vis');document.getElementById('cv-lkpis').classList.remove('vis');document.getElementById('cv-btn').classList.remove('recording');document.getElementById('cv-icon').textContent='🎙';document.getElementById('cv-lbl').textContent='Record';document.getElementById('cv-status').textContent='Tap to begin';document.getElementById('cv-timer').textContent='00:00';document.getElementById('cv-paste').value='';document.getElementById('cv-cc').textContent='0 chars';['q','g','c','p'].forEach(k=>{document.getElementById('cv-l'+k).textContent='0';});cvMode('record');cvRenderHist();}
+function cvSpkToggle(){}
+
+// ══════════════════════════
+// SYMBIO TOOL
+// ══════════════════════════
+const SB_Q=[
+  'Before we get into systems and schedules — I want to understand how you actually learn.\n\nThink of a time when something clicked for you. A skill, a process, a new environment. What do you think made that possible?',
+  'Good to know. When you\'re facing something complex — new information, a new system, an unfamiliar situation — do you tend to need the full picture before the details make sense? Or does starting small and building feel more natural?',
+  'One more. When does your best thinking tend to happen — what time of day, what kind of environment? And when you have something important to learn or work through, how do you prefer to approach it?'
+];
+
+let sbData=null,sbStage=0,sbResponses=[],sbDone=false,sbTyping=false;
+
+function sbUpdateSteps(current){
+  for(let i=1;i<=3;i++){
+    const n=document.getElementById('sb-sn'+i),l=document.getElementById('sb-sl'+i);
+    if(i<current){n.className='sb-step-num done';n.textContent='✓';l.className='sb-step-label done';}
+    else if(i===current){n.className='sb-step-num active';n.textContent=i;l.className='sb-step-label active';}
+    else{n.className='sb-step-num idle';n.textContent=i;l.className='sb-step-label idle';}
+  }
+}
+
+window.sbAddRow = function(listId,type){
+  const list=document.getElementById(listId);
+  const row=document.createElement('div');row.className='sb-row';
+  if(type==='sys'){row.innerHTML=`<input class="sb-input" placeholder="System or tool name" data-f="name"><select class="sb-select" data-f="priority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button>`;}
+  else if(type==='ppl'){row.innerHTML=`<input class="sb-input" placeholder="Name" data-f="name" style="flex:1"><input class="sb-input" placeholder="Role / expertise" data-f="exp" style="flex:2"><select class="sb-select" data-f="when"><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button>`;}
+  else{row.innerHTML=`<input class="sb-input" placeholder="Topic or concept to learn" data-f="topic" style="flex:3"><select class="sb-select" data-f="timing"><option value="immediate">Day 1</option><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button>`;}
+  list.appendChild(row);
+}
+
+function sbReadRows(listId,fields){
+  return [...document.querySelectorAll('#'+listId+' .sb-row')].map(row=>{const obj={};fields.forEach(f=>{const el=row.querySelector('[data-f="'+f+'"]');obj[f]=el?el.value.trim():'';});return obj;}).filter(r=>Object.values(r).some(v=>v));
+}
+
+window.sbSaveStep1 = function(){
+  sbData={
+    intake:{filledBy:document.getElementById('sb-by').value.trim(),capacity:document.getElementById('sb-cap').value.trim(),relationship:document.getElementById('sb-rel').value.trim()},
+    roleContext:{title:document.getElementById('sb-title').value.trim()||'New Role',department:document.getElementById('sb-dept').value.trim(),success30:document.getElementById('sb-s30').value.trim(),success60:document.getElementById('sb-s60').value.trim(),success90:document.getElementById('sb-s90').value.trim()},
+    systems:sbReadRows('sb-sys',['name','priority']),
+    people:sbReadRows('sb-ppl',['name','exp','when']),
+    learningSequence:sbReadRows('sb-lrn',['topic','timing'])
+  };
+  document.getElementById('sb-v1').style.display='none';
+  document.getElementById('sb-v2').style.display='block';
+  sbUpdateSteps(2);window.scrollTo({top:0,behavior:'smooth'});
+  sbStage=0;sbResponses=[];sbDone=false;
+  document.getElementById('sb-msgs').innerHTML='';
+  setTimeout(()=>sbAddAgent(SB_Q[0]),500);
+}
+
+function sbAddAgent(text){
+  if(sbTyping)return;sbTyping=true;
+  const msgs=document.getElementById('sb-msgs');
+  const typing=document.createElement('div');typing.className='sb-msg agent';
+  typing.innerHTML=`<div class="sb-av a">S</div><div class="sb-bubble a"><div class="sb-typing"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>`;
+  msgs.appendChild(typing);sbScrollChat();
+  const delay=Math.min(1800,1100+text.length*1.1);
+  setTimeout(()=>{
+    msgs.removeChild(typing);sbTyping=false;
+    const msg=document.createElement('div');msg.className='sb-msg agent';
+    msg.innerHTML=`<div class="sb-av a">S</div><div class="sb-bubble a">${text.replace(/\n/g,'<br>')}</div>`;
+    msgs.appendChild(msg);sbScrollChat();
+  },delay);
+}
+
+function sbScrollChat(){const c=document.getElementById('sb-msgs');setTimeout(()=>{c.scrollTop=c.scrollHeight;},60);}
+
+function sbKeyDown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sbSend();}}
+
+window.sbSend = function(){
+  const inp=document.getElementById('sb-input');
+  const t=inp.value.trim();
+  if(!t||sbDone||sbTyping)return;
+  inp.value='';
+  sbResponses.push(t);
+  const msgs=document.getElementById('sb-msgs');
+  const msg=document.createElement('div');msg.className='sb-msg user';
+  msg.innerHTML=`<div class="sb-av u">↑</div><div class="sb-bubble u">${t.replace(/\n/g,'<br>')}</div>`;
+  msgs.appendChild(msg);sbScrollChat();
+  if(sbStage<SB_Q.length-1){sbStage++;setTimeout(()=>sbAddAgent(SB_Q[sbStage]),500);}
+  else{
+    sbDone=true;
+    document.getElementById('sb-send-btn').disabled=true;
+    setTimeout(()=>{
+      sbAddAgent('Thank you for taking the time with those.\n\nI have a clear enough picture of how you work. Putting your onboarding plan together now — organized around what you\'ve shared, not a standard template.');
+      setTimeout(()=>sbBuildWorkflow(),3400);
+    },500);
+  }
+}
+
+function sbInferProfile(responses){
+  const all=responses.join(' ').toLowerCase();
+  return{
+    learning:/visual|diagram|chart|watch|see|show/.test(all)?'visual':/hands.?on|do|try|practice|example|build/.test(all)?'hands-on':/read|write|document|note/.test(all)?'reading':'mixed',
+    processing:/big.?picture|overview|context|whole|full|start broad/.test(all)?'big-picture':'step-by-step',
+    peakTime:/morning|early|am|before lunch/.test(all)?'morning':/afternoon|pm|after lunch/.test(all)?'afternoon':'flexible',
+    workStyle:/deep|block|focus|uninterrupted|quiet/.test(all)?'deep-focus':'adaptive'
+  };
+}
+
+function sbBuildWorkflow(){
+  const p=sbInferProfile(sbResponses);
+  const s=sbData;
+  const phases={week1:[],week2:[],month1:[]};
+  const peak=p.peakTime==='morning'?'9:00 – 10:30 AM':p.peakTime==='afternoon'?'1:30 – 3:00 PM':'your preferred focus window';
+  const dur=p.workStyle==='deep-focus'?'90-min deep focus block':'45-min focused session';
+  const delivery=name=>p.learning==='visual'?`Visual walkthrough of ${name} — diagrams first, then live navigation`:p.learning==='hands-on'?`Guided sandbox practice in ${name} — learning through direct interaction`:p.learning==='reading'?`Step-by-step documentation for ${name} with annotated examples`:`Structured introduction to ${name} adapted to your learning approach`;
+  const processing=topic=>p.processing==='big-picture'?`Starting with the full context and purpose of "${topic}" before moving into specifics`:`Building understanding of "${topic}" step by step, from foundations outward`;
+
+  s.systems.forEach(sys=>{
+    const ph=sys.priority==='high'?'week1':sys.priority==='medium'?'week2':'month1';
+    phases[ph].push({icon:'🛠',title:`Learn ${sys.name}`,desc:delivery(sys.name),meta:[`⏰ ${peak}`,dur]});
+  });
+  s.people.forEach(person=>{
+    const ph=person.when==='week1'?'week1':person.when==='week2'?'week2':'month1';
+    const fmt=p.learning==='reading'?`Async intro from ${person.name}`:`30-minute conversation with ${person.name}`;
+    phases[ph].push({icon:'👤',title:`Connect with ${person.name}`,desc:`${fmt}${person.exp?` — expertise in ${person.exp}`:''}`,meta:[`⏰ ${peak}`]});
+  });
+  s.learningSequence.forEach(item=>{
+    const ph=item.timing==='immediate'||item.timing==='week1'?'week1':item.timing==='week2'?'week2':'month1';
+    phases[ph].push({icon:'📖',title:item.topic,desc:processing(item.topic),meta:[`⏰ ${peak}`,dur]});
+  });
+  if(s.roleContext.success30)phases.week1.unshift({icon:'🎯',title:'Your 30-day anchor',desc:s.roleContext.success30,meta:['Return to this when things feel unclear']});
+
+  sbRenderWorkflow(phases,p);
+}
+
+function sbRenderWorkflow(phases,profile){
+  document.getElementById('sb-v2').style.display='none';
+  document.getElementById('sb-v3').style.display='block';
+  sbUpdateSteps(3);window.scrollTo({top:0,behavior:'smooth'});
+
+  const summary=[profile.learning!=='mixed'?`${profile.learning} learner`:null,profile.processing==='big-picture'?'big-picture first':'step-by-step',profile.peakTime!=='flexible'?`${profile.peakTime} focus time`:null,profile.workStyle==='deep-focus'?'deep focus blocks':null].filter(Boolean).join(' · ');
+
+  const phDefs=[{key:'week1',label:'Week 1 — Foundation',cls:'p1',num:1},{key:'week2',label:'Week 2 — Building Depth',cls:'p2',num:2},{key:'month1',label:'Month 1 — Full Integration',cls:'p3',num:3}];
+
+  let html=`<div class="sb-wf-intro"><strong>${sbData.roleContext.title||'Your role'}${sbData.roleContext.department?' · '+sbData.roleContext.department:''}</strong> — organized around your profile: <strong>${summary}</strong>.${sbData.intake&&sbData.intake.filledBy?`<div style="margin-top:9px;padding-top:9px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);">Built by ${sbData.intake.filledBy}${sbData.intake.capacity?' · '+sbData.intake.capacity:''}${sbData.intake.relationship?' · '+sbData.intake.relationship:''}</div>`:''}</div>`;
+
+  phDefs.forEach(({key,label,cls,num})=>{
+    const items=phases[key];if(!items||!items.length)return;
+    html+=`<div class="sb-wf-phase"><div class="sb-wf-phase-head"><div class="sb-wf-phase-num ${cls}">${num}</div><h2 style="font-family:'Lora',serif;font-weight:400;font-size:20px;color:var(--ink);">${label}</h2></div>`;
+    items.forEach(item=>{html+=`<div class="sb-wf-item ${cls}"><div class="sb-wf-icon">${item.icon}</div><div><div class="sb-wf-title">${item.title}</div><div class="sb-wf-desc">${item.desc}</div>${item.meta&&item.meta.length?`<div class="sb-wf-meta">${item.meta.map(m=>`<span>${m}</span>`).join('')}</div>`:''}</div></div>`;});
+    html+='</div>';
+  });
+
+  html+=`<div class="sb-wf-success"><h3>Workflow generated</h3><p>This
