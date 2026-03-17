@@ -1052,8 +1052,9 @@ window.sbSaveStep1 = function(){
   document.getElementById('sb-v1').style.display='none';
   document.getElementById('sb-v2').style.display='block';
   sbUpdateSteps(2);window.scrollTo({top:0,behavior:'smooth'});
-  sbStage=0;sbResponses=[];sbDone=false;
+  sbStage=0;sbResponses=[];sbDone=false;sbTyping=false;
   document.getElementById('sb-msgs').innerHTML='';
+  document.getElementById('sb-send-btn').disabled=false;
   setTimeout(()=>sbAddAgent(SB_Q[0]),500);
 }
 
@@ -1090,10 +1091,10 @@ window.sbSend = function(){
   else{
     sbDone=true;
     document.getElementById('sb-send-btn').disabled=true;
-    setTimeout(()=>{
-      sbAddAgent('Thank you for taking the time with those.\n\nI have a clear enough picture of how you work. Putting your onboarding plan together now — organized around what you\'ve shared, not a standard template.');
-      setTimeout(()=>sbBuildWorkflow(),3400);
-    },500);
+    const thankYou='Thank you for taking the time with those.\n\nI have a clear enough picture of how you work. Putting your onboarding plan together now — organized around what you\'ve shared, not a standard template.';
+    const buildDelay=Math.min(1800,1100+thankYou.length*1.1)+800;
+    setTimeout(()=>sbAddAgent(thankYou),500);
+    setTimeout(()=>sbBuildWorkflow(),500+buildDelay);
   }
 }
 
@@ -1190,4 +1191,16 @@ function sbRenderWorkflow(phases,profile){
 
   html+=`<div class="sb-wf-success"><h3>Workflow generated</h3><p>This workflow is tailored for your profile and ready to use.</p></div>`;
   document.getElementById('sb-wf-output').innerHTML = html;
+}
+
+window.sbReset = function(){
+  sbData=null;sbStage=0;sbResponses=[];sbDone=false;sbTyping=false;
+  document.getElementById('sb-v3').style.display='none';
+  document.getElementById('sb-v2').style.display='none';
+  document.getElementById('sb-v1').style.display='block';
+  document.getElementById('sb-wf-output').innerHTML='';
+  document.getElementById('sb-msgs').innerHTML='';
+  document.getElementById('sb-send-btn').disabled=false;
+  sbUpdateSteps(1);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
