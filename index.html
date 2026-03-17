@@ -1098,4 +1098,6 @@ function sbRenderWorkflow(phases,profile){
     html+='</div>';
   });
 
-  html+=`<div class="sb-wf-success"><h3>Workflow generated</h3><p>This
+  html+=`<div class="sb-wf-success"><h3>Workflow generated</h3><p>This workflow is tailored for your profile and ready to use.</p></div>`;
+  document.getElementById('sb-wf-output').innerHTML = html;
+}
