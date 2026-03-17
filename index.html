@@ -352,6 +352,27 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .sb-wf-success{background:#edf3f0;border:1px solid #c8ddd4;border-radius:8px;padding:22px 24px;margin-top:24px;}
 .sb-wf-success h3{font-family:'Lora',serif;font-weight:400;font-size:17px;color:#8fa89a;margin-bottom:7px;}
 .sb-wf-success p{font-size:13.5px;color:var(--soft);line-height:1.75;}
+.sb-wf-partner{background:var(--ink);color:var(--white);border-radius:8px;padding:20px 24px;margin-bottom:28px;display:flex;gap:16px;align-items:flex-start;}
+.sb-wf-partner-icon{font-size:24px;flex-shrink:0;margin-top:2px;}
+.sb-wf-partner-body{flex:1;}
+.sb-wf-partner-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:6px;display:block;}
+.sb-wf-partner-name{font-family:'Lora',serif;font-size:18px;color:var(--white);margin-bottom:2px;}
+.sb-wf-partner-role{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:9px;}
+.sb-wf-partner-note{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.65;}
+.sb-wf-partner-contact{margin-top:9px;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,0.45);border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;}
+.sb-wf-partner-badge{display:flex;align-items:center;gap:8px;background:rgba(44,58,46,0.06);border:1px solid var(--border);border-radius:6px;padding:8px 13px;margin-bottom:10px;font-size:12px;color:var(--soft);}
+.sb-wf-orgstory{background:var(--white);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:18px 20px;margin-bottom:9px;}
+.sb-wf-orgstory-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:block;}
+.sb-wf-orgstory-section{margin-bottom:10px;}
+.sb-wf-orgstory-section:last-child{margin-bottom:0;}
+.sb-wf-orgstory-key{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sb-wf-orgstory-val{font-size:13.5px;color:var(--ink);line-height:1.7;}
+.sb-wf-rules{background:var(--white);border:1px solid var(--border);border-left:3px solid var(--ink);border-radius:8px;padding:18px 20px;margin-bottom:9px;}
+.sb-wf-rules-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:block;}
+.sb-wf-rule{padding:9px 0;border-bottom:1px solid var(--border);}
+.sb-wf-rule:last-child{border-bottom:none;padding-bottom:0;}
+.sb-wf-rule-key{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sb-wf-rule-val{font-size:13.5px;color:var(--ink);line-height:1.65;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:820px){
@@ -711,7 +732,7 @@ window.go = go;
       <div class="sb-card">
         <div class="sb-card-head"><div class="sb-card-title">👥 People to Connect With</div><button class="sb-add-sm" onclick="sbAddRow('sb-ppl','ppl')">+ Add</button></div>
         <div id="sb-ppl">
-          <div class="sb-row"><input class="sb-input" placeholder="Name" data-f="name" style="flex:1"><input class="sb-input" placeholder="Role / expertise" data-f="exp" style="flex:2"><select class="sb-select" data-f="when"><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div>
+          <div class="sb-row" style="flex-wrap:wrap;align-items:flex-start;padding:12px 11px;"><div style="display:flex;gap:6px;align-items:center;width:100%;flex-wrap:wrap;"><input class="sb-input" placeholder="Name" data-f="name" style="flex:1;min-width:100px"><input class="sb-input" placeholder="Role / expertise" data-f="exp" style="flex:2;min-width:140px"><select class="sb-select" data-f="when"><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div><input class="sb-input" placeholder="How they prefer to be communicated with (e.g. direct message, scheduled call, email)" data-f="comm" style="margin-top:6px;width:100%;background:var(--white);"></div>
         </div>
         <button class="sb-add-btn" onclick="sbAddRow('sb-ppl','ppl')">+ Add person</button>
       </div>
@@ -723,6 +744,35 @@ window.go = go;
           <div class="sb-row"><input class="sb-input" placeholder="Topic or concept to learn" data-f="topic" style="flex:3"><select class="sb-select" data-f="timing"><option value="immediate">Day 1</option><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div>
         </div>
         <button class="sb-add-btn" onclick="sbAddRow('sb-lrn','lrn')">+ Add topic</button>
+      </div>
+
+      <!-- Org Story -->
+      <div class="sb-card">
+        <div class="sb-card-head"><div class="sb-card-title">🏛 Organizational Story</div></div>
+        <p style="font-size:13px;color:var(--soft);margin-bottom:14px;line-height:1.7;">The mission, origin, and what makes this place distinct. This will be the first thing the new hire sees on Day 1.</p>
+        <div class="sb-fg"><label class="sb-lbl">Mission &amp; Origin</label><textarea class="sb-input" id="sb-orgstory-mission" rows="3" style="resize:none;" placeholder="What does this organization exist to do? Where did it come from?"></textarea></div>
+        <div class="sb-fg"><label class="sb-lbl">What makes this place distinct</label><textarea class="sb-input" id="sb-orgstory-distinct" rows="2" style="resize:none;" placeholder="The culture, the pace, how people work together..."></textarea></div>
+      </div>
+
+      <!-- Unwritten Rules -->
+      <div class="sb-card">
+        <div class="sb-card-head"><div class="sb-card-title">🗝 Unwritten Rules</div></div>
+        <p style="font-size:13px;color:var(--soft);margin-bottom:14px;line-height:1.7;">Informal knowledge the new hire needs to navigate effectively. This will appear as its own section at the top of Week 1.</p>
+        <div class="sb-fg"><label class="sb-lbl">How decisions actually get made</label><textarea class="sb-input" id="sb-rules-decisions" rows="2" style="resize:none;" placeholder="Formal process vs. who actually drives decisions..."></textarea></div>
+        <div class="sb-fg"><label class="sb-lbl">The real influencers</label><textarea class="sb-input" id="sb-rules-influence" rows="2" style="resize:none;" placeholder="Who has informal authority or credibility here..."></textarea></div>
+        <div class="sb-fg"><label class="sb-lbl">What not to do in the first 30 days</label><textarea class="sb-input" id="sb-rules-avoid" rows="2" style="resize:none;" placeholder="Common missteps, unwritten expectations..."></textarea></div>
+      </div>
+
+      <!-- Onboarding Partner -->
+      <div class="sb-card">
+        <div class="sb-card-head"><div class="sb-card-title">🤝 Onboarding Partner</div></div>
+        <p style="font-size:13px;color:var(--soft);margin-bottom:14px;line-height:1.7;">One internal person who holds informal knowledge, available as an ongoing resource — separate from manager and peers. Will appear as a persistent card throughout the workflow.</p>
+        <div class="sb-2col">
+          <div class="sb-fg"><label class="sb-lbl">Name</label><input class="sb-input" id="sb-op-name" placeholder="Full name"></div>
+          <div class="sb-fg"><label class="sb-lbl">Role</label><input class="sb-input" id="sb-op-role" placeholder="Their position or function"></div>
+        </div>
+        <div class="sb-fg"><label class="sb-lbl">How to reach them</label><input class="sb-input" id="sb-op-contact" placeholder="Email, Slack, or other"></div>
+        <div class="sb-fg"><label class="sb-lbl">What they're particularly good for</label><input class="sb-input" id="sb-op-note" placeholder="e.g. Cultural navigation, institutional history..."></div>
       </div>
 
       <div style="display:flex;justify-content:flex-end;padding-top:8px;">
@@ -979,7 +1029,7 @@ window.sbAddRow = function(listId,type){
   const list=document.getElementById(listId);
   const row=document.createElement('div');row.className='sb-row';
   if(type==='sys'){row.innerHTML=`<input class="sb-input" placeholder="System or tool name" data-f="name"><select class="sb-select" data-f="priority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button>`;}
-  else if(type==='ppl'){row.innerHTML=`<input class="sb-input" placeholder="Name" data-f="name" style="flex:1"><input class="sb-input" placeholder="Role / expertise" data-f="exp" style="flex:2"><select class="sb-select" data-f="when"><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button>`;}
+  else if(type==='ppl'){row.style.flexWrap='wrap';row.style.alignItems='flex-start';row.style.padding='12px 11px';row.innerHTML=`<div style="display:flex;gap:6px;align-items:center;width:100%;flex-wrap:wrap;"><input class="sb-input" placeholder="Name" data-f="name" style="flex:1;min-width:100px"><input class="sb-input" placeholder="Role / expertise" data-f="exp" style="flex:2;min-width:140px"><select class="sb-select" data-f="when"><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div><input class="sb-input" placeholder="How they prefer to be communicated with (e.g. direct message, scheduled call, email)" data-f="comm" style="margin-top:6px;width:100%;background:var(--white);">`;}
   else{row.innerHTML=`<input class="sb-input" placeholder="Topic or concept to learn" data-f="topic" style="flex:3"><select class="sb-select" data-f="timing"><option value="immediate">Day 1</option><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button>`;}
   list.appendChild(row);
 }
@@ -993,8 +1043,11 @@ window.sbSaveStep1 = function(){
     intake:{filledBy:document.getElementById('sb-by').value.trim(),capacity:document.getElementById('sb-cap').value.trim(),relationship:document.getElementById('sb-rel').value.trim()},
     roleContext:{title:document.getElementById('sb-title').value.trim()||'New Role',department:document.getElementById('sb-dept').value.trim(),success30:document.getElementById('sb-s30').value.trim(),success60:document.getElementById('sb-s60').value.trim(),success90:document.getElementById('sb-s90').value.trim()},
     systems:sbReadRows('sb-sys',['name','priority']),
-    people:sbReadRows('sb-ppl',['name','exp','when']),
-    learningSequence:sbReadRows('sb-lrn',['topic','timing'])
+    people:sbReadRows('sb-ppl',['name','exp','when','comm']),
+    learningSequence:sbReadRows('sb-lrn',['topic','timing']),
+    orgStory:{mission:document.getElementById('sb-orgstory-mission').value.trim(),distinct:document.getElementById('sb-orgstory-distinct').value.trim()},
+    unwrittenRules:{decisions:document.getElementById('sb-rules-decisions').value.trim(),influence:document.getElementById('sb-rules-influence').value.trim(),avoid:document.getElementById('sb-rules-avoid').value.trim()},
+    onboardingPartner:{name:document.getElementById('sb-op-name').value.trim(),role:document.getElementById('sb-op-role').value.trim(),contact:document.getElementById('sb-op-contact').value.trim(),note:document.getElementById('sb-op-note').value.trim()}
   };
   document.getElementById('sb-v1').style.display='none';
   document.getElementById('sb-v2').style.display='block';
@@ -1070,13 +1123,22 @@ function sbBuildWorkflow(){
   s.people.forEach(person=>{
     const ph=person.when==='week1'?'week1':person.when==='week2'?'week2':'month1';
     const fmt=p.learning==='reading'?`Async intro from ${person.name}`:`30-minute conversation with ${person.name}`;
-    phases[ph].push({icon:'👤',title:`Connect with ${person.name}`,desc:`${fmt}${person.exp?` — expertise in ${person.exp}`:''}`,meta:[`⏰ ${peak}`]});
+    const commMeta=person.comm?[`⏰ ${peak}`,`💬 ${person.comm}`]:[`⏰ ${peak}`];
+    phases[ph].push({icon:'👤',title:`Connect with ${person.name}`,desc:`${fmt}${person.exp?` — expertise in ${person.exp}`:''}`,meta:commMeta});
   });
   s.learningSequence.forEach(item=>{
     const ph=item.timing==='immediate'||item.timing==='week1'?'week1':item.timing==='week2'?'week2':'month1';
     phases[ph].push({icon:'📖',title:item.topic,desc:processing(item.topic),meta:[`⏰ ${peak}`,dur]});
   });
   if(s.roleContext.success30)phases.week1.unshift({icon:'🎯',title:'Your 30-day anchor',desc:s.roleContext.success30,meta:['Return to this when things feel unclear']});
+
+  // Unwritten rules — prepend to Week 1 (unshifted after anchor, so it sits before it)
+  const hasRules=s.unwrittenRules&&(s.unwrittenRules.decisions||s.unwrittenRules.influence||s.unwrittenRules.avoid);
+  if(hasRules)phases.week1.unshift({_type:'rules',decisions:s.unwrittenRules.decisions,influence:s.unwrittenRules.influence,avoid:s.unwrittenRules.avoid});
+
+  // Org story — very first item on Day 1 (Week 1)
+  const hasOrgStory=s.orgStory&&(s.orgStory.mission||s.orgStory.distinct);
+  if(hasOrgStory)phases.week1.unshift({_type:'orgstory',dept:s.roleContext.department,mission:s.orgStory.mission,distinct:s.orgStory.distinct});
 
   sbRenderWorkflow(phases,p);
 }
@@ -1090,12 +1152,39 @@ function sbRenderWorkflow(phases,profile){
 
   const phDefs=[{key:'week1',label:'Week 1 — Foundation',cls:'p1',num:1},{key:'week2',label:'Week 2 — Building Depth',cls:'p2',num:2},{key:'month1',label:'Month 1 — Full Integration',cls:'p3',num:3}];
 
+  const op=sbData.onboardingPartner;
+  const hasPartner=op&&op.name;
+
   let html=`<div class="sb-wf-intro"><strong>${sbData.roleContext.title||'Your role'}${sbData.roleContext.department?' · '+sbData.roleContext.department:''}</strong> — organized around your profile: <strong>${summary}</strong>.${sbData.intake&&sbData.intake.filledBy?`<div style="margin-top:9px;padding-top:9px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);">Built by ${sbData.intake.filledBy}${sbData.intake.capacity?' · '+sbData.intake.capacity:''}${sbData.intake.relationship?' · '+sbData.intake.relationship:''}</div>`:''}</div>`;
+
+  // Onboarding partner persistent card
+  if(hasPartner){
+    html+=`<div class="sb-wf-partner"><div class="sb-wf-partner-icon">🤝</div><div class="sb-wf-partner-body"><span class="sb-wf-partner-label">Onboarding Partner — available throughout all three phases</span><div class="sb-wf-partner-name">${op.name}</div>${op.role?`<div class="sb-wf-partner-role">${op.role}</div>`:''}<div class="sb-wf-partner-note">${op.note||'Your first call for questions that do not belong in a meeting — cultural navigation, unwritten norms, and institutional context.'}</div>${op.contact?`<div class="sb-wf-partner-contact">📬 ${op.contact}</div>`:''}</div></div>`;
+  }
 
   phDefs.forEach(({key,label,cls,num})=>{
     const items=phases[key];if(!items||!items.length)return;
     html+=`<div class="sb-wf-phase"><div class="sb-wf-phase-head"><div class="sb-wf-phase-num ${cls}">${num}</div><h2 style="font-family:'Lora',serif;font-weight:400;font-size:20px;color:var(--ink);">${label}</h2></div>`;
-    items.forEach(item=>{html+=`<div class="sb-wf-item ${cls}"><div class="sb-wf-icon">${item.icon}</div><div><div class="sb-wf-title">${item.title}</div><div class="sb-wf-desc">${item.desc}</div>${item.meta&&item.meta.length?`<div class="sb-wf-meta">${item.meta.map(m=>`<span>${m}</span>`).join('')}</div>`:''}</div></div>`;});
+    // Partner reminder badge at top of week2 and month1
+    if(hasPartner&&(key==='week2'||key==='month1')){
+      html+=`<div class="sb-wf-partner-badge">🤝 <strong>${op.name}</strong> is still your onboarding partner${op.contact?' · '+op.contact:''}</div>`;
+    }
+    items.forEach(item=>{
+      if(item._type==='orgstory'){
+        html+=`<div class="sb-wf-orgstory"><span class="sb-wf-orgstory-label">Day 1 · Start here — Organizational Story</span>`;
+        if(item.mission)html+=`<div class="sb-wf-orgstory-section"><div class="sb-wf-orgstory-key">Mission &amp; Origin</div><div class="sb-wf-orgstory-val">${item.mission}</div></div>`;
+        if(item.distinct)html+=`<div class="sb-wf-orgstory-section"><div class="sb-wf-orgstory-key">What makes this place distinct</div><div class="sb-wf-orgstory-val">${item.distinct}</div></div>`;
+        html+=`</div>`;
+      } else if(item._type==='rules'){
+        html+=`<div class="sb-wf-rules"><span class="sb-wf-rules-label">🗝 Unwritten Rules — read before anything else this week</span>`;
+        if(item.decisions)html+=`<div class="sb-wf-rule"><div class="sb-wf-rule-key">How decisions actually get made</div><div class="sb-wf-rule-val">${item.decisions}</div></div>`;
+        if(item.influence)html+=`<div class="sb-wf-rule"><div class="sb-wf-rule-key">The real influencers</div><div class="sb-wf-rule-val">${item.influence}</div></div>`;
+        if(item.avoid)html+=`<div class="sb-wf-rule"><div class="sb-wf-rule-key">What not to do in the first 30 days</div><div class="sb-wf-rule-val">${item.avoid}</div></div>`;
+        html+=`</div>`;
+      } else {
+        html+=`<div class="sb-wf-item ${cls}"><div class="sb-wf-icon">${item.icon}</div><div><div class="sb-wf-title">${item.title}</div><div class="sb-wf-desc">${item.desc}</div>${item.meta&&item.meta.length?`<div class="sb-wf-meta">${item.meta.map(m=>`<span>${m}</span>`).join('')}</div>`:''}</div></div>`;
+      }
+    });
     html+='</div>';
   });
 
