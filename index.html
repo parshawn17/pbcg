@@ -721,29 +721,29 @@ window.go = go;
 
       <!-- Systems -->
       <div class="sb-card">
-        <div class="sb-card-head"><div class="sb-card-title">🛠 Systems & Tools to Learn</div><button class="sb-add-sm" onclick="sbAddRow('sb-sys','sys')">+ Add</button></div>
+        <div class="sb-card-head"><div class="sb-card-title">🛠 Systems & Tools to Learn</div><button class="sb-add-sm" id="sb-btn-add-sys">+ Add</button></div>
         <div id="sb-sys">
           <div class="sb-row"><input class="sb-input" placeholder="System or tool name" data-f="name"><select class="sb-select" data-f="priority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div>
         </div>
-        <button class="sb-add-btn" onclick="sbAddRow('sb-sys','sys')">+ Add system</button>
+        <button class="sb-add-btn" id="sb-btn-add-sys2">+ Add system</button>
       </div>
 
       <!-- People -->
       <div class="sb-card">
-        <div class="sb-card-head"><div class="sb-card-title">👥 People to Connect With</div><button class="sb-add-sm" onclick="sbAddRow('sb-ppl','ppl')">+ Add</button></div>
+        <div class="sb-card-head"><div class="sb-card-title">👥 People to Connect With</div><button class="sb-add-sm" id="sb-btn-add-ppl">+ Add</button></div>
         <div id="sb-ppl">
           <div class="sb-row" style="flex-wrap:wrap;align-items:flex-start;padding:12px 11px;"><div style="display:flex;gap:6px;align-items:center;width:100%;flex-wrap:wrap;"><input class="sb-input" placeholder="Name" data-f="name" style="flex:1;min-width:100px"><input class="sb-input" placeholder="Role / expertise" data-f="exp" style="flex:2;min-width:140px"><select class="sb-select" data-f="when"><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div><input class="sb-input" placeholder="How they prefer to be communicated with (e.g. direct message, scheduled call, email)" data-f="comm" style="margin-top:6px;width:100%;background:var(--white);"></div>
         </div>
-        <button class="sb-add-btn" onclick="sbAddRow('sb-ppl','ppl')">+ Add person</button>
+        <button class="sb-add-btn" id="sb-btn-add-ppl2">+ Add person</button>
       </div>
 
       <!-- Learning -->
       <div class="sb-card">
-        <div class="sb-card-head"><div class="sb-card-title">📚 Learning Sequence</div><button class="sb-add-sm" onclick="sbAddRow('sb-lrn','lrn')">+ Add</button></div>
+        <div class="sb-card-head"><div class="sb-card-title">📚 Learning Sequence</div><button class="sb-add-sm" id="sb-btn-add-lrn">+ Add</button></div>
         <div id="sb-lrn">
           <div class="sb-row"><input class="sb-input" placeholder="Topic or concept to learn" data-f="topic" style="flex:3"><select class="sb-select" data-f="timing"><option value="immediate">Day 1</option><option value="week1">Week 1</option><option value="week2">Week 2</option><option value="month1">Month 1</option></select><button class="sb-row-btn" onclick="this.closest('.sb-row').remove()">×</button></div>
         </div>
-        <button class="sb-add-btn" onclick="sbAddRow('sb-lrn','lrn')">+ Add topic</button>
+        <button class="sb-add-btn" id="sb-btn-add-lrn2">+ Add topic</button>
       </div>
 
       <!-- Org Story -->
@@ -776,7 +776,7 @@ window.go = go;
       </div>
 
       <div style="display:flex;justify-content:flex-end;padding-top:8px;">
-        <button class="btn bf" onclick="sbSaveStep1()">Save & Continue to Assessment →</button>
+        <button class="btn bf" id="sb-btn-save">Save & Continue to Assessment →</button>
       </div>
     </div>
 
@@ -790,8 +790,8 @@ window.go = go;
       <div class="sb-chat-box">
         <div class="sb-messages" id="sb-msgs"></div>
         <div class="sb-input-area">
-          <textarea id="sb-input" placeholder="Type your response... (Enter to send)" onkeydown="sbKeyDown(event)"></textarea>
-          <button class="sb-send" id="sb-send-btn" onclick="sbSend()">↑</button>
+          <textarea id="sb-input" placeholder="Type your response... (Enter to send)"></textarea>
+          <button class="sb-send" id="sb-send-btn">↑</button>
         </div>
       </div>
     </div>
@@ -805,7 +805,7 @@ window.go = go;
       </div>
       <div id="sb-wf-output"></div>
       <div style="padding-top:20px;">
-        <button class="btn bl" onclick="sbReset()">↩ Start New</button>
+        <button class="btn bl" id="sb-btn-reset">↩ Start New</button>
       </div>
     </div>
 
@@ -1204,3 +1204,31 @@ window.sbReset = function(){
   sbUpdateSteps(1);
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// ── Symbio button wiring (addEventListener, no inline onclick) ──
+document.addEventListener('DOMContentLoaded', function() {
+  function sbWire(id, fn) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', fn);
+  }
+  sbWire('sb-btn-add-sys',  function(){ sbAddRow('sb-sys','sys'); });
+  sbWire('sb-btn-add-sys2', function(){ sbAddRow('sb-sys','sys'); });
+  sbWire('sb-btn-add-ppl',  function(){ sbAddRow('sb-ppl','ppl'); });
+  sbWire('sb-btn-add-ppl2', function(){ sbAddRow('sb-ppl','ppl'); });
+  sbWire('sb-btn-add-lrn',  function(){ sbAddRow('sb-lrn','lrn'); });
+  sbWire('sb-btn-add-lrn2', function(){ sbAddRow('sb-lrn','lrn'); });
+  sbWire('sb-btn-save',     function(){ sbSaveStep1(); });
+  sbWire('sb-btn-reset',    function(){ sbReset(); });
+  sbWire('sb-send-btn',     function(){ sbSend(); });
+  var chatInput = document.getElementById('sb-input');
+  if (chatInput) chatInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sbSend(); }
+  });
+  // wire row-level remove buttons (existing static rows)
+  document.querySelectorAll('.sb-row-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { btn.closest('.sb-row').remove(); });
+  });
+});
+</script>
+</body>
+</html>
