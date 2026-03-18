@@ -1011,10 +1011,28 @@ function cvSpkToggle(){}
 const SB_Q=[
   'Before we get into systems and schedules — I want to understand how you actually learn.\n\nThink of a time when something clicked for you. A skill, a process, a new environment. What do you think made that possible?',
   'Good to know. When you\'re facing something complex — new information, a new system, an unfamiliar situation — do you tend to need the full picture before the details make sense? Or does starting small and building feel more natural?',
-  'One more. When does your best thinking tend to happen — what time of day, what kind of environment? And when you have something important to learn or work through, how do you prefer to approach it?'
+  'One more thing on this — when does your best thinking tend to happen? What time of day, what kind of environment? And when you have something important to learn or work through, how do you prefer to approach it?',
+  'When you\'re in a new environment and something is unclear, what do you naturally do — ask someone immediately, try to figure it out on your own first, or observe how others handle it before acting?',
+  'Last one. What does it take for you to feel like you genuinely belong somewhere new? What has to be true for you to feel settled?'
 ];
 
-let sbData=null,sbStage=0,sbResponses=[],sbDone=false,sbTyping=false;
+const SB_SIG=[
+  /watching|doing|reading|listening|trying|practicing|building|alone|quiet|structured|clicked|made sense|understood|example/i,
+  /big.?picture|overview|context|whole|broad|step.?by.?step|piece.?by.?piece|build.?up|details|foundations|direction/i,
+  /morning|afternoon|evening|early|late|night|quiet|music|alone|blocks|chunks|breaks|schedule|flow/i,
+  /ask|figure.?out|observe|watch|research|try|wait|reach.?out|instinct|first.?move/i,
+  /people|relationships|team|connected|trusted|useful|contributing|capable|confident|routine|rhythm|familiar|belong/i
+];
+
+const SB_SUB=[
+  'I want to make sure I capture this well — when that thing clicked, was it because of how it was explained, because you got to try it yourself, or something else entirely? Even a small detail helps.',
+  'Think about the last time you had to learn something unfamiliar — did you find yourself wanting to understand the whole thing first, or were you more comfortable just starting somewhere and figuring it out as you went?',
+  'Think about the last time you did your best work — what time of day was it, and what was the environment like around you? Even a rough sense of it helps.',
+  'There is no right answer here — I am just curious about your instinct. If you started a new role tomorrow and did not know how something worked, what would your first move be?',
+  'Think about a place — a job, a team, a community — where you have felt like you truly belonged. What was present there that made it feel that way?'
+];
+
+let sbData=null,sbStage=0,sbResponses=[],sbDone=false,sbTyping=false,sbInSub=false;
 
 function sbUpdateSteps(current){
   for(let i=1;i<=3;i++){
@@ -1052,7 +1070,7 @@ window.sbSaveStep1 = function(){
   document.getElementById('sb-v1').style.display='none';
   document.getElementById('sb-v2').style.display='block';
   sbUpdateSteps(2);window.scrollTo({top:0,behavior:'smooth'});
-  sbStage=0;sbResponses=[];sbDone=false;sbTyping=false;
+  sbStage=0;sbResponses=[];sbDone=false;sbTyping=false;sbInSub=false;
   document.getElementById('sb-msgs').innerHTML='';
   document.getElementById('sb-send-btn').disabled=false;
   setTimeout(()=>sbAddAgent(SB_Q[0]),500);
@@ -1087,8 +1105,26 @@ window.sbSend = function(){
   const msg=document.createElement('div');msg.className='sb-msg user';
   msg.innerHTML=`<div class="sb-av u">↑</div><div class="sb-bubble u">${t.replace(/\n/g,'<br>')}</div>`;
   msgs.appendChild(msg);sbScrollChat();
-  if(sbStage<SB_Q.length-1){sbStage++;setTimeout(()=>sbAddAgent(SB_Q[sbStage]),500);}
-  else{
+
+  if(sbInSub){
+    // Sub-question response — accept regardless, move on
+    sbInSub=false;
+    sbStage++;
+  } else {
+    // Check for meaningful signal in this response
+    const hasSig=SB_SIG[sbStage]&&SB_SIG[sbStage].test(t);
+    if(!hasSig&&SB_SUB[sbStage]){
+      // No signal — ask one sub-question, then move on no matter what
+      sbInSub=true;
+      setTimeout(()=>sbAddAgent(SB_SUB[sbStage]),500);
+      return;
+    }
+    sbStage++;
+  }
+
+  if(sbStage<SB_Q.length){
+    setTimeout(()=>sbAddAgent(SB_Q[sbStage]),500);
+  } else {
     sbDone=true;
     document.getElementById('sb-send-btn').disabled=true;
     const thankYou='Thank you for taking the time with those.\n\nI have a clear enough picture of how you work. Putting your onboarding plan together now — organized around what you\'ve shared, not a standard template.';
@@ -1103,8 +1139,10 @@ function sbInferProfile(responses){
   return{
     learning:/visual|diagram|chart|watch|see|show/.test(all)?'visual':/hands.?on|do|try|practice|example|build/.test(all)?'hands-on':/read|write|document|note/.test(all)?'reading':'mixed',
     processing:/big.?picture|overview|context|whole|full|start broad/.test(all)?'big-picture':'step-by-step',
-    peakTime:/morning|early|am|before lunch/.test(all)?'morning':/afternoon|pm|after lunch/.test(all)?'afternoon':'flexible',
-    workStyle:/deep|block|focus|uninterrupted|quiet/.test(all)?'deep-focus':'adaptive'
+    peakTime:/morning|early|am|before lunch/.test(all)?'morning':/afternoon|pm|after lunch/.test(all)?'afternoon':/evening|night|late/.test(all)?'evening':'flexible',
+    workStyle:/deep|block|focus|uninterrupted|quiet/.test(all)?'deep-focus':'adaptive',
+    clarifyStyle:/ask|reach.?out|someone|colleague|manager|immediately/.test(all)?'ask-first':/observe|watch|see how|before acting|wait/.test(all)?'observe-first':'self-directed',
+    belonging:/people|relationships|team|connected|trusted/.test(all)?'relational':/useful|contributing|capable|competent|contributing/.test(all)?'contribution':/routine|rhythm|familiar|settled|structure/.test(all)?'structure':'general'
   };
 }
 
@@ -1149,7 +1187,9 @@ function sbRenderWorkflow(phases,profile){
   document.getElementById('sb-v3').style.display='block';
   sbUpdateSteps(3);window.scrollTo({top:0,behavior:'smooth'});
 
-  const summary=[profile.learning!=='mixed'?`${profile.learning} learner`:null,profile.processing==='big-picture'?'big-picture first':'step-by-step',profile.peakTime!=='flexible'?`${profile.peakTime} focus time`:null,profile.workStyle==='deep-focus'?'deep focus blocks':null].filter(Boolean).join(' · ');
+  const clarifyLabel={'ask-first':'reaches out when unclear','observe-first':'observes before acting','self-directed':'figures things out independently'};
+  const belongLabel={'relational':'builds through relationships','contribution':'settles through contributing','structure':'grounds through routine and rhythm','general':'settles at own pace'};
+  const summary=[profile.learning!=='mixed'?`${profile.learning} learner`:null,profile.processing==='big-picture'?'big-picture first':'step-by-step',profile.peakTime!=='flexible'?`${profile.peakTime} focus time`:null,profile.workStyle==='deep-focus'?'deep focus blocks':null,clarifyLabel[profile.clarifyStyle]||null,belongLabel[profile.belonging]||null].filter(Boolean).join(' · ');
 
   const phDefs=[{key:'week1',label:'Week 1 — Foundation',cls:'p1',num:1},{key:'week2',label:'Week 2 — Building Depth',cls:'p2',num:2},{key:'month1',label:'Month 1 — Full Integration',cls:'p3',num:3}];
 
@@ -1194,7 +1234,7 @@ function sbRenderWorkflow(phases,profile){
 }
 
 window.sbReset = function(){
-  sbData=null;sbStage=0;sbResponses=[];sbDone=false;sbTyping=false;
+  sbData=null;sbStage=0;sbResponses=[];sbDone=false;sbTyping=false;sbInSub=false;
   document.getElementById('sb-v3').style.display='none';
   document.getElementById('sb-v2').style.display='none';
   document.getElementById('sb-v1').style.display='block';
