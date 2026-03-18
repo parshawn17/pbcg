@@ -269,6 +269,49 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-hist-name{font-size:11px;font-weight:500;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .cv-hist-date{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
 .cv-hist-nums{display:flex;gap:5px;align-items:baseline;}
+.cv-section{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:14px;}
+.cv-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cv-section-title{font-family:'Lora',serif;font-size:16px;font-weight:400;color:var(--ink);}
+.cv-section-sub{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.cv-qitem{border:1px solid var(--border);border-radius:6px;margin-bottom:7px;overflow:hidden;}
+.cv-qitem-head{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;cursor:pointer;background:var(--white);transition:background 0.15s;}
+.cv-qitem-head:hover{background:#f8f9f8;}
+.cv-qitem-text{flex:1;font-size:13px;color:var(--ink);line-height:1.6;}
+.cv-qtag{flex-shrink:0;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:500;}
+.cv-qtag.answered-action{background:#edf3f0;color:#2a7a5a;}
+.cv-qtag.answered-no-action{background:#e8f0f7;color:#2a5a8a;}
+.cv-qtag.unanswered{background:#fdf3e0;color:#a06000;}
+.cv-qitem-body{display:none;padding:10px 14px;border-top:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--soft);line-height:1.7;}
+.cv-qitem.open .cv-qitem-body{display:block;}
+.cv-qratio{display:flex;align-items:center;gap:14px;padding:12px 14px;background:var(--bg);border-radius:6px;margin-top:10px;}
+.cv-qratio-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
+.cv-qratio-bar{flex:1;height:6px;background:var(--border);border-radius:3px;position:relative;overflow:hidden;}
+.cv-qratio-fill{position:absolute;top:0;left:0;bottom:0;background:var(--accent);border-radius:3px;transition:width 0.8s cubic-bezier(.25,1,.5,1);}
+.cv-qratio-nums{font-size:11px;color:var(--muted);flex-shrink:0;}
+.cv-uq-item{background:#fdf6ea;border:1px solid #e8d5a0;border-left:3px solid #e8a020;border-radius:6px;padding:12px 14px;margin-bottom:8px;}
+.cv-uq-text{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:9px;}
+.cv-uq-btns{display:flex;gap:7px;flex-wrap:wrap;}
+.cv-uq-btn{background:none;border:1px solid var(--border);border-radius:4px;padding:5px 11px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft);cursor:pointer;transition:all 0.15s;}
+.cv-uq-btn:hover{border-color:var(--accent);color:var(--accent);}
+.cv-action-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border);}
+.cv-action-item:last-child{border-bottom:none;}
+.cv-action-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);flex-shrink:0;margin-top:2px;min-width:20px;}
+.cv-action-text{font-size:13px;color:var(--ink);line-height:1.6;}
+.cv-agenda-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.cv-agenda-item:last-child{border-bottom:none;}
+.cv-agenda-text{font-size:13px;color:var(--ink);line-height:1.6;flex:1;}
+.cv-agenda-rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:0;flex-shrink:0;transition:color 0.15s;}
+.cv-agenda-rm:hover{color:#e63946;}
+.cv-empty{font-size:12px;color:var(--muted);font-style:italic;padding:6px 0;}
+.cv-hf-btns{display:flex;gap:4px;}
+.cv-hf-btn{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+.cv-hf-btn.on{background:var(--ink);color:var(--white);border-color:var(--ink);}
+.cv-trend{margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.cv-trend-col{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;}
+.cv-trend-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.cv-trend-bars{display:flex;align-items:flex-end;gap:3px;height:40px;}
+.cv-trend-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;transition:height 0.5s;}
+.cv-trend-bar.q{background:#e63946;}.cv-trend-bar.g{background:#2a9d8f;}.cv-trend-bar.c{background:#e76f51;}.cv-trend-bar.p{background:var(--accent);}
 .cv-hn{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:500;}
 .cv-hn.q{color:#e63946}.cv-hn.g{color:#2a9d8f}.cv-hn.c{color:#e76f51}.cv-hn.p{color:var(--accent)}
 .cv-hs{font-size:9px;color:var(--muted);margin-left:auto;}
@@ -531,70 +574,45 @@ window.go = go;
   <div class="tool-shell">
     <div class="tool-topbar">
       <div style="display:flex;align-items:center;gap:12px;">
-        <button class="tool-back" onclick="go('tools')">← Tools</button>
+        <button class="tool-back" id="cv-back-btn">← Tools</button>
         <span class="tool-topbar-name">Curio</span>
       </div>
       <span class="tool-topbar-right">Conversation Growth Tracker</span>
     </div>
     <div class="curio-wrap">
 
-      <div class="cv-tabs">
-        <button class="cv-tab on" id="cv-t-rec" onclick="cvMode('record')">🎙 Live Recording</button>
-        <button class="cv-tab" id="cv-t-up" onclick="cvMode('upload')">📄 Upload / Paste</button>
-      </div>
-
       <div class="cv-setup">
-        <div class="cv-field"><label>Session Name</label><input type="text" id="cv-sname" placeholder="e.g. Week 3 Check-in"></div>
-        <div class="cv-field"><label>Week</label>
+        <div class="cv-field"><label class="cv-field label">Session Name</label><input type="text" id="cv-sname" placeholder="e.g. Week 3 Check-in"></div>
+        <div class="cv-field"><label>Meeting Type</label>
+          <select id="cv-meettype">
+            <option value="1on1">1:1</option>
+            <option value="team">Team</option>
+          </select>
+        </div>
+        <div class="cv-field"><label>Growth Week (1–8)</label>
           <select id="cv-week">
             <option value="1">Week 1</option><option value="2">Week 2</option><option value="3">Week 3</option>
             <option value="4">Week 4</option><option value="5">Week 5</option><option value="6">Week 6</option>
-            <option value="7">Week 7</option><option value="8">Week 8</option><option value="9">Week 9</option>
-            <option value="10">Week 10</option><option value="11">Week 11</option><option value="12">Week 12</option>
-          </select>
-        </div>
-        <div class="cv-field"><label>Speaker Mode</label>
-          <select id="cv-spkmode" onchange="cvSpkToggle()">
-            <option value="all">All Together</option>
-            <option value="two">Two Speakers</option>
+            <option value="7">Week 7</option><option value="8">Week 8</option>
           </select>
         </div>
       </div>
 
-      <!-- Record area -->
-      <div class="cv-record-area" id="cv-rec-area">
-        <button class="cv-rec-btn" id="cv-btn" onclick="cvToggle()">
-          <div class="cv-rec-icon" id="cv-icon">🎙</div>
-          <div class="cv-rec-lbl" id="cv-lbl">Record</div>
-        </button>
-        <div class="cv-status" id="cv-status">Tap to begin</div>
-        <div class="cv-timer" id="cv-timer">00:00</div>
-        <div class="cv-ticker" id="cv-ticker"><div class="cv-ticker-lbl">Live transcript</div><div id="cv-tick-text">Listening...</div></div>
-        <div class="cv-livekpis" id="cv-lkpis">
-          <div class="cv-lkpi"><div class="cv-lkpi-n q" id="cv-lq">0</div><div class="cv-lkpi-l">Questions</div></div>
-          <div class="cv-lkpi"><div class="cv-lkpi-n g" id="cv-lg">0</div><div class="cv-lkpi-l">Gratitude</div></div>
-          <div class="cv-lkpi"><div class="cv-lkpi-n c" id="cv-lc">0</div><div class="cv-lkpi-l">Commits</div></div>
-          <div class="cv-lkpi"><div class="cv-lkpi-n p" id="cv-lp">0</div><div class="cv-lkpi-l">Proactive</div></div>
-        </div>
-        <div class="cv-err" id="cv-err"></div>
-        <div class="cv-note">Best in Chrome or Edge · Requires localhost or https for microphone access</div>
-      </div>
-
-      <!-- Upload area -->
-      <div class="cv-upload-area" id="cv-up-area">
-        <div class="cv-drop" id="cv-drop" ondragover="cvDragOver(event)" ondragleave="cvDragLeave()" ondrop="cvDrop(event)">
+      <!-- Upload / Paste area — always visible until analysis -->
+      <div class="cv-upload-area vis" id="cv-up-area">
+        <div class="cv-drop" id="cv-drop">
           <div class="cv-drop-icon">📄</div>
           <div class="cv-drop-title">Drop a .txt file here</div>
           <div class="cv-drop-sub">or</div>
-          <label class="cv-file-btn">Browse<input type="file" accept=".txt,text/plain" style="display:none;" onchange="cvFileIn(event)"></label>
+          <label class="cv-file-btn">Browse<input type="file" accept=".txt,text/plain" id="cv-file-input" style="display:none;"></label>
         </div>
         <div class="cv-div">or paste directly</div>
         <div class="cv-pastebox">
           <div class="cv-paste-lbl">Paste transcript</div>
-          <textarea id="cv-paste" placeholder="Paste your transcript here...&#10;&#10;For two-speaker mode, prefix lines:&#10;Manager: How did the week go?&#10;Employee: Really well, thank you!" oninput="document.getElementById('cv-cc').textContent=this.value.length+' chars'"></textarea>
+          <textarea id="cv-paste" placeholder="Paste your transcript here...&#10;&#10;For two-speaker transcripts, prefix lines with speaker name:&#10;Manager: How did the week go?&#10;Employee: Really well, thank you!"></textarea>
           <div class="cv-paste-foot">
             <span class="cv-charcount" id="cv-cc">0 chars</span>
-            <button class="cv-analyze-btn" onclick="cvAnalyze()">Analyze →</button>
+            <button class="cv-analyze-btn" id="cv-analyze-btn">Analyze →</button>
           </div>
         </div>
       </div>
@@ -606,6 +624,8 @@ window.go = go;
           <div class="cv-res-meta" id="cv-res-meta"></div>
         </div>
         <div class="cv-transcript-box"><div class="cv-transcript-text" id="cv-tx"></div></div>
+
+        <!-- Section 1: KPIs + Score -->
         <div class="cv-kpi-row">
           <div class="cv-kpi q"><div class="cv-kpi-cat">Questions</div><div class="cv-kpi-num" id="cv-rq">0</div><div class="cv-kpi-desc">Clarifying &amp; open-ended</div></div>
           <div class="cv-kpi g"><div class="cv-kpi-cat">Gratitude</div><div class="cv-kpi-num" id="cv-rg">0</div><div class="cv-kpi-desc">Respect &amp; appreciation</div></div>
@@ -639,18 +659,72 @@ window.go = go;
             <div id="cv-matches"></div>
           </div>
         </div>
-        <div class="cv-insights" id="cv-insights"></div>
-        <div class="cv-reset-row">
-          <button class="cv-reset-btn" onclick="cvDownload()">↓ Download</button>
-          <button class="cv-reset-btn" onclick="cvReset()">↩ New Session</button>
-        </div>
-        <div class="cv-history" id="cv-hist-wrap" style="display:none;">
-          <div class="cv-hist-head">
-            <div class="cv-hist-title">Past Sessions</div>
-            <button class="cv-hist-clear" onclick="cvClearHist()">Clear All</button>
+
+        <!-- Section 2: Question Intelligence -->
+        <div class="cv-section">
+          <div class="cv-section-head">
+            <div class="cv-section-title">Question Intelligence</div>
+            <div class="cv-section-sub" id="cv-qintel-meta"></div>
           </div>
-          <div class="cv-hist-row" id="cv-hist-row"></div>
+          <div id="cv-qlist"></div>
+          <div class="cv-qratio" id="cv-qratio" style="display:none;">
+            <span class="cv-qratio-label">Open</span>
+            <div class="cv-qratio-bar"><div class="cv-qratio-fill" id="cv-qratio-fill"></div></div>
+            <span class="cv-qratio-nums" id="cv-qratio-nums"></span>
+          </div>
         </div>
+
+        <!-- Section 3: Unanswered Questions -->
+        <div class="cv-section" id="cv-unanswered-section">
+          <div class="cv-section-head">
+            <div class="cv-section-title">Unanswered Questions</div>
+            <div class="cv-section-sub" id="cv-uq-count"></div>
+          </div>
+          <div id="cv-unanswered-list"></div>
+        </div>
+
+        <!-- Section 4: Action Items -->
+        <div class="cv-section">
+          <div class="cv-section-head">
+            <div class="cv-section-title">Action Items</div>
+            <button class="cv-reset-btn" id="cv-dl-actions-btn" style="font-size:10px;padding:5px 12px;">↓ Download</button>
+          </div>
+          <div id="cv-actions-list"></div>
+        </div>
+
+        <!-- Section 5: Insights -->
+        <div class="cv-insights" id="cv-insights"></div>
+
+        <!-- Running Next Session Agenda -->
+        <div class="cv-section" id="cv-agenda-section" style="display:none;">
+          <div class="cv-section-head">
+            <div class="cv-section-title">Next Session Agenda</div>
+            <div class="cv-section-sub" id="cv-agenda-count"></div>
+          </div>
+          <div id="cv-agenda-list"></div>
+        </div>
+
+        <div class="cv-reset-row">
+          <button class="cv-reset-btn" id="cv-dl-btn">↓ Download Report</button>
+          <button class="cv-reset-btn" id="cv-reset-btn">↩ New Session</button>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="cv-history" id="cv-hist-wrap" style="display:none;">
+        <div class="cv-hist-head">
+          <div class="cv-hist-title">Session History</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="cv-hf-btns">
+              <button class="cv-hf-btn on" id="cv-hf-all">All</button>
+              <button class="cv-hf-btn" id="cv-hf-1on1">1:1</button>
+              <button class="cv-hf-btn" id="cv-hf-team">Team</button>
+            </div>
+            <button class="cv-hist-clear" id="cv-hist-clear-btn">Clear</button>
+          </div>
+        </div>
+        <div class="cv-hist-row" id="cv-hist-row"></div>
+        <div class="cv-trend" id="cv-trend" style="display:none;"></div>
       </div>
 
     </div>
@@ -905,62 +979,72 @@ function cvExtract(text, k) {
 function cvBench(w){const wk=Math.min(parseInt(w)||1,8);return{q:Math.round(3+wk*0.625),g:Math.round(2+wk*0.375),c:Math.round(1+wk*0.375),p:Math.round(1+wk*0.25)};}
 function cvFmt(s){return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
 
-let cvRec=false,cvRecog=null,cvText='',cvTimerInt=null,cvSecs=0,cvCurrentMode='record';
+let cvCurrentFilter='all';
+let cvAgendaItems=[];
+let cvCurrentActions=[];
+let cvCurrentQuestions=[];
 
-window.cvMode = function(m){
-  cvCurrentMode=m;
-  document.getElementById('cv-t-rec').classList.toggle('on',m==='record');
-  document.getElementById('cv-t-up').classList.toggle('on',m==='upload');
-  document.getElementById('cv-rec-area').style.display=m==='record'?'flex':'none';
-  document.getElementById('cv-up-area').classList.toggle('vis',m==='upload');
+function cvParseLines(text){
+  return text.split('\n').map(l=>l.trim()).filter(l=>l.length>0).map(l=>{
+    const m=l.match(/^([^:]{1,40}):\s*(.+)$/);
+    return m?{speaker:m[1].trim(),text:m[2].trim()}:{speaker:null,text:l};
+  });
 }
 
-window.cvToggle = function(){cvRec?cvStop():cvStart();}
+function cvAnalyzeQuestions(lines){
+  const questions=[];
+  const openPat=/\b(what|how|tell me|help me understand|what if|what else)\b/i;
+  const closedPat=/\b(did you|is it|are you|have you|will you)\b/i;
+  const responsePat=/\b(yes|no|i think|well|because|so|the reason|actually|right|sure|of course|that's|we|i)\b/i;
+  const commitPat=/\b(i will|i'll|will do|i'll send|i'll follow up|i'll circle back|by (monday|tuesday|wednesday|thursday|friday|end of (day|week)))\b/i;
 
-function cvStart(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){const e=document.getElementById('cv-err');e.textContent='⚠ Live recording requires Chrome or Edge on localhost or https.';e.style.display='block';return;}
-  cvRecog=new SR();cvRecog.continuous=true;cvRecog.interimResults=true;cvRecog.lang='en-US';
-  cvRecog.onstart=()=>{
-    cvRec=true;
-    document.getElementById('cv-btn').classList.add('recording');
-    document.getElementById('cv-icon').textContent='⏹';document.getElementById('cv-lbl').textContent='Stop';
-    document.getElementById('cv-status').textContent='● Recording';
-    document.getElementById('cv-timer').classList.add('vis');
-    document.getElementById('cv-ticker').classList.add('vis');document.getElementById('cv-lkpis').classList.add('vis');
-    document.getElementById('cv-err').style.display='none';
-    cvSecs=0;cvTimerInt=setInterval(()=>{cvSecs++;document.getElementById('cv-timer').textContent=cvFmt(cvSecs);},1000);
-  };
-  cvRecog.onresult=(e)=>{let int='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)cvText+=e.results[i][0].transcript+' ';else int+=e.results[i][0].transcript;}const d=cvText+int;document.getElementById('cv-tick-text').textContent=d.slice(-160)||'Listening...';['q','g','c','p'].forEach(k=>{document.getElementById('cv-l'+k).textContent=cvExtract(d,k).length;});};
-  cvRecog.onerror=(e)=>{if(e.error==='not-allowed'){const el=document.getElementById('cv-err');el.textContent='⚠ Mic access denied. Run on localhost or https.';el.style.display='block';}cvStop();};
-  cvRecog.onend=()=>{if(cvRec)cvRecog.start();};
-  try{cvRecog.start();}catch(e){const el=document.getElementById('cv-err');el.textContent='⚠ '+e.message;el.style.display='block';}
+  lines.forEach((line,i)=>{
+    const t=line.text;
+    if(!t.includes('?')&&!openPat.test(t))return;
+    const qTexts=[];
+    if(t.includes('?')){
+      (t.match(/[^.!]*\?/g)||[]).forEach(p=>{if(p.trim().length>5)qTexts.push(p.trim());});
+    } else if(openPat.test(t)&&t.length>10){
+      qTexts.push(t);
+    }
+    qTexts.forEach(qText=>{
+      const next3=lines.slice(i+1,i+4).map(l=>l.text).join(' ');
+      const next5=lines.slice(i+1,i+6).map(l=>l.text).join(' ');
+      const sameSpkFollowUp=lines.slice(i+1,i+4).some(l=>l.speaker&&l.speaker===line.speaker&&l.text.includes('?'));
+      const hasResponse=responsePat.test(next3);
+      const hasCommit=commitPat.test(next5);
+      let outcome;
+      if(!hasResponse&&!hasCommit&&!sameSpkFollowUp){outcome='unanswered';}
+      else if(hasCommit){outcome='answered-action';}
+      else{outcome='answered-no-action';}
+      const isOpen=openPat.test(qText);
+      questions.push({text:qText,outcome,isOpen});
+    });
+  });
+  return questions;
 }
 
-function cvStop(){
-  cvRec=false;if(cvRecog)cvRecog.stop();clearInterval(cvTimerInt);
-  cvShowResults(cvText,cvFmt(cvSecs));
+function cvExtractActionItems(lines){
+  const actionPat=/\b(i will|i'll|i commit|by (monday|tuesday|wednesday|thursday|friday|tomorrow|end of (day|week))|will do|i'll send|i'll follow up|i'll circle back)\b/i;
+  const seen=new Set();
+  return lines.map(l=>l.text).filter(t=>actionPat.test(t)).map(t=>t.replace(/^[^:]+:\s*/,'').trim()).filter(t=>{if(t.length<10||seen.has(t))return false;seen.add(t);return true;});
 }
 
-window.cvAnalyze = function(){const t=document.getElementById('cv-paste').value.trim();if(!t)return;cvText=t;cvShowResults(t,'—');}
-function cvDragOver(e){e.preventDefault();document.getElementById('cv-drop').classList.add('drag');}
-function cvDragLeave(){document.getElementById('cv-drop').classList.remove('drag');}
-function cvDrop(e){e.preventDefault();document.getElementById('cv-drop').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)cvReadFile(f);}
-function cvFileIn(e){const f=e.target.files[0];if(f)cvReadFile(f);}
-function cvReadFile(f){const r=new FileReader();r.onload=(ev)=>{const t=ev.target.result;document.getElementById('cv-paste').value=t;document.getElementById('cv-cc').textContent=t.length+' chars';cvAnalyze();};r.readAsText(f);}
-
-function cvShowResults(text,dur){
-  document.getElementById('cv-rec-area').style.display='none';
+function cvShowResults(text,dur,restoredSession){
   document.getElementById('cv-up-area').classList.remove('vis');
   document.getElementById('cv-results').classList.add('vis');
-  const sn=document.getElementById('cv-sname').value.trim()||'Untitled Session';
-  const week=document.getElementById('cv-week').value;
+  const sn=restoredSession?restoredSession.name:(document.getElementById('cv-sname').value.trim()||'Untitled Session');
+  const week=restoredSession?restoredSession.week:document.getElementById('cv-week').value;
+  const meettype=restoredSession?restoredSession.meettype:(document.getElementById('cv-meettype').value||'1on1');
   const now=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
   const q=cvExtract(text,'q'),g=cvExtract(text,'g'),c=cvExtract(text,'c'),p=cvExtract(text,'p');
-  document.getElementById('cv-rq').textContent=q.length;document.getElementById('cv-rg').textContent=g.length;document.getElementById('cv-rc').textContent=c.length;document.getElementById('cv-rp').textContent=p.length;
-  document.getElementById('cv-tx').textContent=text.trim()||'(No speech detected)';
+  document.getElementById('cv-rq').textContent=q.length;
+  document.getElementById('cv-rg').textContent=g.length;
+  document.getElementById('cv-rc').textContent=c.length;
+  document.getElementById('cv-rp').textContent=p.length;
+  document.getElementById('cv-tx').textContent=text.trim()||'(No transcript)';
   document.getElementById('cv-res-title').textContent=sn;
-  document.getElementById('cv-res-meta').innerHTML=`Ended ${now}<br>Duration: ${dur}<br>Week ${week}`;
+  document.getElementById('cv-res-meta').innerHTML=`${restoredSession?restoredSession.date:('Analyzed '+now)}<br>Week ${week} · ${meettype==='1on1'?'1:1':'Team'}`;
   document.getElementById('cv-score-right').innerHTML=`${dur}<br>${sn}`;
   const bench=cvBench(week);
   const sc={q:Math.min(100,Math.round((q.length/bench.q)*100)),g:Math.min(100,Math.round((g.length/bench.g)*100)),c:Math.min(100,Math.round((c.length/bench.c)*100)),p:Math.min(100,Math.round((p.length/bench.p)*100))};
@@ -976,14 +1060,94 @@ function cvShowResults(text,dur){
   },150);
   const mp=document.getElementById('cv-matches');mp.innerHTML='';
   [{k:'q',l:'Questions',m:q},{k:'g',l:'Gratitude',m:g},{k:'c',l:'Commits',m:c},{k:'p',l:'Proactive',m:p}].forEach(md=>{if(!md.m.length)return;mp.innerHTML+=`<div class="cv-match-sec-lbl">${md.l}</div>`;md.m.slice(0,4).forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});});
-  if(!mp.innerHTML)mp.innerHTML='<div style="font-size:11px;color:var(--muted);padding:6px 0;">No skill phrases detected.</div>';
-  const ins=cvInsights(q.length,g.length,c.length,p.length,overall,bench);
+  if(!mp.innerHTML)mp.innerHTML='<div class="cv-empty">No skill phrases detected.</div>';
+
+  // Section 2: Question Intelligence
+  const lines=cvParseLines(text);
+  const questions=restoredSession&&restoredSession.questions?restoredSession.questions:cvAnalyzeQuestions(lines);
+  cvCurrentQuestions=questions;
+  const qList=document.getElementById('cv-qlist');
+  if(!questions.length){qList.innerHTML='<div class="cv-empty">No questions detected in this transcript.</div>';}
+  else{
+    const tagLabel={'answered-action':'Answered + Action','answered-no-action':'Answered','unanswered':'Unanswered'};
+    qList.innerHTML=questions.map((q2,i)=>`<div class="cv-qitem" id="cv-qi-${i}"><div class="cv-qitem-head" data-qi="${i}"><span class="cv-qitem-text">${q2.text.length>120?q2.text.substring(0,120)+'…':q2.text}</span><span class="cv-qtag ${q2.outcome}">${tagLabel[q2.outcome]}</span></div><div class="cv-qitem-body">${q2.text}<br><br><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${q2.isOpen?'Open question':'Closed question'}</span></div></div>`).join('');
+    document.getElementById('cv-qintel-meta').textContent=`${questions.length} question${questions.length!==1?'s':''}`;
+    // wire expand/collapse
+    qList.querySelectorAll('.cv-qitem-head').forEach(h=>{h.addEventListener('click',()=>{document.getElementById('cv-qi-'+h.dataset.qi).classList.toggle('open');});});
+  }
+  const openQs=questions.filter(q2=>q2.isOpen);
+  const closedQs=questions.filter(q2=>!q2.isOpen);
+  const totalQs=questions.length;
+  if(totalQs>0){
+    const openRatio=Math.round((openQs.length/totalQs)*100);
+    document.getElementById('cv-qratio').style.display='flex';
+    document.getElementById('cv-qratio-fill').style.width=openRatio+'%';
+    document.getElementById('cv-qratio-nums').textContent=`${openQs.length} open · ${closedQs.length} closed`;
+    setTimeout(()=>{document.getElementById('cv-qratio-fill').style.width=openRatio+'%';},50);
+  }
+
+  // Section 3: Unanswered Questions
+  const unanswered=questions.filter(q2=>q2.outcome==='unanswered');
+  document.getElementById('cv-uq-count').textContent=unanswered.length?`${unanswered.length} flagged`:'None';
+  const uqList=document.getElementById('cv-unanswered-list');
+  if(!unanswered.length){uqList.innerHTML='<div class="cv-empty">All questions received a response.</div>';}
+  else{
+    uqList.innerHTML=unanswered.map((q2,i)=>`<div class="cv-uq-item"><div class="cv-uq-text">${q2.text}</div><div class="cv-uq-btns"><button class="cv-uq-btn" data-uqi="${i}" data-action="add-action">+ Add to Action Items</button><button class="cv-uq-btn" data-uqi="${i}" data-action="add-agenda">Save as Next Session Agenda</button></div></div>`).join('');
+    uqList.querySelectorAll('[data-action]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const q2=unanswered[btn.dataset.uqi];
+        if(btn.dataset.action==='add-action'){cvAddActionItem('Follow up: '+q2.text);}
+        else{cvAddAgendaItem(q2.text);}
+        btn.textContent='✓ Added';btn.disabled=true;
+      });
+    });
+  }
+
+  // Section 4: Action Items
+  const actions=restoredSession&&restoredSession.actions?restoredSession.actions:cvExtractActionItems(lines);
+  cvCurrentActions=[...actions];
+  cvRenderActions();
+
+  // Section 5: Insights
+  const openRatioPct=totalQs>0?Math.round((openQs.length/totalQs)*100):0;
+  const ins=cvInsights(q.length,g.length,c.length,p.length,overall,bench,openRatioPct,totalQs);
   document.getElementById('cv-insights').innerHTML='<div class="cv-panel-title">Insights</div>'+ins.map(i=>`<div class="cv-insight-line"><span style="flex-shrink:0;">${i.e}</span><span>${i.t}</span></div>`).join('');
-  cvSaveHist({name:sn,week:parseInt(week),q:q.length,g:g.length,c:c.length,p:p.length,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})});
+
+  if(!restoredSession){
+    cvSaveHist({name:sn,week:parseInt(week),meettype,q:q.length,g:g.length,c:c.length,p:p.length,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),questions,actions});
+  }
   cvRenderHist();
 }
 
-function cvInsights(q,g,c,p,overall,bench){
+function cvAddActionItem(text){
+  if(cvCurrentActions.includes(text))return;
+  cvCurrentActions.push(text);
+  cvRenderActions();
+}
+
+function cvRenderActions(){
+  const el=document.getElementById('cv-actions-list');
+  if(!cvCurrentActions.length){el.innerHTML='<div class="cv-empty">No action items detected.</div>';return;}
+  el.innerHTML=cvCurrentActions.map((a,i)=>`<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><span class="cv-action-text">${a}</span></div>`).join('');
+}
+
+function cvAddAgendaItem(text){
+  if(cvAgendaItems.includes(text))return;
+  cvAgendaItems.push(text);
+  cvRenderAgenda();
+}
+
+function cvRenderAgenda(){
+  const sec=document.getElementById('cv-agenda-section');
+  const el=document.getElementById('cv-agenda-list');
+  if(!cvAgendaItems.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  document.getElementById('cv-agenda-count').textContent=`${cvAgendaItems.length} item${cvAgendaItems.length!==1?'s':''}`;
+  el.innerHTML=cvAgendaItems.map((a,i)=>`<div class="cv-agenda-item"><span class="cv-agenda-text">${a}</span><button class="cv-agenda-rm" data-ai="${i}">×</button></div>`).join('');
+  el.querySelectorAll('.cv-agenda-rm').forEach(btn=>{btn.addEventListener('click',()=>{cvAgendaItems.splice(btn.dataset.ai,1);cvRenderAgenda();});});
+}
+
+function cvInsights(q,g,c,p,overall,bench,openRatioPct,totalQs){
   const ins=[];
   if(q===0)ins.push({e:'❓',t:'No questions detected. Questions are the primary signal of active engagement. Try "How does that work?" or "What would be most useful here?"'});
   else if(q>=bench.q)ins.push({e:'💡',t:`${q} questions — met the week target of ${bench.q}. Strong curiosity throughout.`});
@@ -995,15 +1159,72 @@ function cvInsights(q,g,c,p,overall,bench){
   else ins.push({e:'✅',t:`${c} commitment(s). Each topic should end with a concrete next step and an owner.`});
   if(p===0)ins.push({e:'🚀',t:'No proactive help offered. Asking "What is getting in the way?" marks a shift from individual performance to shared accountability.'});
   else ins.push({e:'🚀',t:`${p} proactive check(s) for blockers or resources. This reflects a growing orientation toward collective success.`});
+  if(totalQs>0&&openRatioPct<50)ins.push({e:'🔍',t:`Closed questions made up more than half of all questions this session. Shifting toward open questions — what, how, tell me — tends to unlock richer responses and deeper reflection.`});
   return ins;
 }
 
 function cvSaveHist(session){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');h.unshift(session);localStorage.setItem('curio-hist',JSON.stringify(h.slice(0,20)));}catch(e){}}
-function cvRenderHist(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');if(!h.length)return;document.getElementById('cv-hist-wrap').style.display='block';document.getElementById('cv-hist-row').innerHTML=h.map(s=>`<div class="cv-hist-chip"><div class="cv-hist-name">${s.name}</div><div class="cv-hist-date">${s.date} · Wk ${s.week}</div><div class="cv-hist-nums"><span class="cv-hn q">${s.q}</span><span class="cv-hn g">${s.g}</span><span class="cv-hn c">${s.c}</span><span class="cv-hn p">${s.p}</span><span class="cv-hs">${s.overall}/100</span></div></div>`).join('');}catch(e){}}
+
+function cvRenderHist(){
+  try{
+    const all=JSON.parse(localStorage.getItem('curio-hist')||'[]');
+    if(!all.length){document.getElementById('cv-hist-wrap').style.display='none';return;}
+    document.getElementById('cv-hist-wrap').style.display='block';
+    const filtered=cvCurrentFilter==='all'?all:all.filter(s=>s.meettype===cvCurrentFilter);
+    const row=document.getElementById('cv-hist-row');
+    row.innerHTML=filtered.map((s,i)=>`<div class="cv-hist-chip" data-hi="${i}" data-meettype="${s.meettype||'1on1'}"><div class="cv-hist-name">${s.name}</div><div class="cv-hist-date">${s.date} · Wk ${s.week}${s.meettype?' · '+(s.meettype==='1on1'?'1:1':'Team'):''}</div><div class="cv-hist-nums"><span class="cv-hn q">${s.q}</span><span class="cv-hn g">${s.g}</span><span class="cv-hn c">${s.c}</span><span class="cv-hn p">${s.p}</span><span class="cv-hs">${s.overall}/100</span></div></div>`).join('');
+    // wire chip clicks
+    row.querySelectorAll('.cv-hist-chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        const s=filtered[chip.dataset.hi];
+        const fakeText=s.questions?s.questions.map(q=>`${q.text}${q.outcome==='unanswered'?'':' Yes.'}`).join('\n'):'';
+        cvShowResults(fakeText,'—',s);
+        window.scrollTo({top:0,behavior:'smooth'});
+      });
+    });
+    // trend view — last 5 from filtered
+    const trend5=filtered.slice(0,5).reverse();
+    const trendEl=document.getElementById('cv-trend');
+    trendEl.innerHTML='';
+    if(trend5.length>1){
+      trendEl.style.display='grid';
+      const maxes={q:Math.max(...trend5.map(s=>s.q),1),g:Math.max(...trend5.map(s=>s.g),1),c:Math.max(...trend5.map(s=>s.c),1),p:Math.max(...trend5.map(s=>s.p),1)};
+      ['q','g','c','p'].forEach(k=>{
+        const labels={q:'Questions',g:'Gratitude',c:'Commits',p:'Proactive'};
+        const bars=trend5.map(s=>`<div class="cv-trend-bar ${k}" style="height:${Math.max(4,Math.round((s[k]/maxes[k])*40))}px;" title="Wk ${s.week}: ${s[k]}"></div>`).join('');
+        trendEl.innerHTML+=`<div class="cv-trend-col"><div class="cv-trend-label">${labels[k]}</div><div class="cv-trend-bars">${bars}</div></div>`;
+      });
+    } else {trendEl.style.display='none';}
+  }catch(e){}
+}
+
 window.cvClearHist = function(){localStorage.removeItem('curio-hist');document.getElementById('cv-hist-wrap').style.display='none';}
-window.cvDownload = function(){const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='curio-report.txt';a.click();}
-window.cvReset = function(){cvText='';cvRec=false;if(cvRecog)cvRecog.stop();clearInterval(cvTimerInt);cvSecs=0;document.getElementById('cv-results').classList.remove('vis');document.getElementById('cv-timer').classList.remove('vis');document.getElementById('cv-ticker').classList.remove('vis');document.getElementById('cv-lkpis').classList.remove('vis');document.getElementById('cv-btn').classList.remove('recording');document.getElementById('cv-icon').textContent='🎙';document.getElementById('cv-lbl').textContent='Record';document.getElementById('cv-status').textContent='Tap to begin';document.getElementById('cv-timer').textContent='00:00';document.getElementById('cv-paste').value='';document.getElementById('cv-cc').textContent='0 chars';['q','g','c','p'].forEach(k=>{document.getElementById('cv-l'+k).textContent='0';});cvMode('record');cvRenderHist();}
-function cvSpkToggle(){}
+
+window.cvDownload = function(){
+  const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nACTION ITEMS\n${cvCurrentActions.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None detected'}\n\nNEXT SESSION AGENDA\n${cvAgendaItems.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None saved'}\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;
+  const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='curio-report.txt';a.click();
+}
+
+function cvDownloadActions(){
+  if(!cvCurrentActions.length)return;
+  const t=`ACTION ITEMS — ${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\n${cvCurrentActions.map((a,i)=>`${i+1}. ${a}`).join('\n')}`;
+  const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='action-items.txt';a.click();
+}
+
+window.cvReset = function(){
+  cvCurrentActions=[];cvAgendaItems=[];cvCurrentQuestions=[];
+  document.getElementById('cv-results').classList.remove('vis');
+  document.getElementById('cv-up-area').classList.add('vis');
+  document.getElementById('cv-paste').value='';
+  document.getElementById('cv-cc').textContent='0 chars';
+  document.getElementById('cv-agenda-section').style.display='none';
+  cvRenderHist();
+}
+
+function cvDragOver(e){e.preventDefault();document.getElementById('cv-drop').classList.add('drag');}
+function cvDragLeave(){document.getElementById('cv-drop').classList.remove('drag');}
+function cvDrop(e){e.preventDefault();document.getElementById('cv-drop').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)cvReadFile(f);}
+function cvReadFile(f){const r=new FileReader();r.onload=(ev)=>{const t=ev.target.result;document.getElementById('cv-paste').value=t;document.getElementById('cv-cc').textContent=t.length+' chars';const sn=document.getElementById('cv-sname');if(!sn.value)sn.value=f.name.replace(/\.[^.]+$/,'');};r.readAsText(f);}
 
 // ══════════════════════════
 // SYMBIO TOOL
@@ -1268,6 +1489,34 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.sb-row-btn').forEach(function(btn) {
     btn.addEventListener('click', function() { btn.closest('.sb-row').remove(); });
   });
+
+  // Curio buttons
+  var cvDrop2=document.getElementById('cv-drop');
+  if(cvDrop2){cvDrop2.addEventListener('dragover',cvDragOver);cvDrop2.addEventListener('dragleave',cvDragLeave);cvDrop2.addEventListener('drop',cvDrop);}
+  var cvFileIn2=document.getElementById('cv-file-input');
+  if(cvFileIn2)cvFileIn2.addEventListener('change',function(e){var f=e.target.files[0];if(f)cvReadFile(f);});
+  var cvPaste=document.getElementById('cv-paste');
+  if(cvPaste)cvPaste.addEventListener('input',function(){document.getElementById('cv-cc').textContent=this.value.length+' chars';});
+  var cvAnBtn=document.getElementById('cv-analyze-btn');
+  if(cvAnBtn)cvAnBtn.addEventListener('click',function(){var t=document.getElementById('cv-paste').value.trim();if(!t)return;cvShowResults(t,'—',null);});
+  var cvDlBtn=document.getElementById('cv-dl-btn');
+  if(cvDlBtn)cvDlBtn.addEventListener('click',cvDownload);
+  var cvDlActBtn=document.getElementById('cv-dl-actions-btn');
+  if(cvDlActBtn)cvDlActBtn.addEventListener('click',cvDownloadActions);
+  var cvRstBtn=document.getElementById('cv-reset-btn');
+  if(cvRstBtn)cvRstBtn.addEventListener('click',cvReset);
+  var cvBackBtn=document.getElementById('cv-back-btn');
+  if(cvBackBtn)cvBackBtn.addEventListener('click',function(){go('tools');});
+  var cvHfAll=document.getElementById('cv-hf-all');
+  var cvHf1on1=document.getElementById('cv-hf-1on1');
+  var cvHfTeam=document.getElementById('cv-hf-team');
+  function setFilter(f){cvCurrentFilter=f;[cvHfAll,cvHf1on1,cvHfTeam].forEach(b=>{if(b)b.classList.remove('on');});if(f==='all'&&cvHfAll)cvHfAll.classList.add('on');else if(f==='1on1'&&cvHf1on1)cvHf1on1.classList.add('on');else if(cvHfTeam)cvHfTeam.classList.add('on');cvRenderHist();}
+  if(cvHfAll)cvHfAll.addEventListener('click',function(){setFilter('all');});
+  if(cvHf1on1)cvHf1on1.addEventListener('click',function(){setFilter('1on1');});
+  if(cvHfTeam)cvHfTeam.addEventListener('click',function(){setFilter('team');});
+  var cvHfClr=document.getElementById('cv-hist-clear-btn');
+  if(cvHfClr)cvHfClr.addEventListener('click',cvClearHist);
+  cvRenderHist();
 });
 </script>
 </body>
