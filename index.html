@@ -155,7 +155,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-tab.on{background:var(--ink);color:var(--white);}
 
 /* setup bar */
-.cv-setup{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;}
+.cv-setup{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end;}
 .cv-field label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
 .cv-field input,.cv-field select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:'Jost',sans-serif;font-size:13px;color:var(--ink);outline:none;}
 .cv-field input:focus,.cv-field select:focus{border-color:var(--accent);}
@@ -211,13 +211,13 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-transcript-box{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:20px;max-height:110px;overflow-y:auto;}
 .cv-transcript-text{font-size:11px;color:var(--muted);line-height:1.8;white-space:pre-wrap;}
 
-.cv-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:20px;}
+.cv-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:20px;}
 .cv-kpi{background:var(--white);padding:20px 16px;position:relative;}
 .cv-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.cv-kpi.q::before{background:#e63946}.cv-kpi.g::before{background:#2a9d8f}.cv-kpi.c::before{background:#e76f51}.cv-kpi.p::before{background:var(--accent)}
+.cv-kpi.q::before{background:#e63946}.cv-kpi.g::before{background:#2a9d8f}.cv-kpi.c::before{background:#e76f51}.cv-kpi.p::before{background:var(--accent)}.cv-kpi.b::before{background:#7c5cbf}
 .cv-kpi-cat{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
 .cv-kpi-num{font-family:'IBM Plex Mono',monospace;font-size:48px;line-height:1;font-weight:500;margin-bottom:3px;}
-.cv-kpi.q .cv-kpi-num{color:#e63946}.cv-kpi.g .cv-kpi-num{color:#2a9d8f}.cv-kpi.c .cv-kpi-num{color:#e76f51}.cv-kpi.p .cv-kpi-num{color:var(--accent)}
+.cv-kpi.q .cv-kpi-num{color:#e63946}.cv-kpi.g .cv-kpi-num{color:#2a9d8f}.cv-kpi.c .cv-kpi-num{color:#e76f51}.cv-kpi.p .cv-kpi-num{color:var(--accent)}.cv-kpi.b .cv-kpi-num{color:#7c5cbf}
 .cv-kpi-desc{font-size:10px;color:var(--muted);line-height:1.5;}
 
 .cv-score-strip{background:var(--ink);color:var(--white);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;border-radius:4px;}
@@ -230,11 +230,11 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 
 .cv-bench{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:20px;}
 .cv-bench-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:11px;}
-.cv-bench-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.cv-bench-bars{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
 .cv-bench-lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
 .cv-bench-track{height:5px;background:var(--border);position:relative;border-radius:3px;margin-bottom:3px;}
 .cv-bench-fill{position:absolute;top:0;left:0;bottom:0;transition:width 1s cubic-bezier(.25,1,.5,1);border-radius:3px;}
-.cv-bench-fill.q{background:#e63946}.cv-bench-fill.g{background:#2a9d8f}.cv-bench-fill.c{background:#e76f51}.cv-bench-fill.p{background:var(--accent)}
+.cv-bench-fill.q{background:#e63946}.cv-bench-fill.g{background:#2a9d8f}.cv-bench-fill.c{background:#e76f51}.cv-bench-fill.p{background:var(--accent)}.cv-bench-fill.b{background:#7c5cbf}
 .cv-bench-marker{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:0.2;border-radius:2px;}
 .cv-bench-nums{font-size:10px;color:var(--muted);}
 
@@ -245,7 +245,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-bar-name{width:76px;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
 .cv-bar-track{flex:1;height:5px;background:var(--border);position:relative;border-radius:3px;}
 .cv-bar-fill{position:absolute;top:0;left:0;bottom:0;width:0%;transition:width 1s cubic-bezier(.25,1,.5,1);border-radius:3px;}
-.cv-bar-fill.q{background:#e63946}.cv-bar-fill.g{background:#2a9d8f}.cv-bar-fill.c{background:#e76f51}.cv-bar-fill.p{background:var(--accent)}
+.cv-bar-fill.q{background:#e63946}.cv-bar-fill.g{background:#2a9d8f}.cv-bar-fill.c{background:#e76f51}.cv-bar-fill.p{background:var(--accent)}.cv-bar-fill.b{background:#7c5cbf}
 .cv-bar-pct{width:26px;font-size:10px;text-align:right;color:var(--muted);flex-shrink:0;}
 .cv-match-sec-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:8px 0 3px;}
 .cv-match-tag{display:inline-block;border:1px solid var(--border);padding:2px 7px;font-size:10px;margin:2px;border-radius:3px;color:var(--muted);}
@@ -303,6 +303,15 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-agenda-rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:0;flex-shrink:0;transition:color 0.15s;}
 .cv-agenda-rm:hover{color:#e63946;}
 .cv-empty{font-size:12px;color:var(--muted);font-style:italic;padding:6px 0;}
+.cv-ft-tag{font-size:10px;font-weight:600;letter-spacing:0.5px;padding:2px 7px;border-radius:10px;margin-left:8px;flex-shrink:0;}
+.cv-ft-tag.followed{background:#e6f4ea;color:#2a6e3f;}
+.cv-ft-tag.pending{background:#fff8e6;color:#8a6a00;}
+.cv-qf-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.cv-qf-btn{font-size:11px;padding:4px 10px;border-radius:12px;border:1px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.15s;}
+.cv-qf-btn.on{background:var(--ink);color:var(--white);border-color:var(--ink);}
+.cv-qf-btn:hover:not(.on){background:var(--bg);}
+.cv-curiosity-ratio{margin-top:12px;font-size:12px;color:var(--muted);padding:9px 14px;background:var(--bg);border-radius:6px;border:1px solid var(--border);}
+.cv-curiosity-ratio strong{color:var(--ink);}
 .cv-hf-btns{display:flex;gap:4px;}
 .cv-hf-btn{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.15s;}
 .cv-hf-btn.on{background:var(--ink);color:var(--white);border-color:var(--ink);}
@@ -311,9 +320,9 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-trend-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
 .cv-trend-bars{display:flex;align-items:flex-end;gap:3px;height:40px;}
 .cv-trend-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;transition:height 0.5s;}
-.cv-trend-bar.q{background:#e63946;}.cv-trend-bar.g{background:#2a9d8f;}.cv-trend-bar.c{background:#e76f51;}.cv-trend-bar.p{background:var(--accent);}
+.cv-trend-bar.q{background:#e63946;}.cv-trend-bar.g{background:#2a9d8f;}.cv-trend-bar.c{background:#e76f51;}.cv-trend-bar.p{background:var(--accent);}.cv-trend-bar.b{background:#7c5cbf;}
 .cv-hn{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:500;}
-.cv-hn.q{color:#e63946}.cv-hn.g{color:#2a9d8f}.cv-hn.c{color:#e76f51}.cv-hn.p{color:var(--accent)}
+.cv-hn.q{color:#e63946}.cv-hn.g{color:#2a9d8f}.cv-hn.c{color:#e76f51}.cv-hn.p{color:var(--accent)}.cv-hn.b{color:#7c5cbf}
 .cv-hs{font-size:9px;color:var(--muted);margin-left:auto;}
 
 /* ════════════════════════
@@ -589,13 +598,7 @@ window.go = go;
             <option value="team">Team</option>
           </select>
         </div>
-        <div class="cv-field"><label>Growth Week (1–8)</label>
-          <select id="cv-week">
-            <option value="1">Week 1</option><option value="2">Week 2</option><option value="3">Week 3</option>
-            <option value="4">Week 4</option><option value="5">Week 5</option><option value="6">Week 6</option>
-            <option value="7">Week 7</option><option value="8">Week 8</option>
-          </select>
-        </div>
+
       </div>
 
       <!-- Upload / Paste area — always visible until analysis -->
@@ -631,6 +634,7 @@ window.go = go;
           <div class="cv-kpi g"><div class="cv-kpi-cat">Gratitude</div><div class="cv-kpi-num" id="cv-rg">0</div><div class="cv-kpi-desc">Respect &amp; appreciation</div></div>
           <div class="cv-kpi c"><div class="cv-kpi-cat">Commitments</div><div class="cv-kpi-num" id="cv-rc">0</div><div class="cv-kpi-desc">Ownership &amp; follow-through</div></div>
           <div class="cv-kpi p"><div class="cv-kpi-cat">Proactive Help</div><div class="cv-kpi-num" id="cv-rp">0</div><div class="cv-kpi-desc">Blocker &amp; resource checks</div></div>
+          <div class="cv-kpi b"><div class="cv-kpi-cat">Building</div><div class="cv-kpi-num" id="cv-rb">0</div><div class="cv-kpi-desc">Deepening questions</div></div>
         </div>
         <div class="cv-score-strip">
           <div class="cv-score-left"><div class="cv-score-num" id="cv-score">—</div><div class="cv-score-out">/ 100</div></div>
@@ -638,12 +642,13 @@ window.go = go;
           <div class="cv-score-right" id="cv-score-right"></div>
         </div>
         <div class="cv-bench">
-          <div class="cv-bench-title">Counts vs Week Target — <span id="cv-bwk"></span></div>
+          <div class="cv-bench-title">Counts vs Session Target — <span id="cv-bwk"></span></div>
           <div class="cv-bench-bars">
             <div><div class="cv-bench-lbl">Questions</div><div class="cv-bench-track"><div class="cv-bench-fill q" id="cv-bq"></div><div class="cv-bench-marker" id="cv-bmq"></div></div><div class="cv-bench-nums"><span id="cv-bqv">0</span> / <span id="cv-bqt">0</span></div></div>
             <div><div class="cv-bench-lbl">Gratitude</div><div class="cv-bench-track"><div class="cv-bench-fill g" id="cv-bg"></div><div class="cv-bench-marker" id="cv-bmg"></div></div><div class="cv-bench-nums"><span id="cv-bgv">0</span> / <span id="cv-bgt">0</span></div></div>
             <div><div class="cv-bench-lbl">Commits</div><div class="cv-bench-track"><div class="cv-bench-fill c" id="cv-bc"></div><div class="cv-bench-marker" id="cv-bmc"></div></div><div class="cv-bench-nums"><span id="cv-bcv">0</span> / <span id="cv-bct">0</span></div></div>
             <div><div class="cv-bench-lbl">Proactive</div><div class="cv-bench-track"><div class="cv-bench-fill p" id="cv-bp"></div><div class="cv-bench-marker" id="cv-bmp"></div></div><div class="cv-bench-nums"><span id="cv-bpv">0</span> / <span id="cv-bpt">0</span></div></div>
+            <div><div class="cv-bench-lbl">Building</div><div class="cv-bench-track"><div class="cv-bench-fill b" id="cv-bb"></div><div class="cv-bench-marker" id="cv-bmb"></div></div><div class="cv-bench-nums"><span id="cv-bbv">0</span> / <span id="cv-bbt">0</span></div></div>
           </div>
         </div>
         <div class="cv-bottom">
@@ -653,6 +658,7 @@ window.go = go;
             <div class="cv-bar-item"><div class="cv-bar-name">Gratitude</div><div class="cv-bar-track"><div class="cv-bar-fill g" id="cv-br-g"></div></div><div class="cv-bar-pct" id="cv-br-gv">—</div></div>
             <div class="cv-bar-item"><div class="cv-bar-name">Commits</div><div class="cv-bar-track"><div class="cv-bar-fill c" id="cv-br-c"></div></div><div class="cv-bar-pct" id="cv-br-cv">—</div></div>
             <div class="cv-bar-item"><div class="cv-bar-name">Proactive</div><div class="cv-bar-track"><div class="cv-bar-fill p" id="cv-br-p"></div></div><div class="cv-bar-pct" id="cv-br-pv">—</div></div>
+            <div class="cv-bar-item"><div class="cv-bar-name">Building</div><div class="cv-bar-track"><div class="cv-bar-fill b" id="cv-br-b"></div></div><div class="cv-bar-pct" id="cv-br-bv">—</div></div>
           </div>
           <div class="cv-panel">
             <div class="cv-panel-title">Detected Phrases</div>
@@ -666,7 +672,16 @@ window.go = go;
             <div class="cv-section-title">Question Intelligence</div>
             <div class="cv-section-sub" id="cv-qintel-meta"></div>
           </div>
+          <div class="cv-qf-bar" id="cv-qf-bar" style="display:none;">
+            <button class="cv-qf-btn on" data-qf="all">All</button>
+            <button class="cv-qf-btn" data-qf="high-value">High Value</button>
+            <button class="cv-qf-btn" data-qf="building">Building</button>
+            <button class="cv-qf-btn" data-qf="unanswered">Unanswered</button>
+            <button class="cv-qf-btn" data-qf="curious">Curious</button>
+            <button class="cv-qf-btn" data-qf="transactional">Transactional</button>
+          </div>
           <div id="cv-qlist"></div>
+          <div class="cv-curiosity-ratio" id="cv-curiosity-ratio" style="display:none;"></div>
           <div class="cv-qratio" id="cv-qratio" style="display:none;">
             <span class="cv-qratio-label">Open</span>
             <div class="cv-qratio-bar"><div class="cv-qratio-fill" id="cv-qratio-fill"></div></div>
@@ -965,18 +980,19 @@ window.go = function(id) {
 // CURIO TOOL
 // ══════════════════════════
 const CV_PAT = {
-  q:[/\b(who|what|where|when|why|how)\b[^.!?\n]*\?/gi,/\b(can you|could you|do you|is there|are there|will you|have you|did you|should i|should we)\b[^.!?\n]*\?/gi,/\b(tell me|explain|clarify|walk me through|help me understand)\b[^.!?\n]*/gi,/[^.!?\n]{4,}\?/g],
   g:[/\b(thank you|thanks|thank you so much|many thanks)\b/gi,/\b(i appreciate|i'm grateful|appreciate that|appreciate your)\b/gi,/\b(please|kindly)\b/gi,/\b(that's (really |very |so )?(helpful|great|perfect|wonderful|amazing|fantastic|excellent))\b/gi,/\b(good (point|call|idea|thinking|catch|question))\b/gi],
   c:[/\b(i will|i'll|i commit|i promise|i agree|i can do that|i'll make sure)\b/gi,/\b(got it|understood|absolutely|count on me|on it|will do|sounds good)\b/gi,/\b(by (monday|tuesday|wednesday|thursday|friday|tomorrow|next week|end of (day|week)))\b/gi,/\b(i'll (send|have|deliver|complete|finish|get|share|update|follow up|circle back))\b/gi],
   p:[/\b(what (do you need|help do you need|can i (do|help with)))\b/gi,/\b(what's (going to get in the way|blocking you|the blocker))\b/gi,/\b(is there anything (i can|we can) (help|support|assist))\b/gi,/\b(how can i (help|support|assist))\b/gi,/\b(let me know if you need|here if you need)\b/gi,/\b(any (blockers|obstacles|challenges) (i should know about))\b/gi]
 };
 
+const CV_BUILD_PAT=/\b(and what else|tell me more|what is underneath that|what would that look like|say more about that|what do you mean by|can you say more|what else is there|and how does that|what makes that)\b/i;
 function cvExtract(text, k) {
   const found = new Set();
   for (const p of CV_PAT[k]) { const r=new RegExp(p.source,p.flags); let m; while((m=r.exec(text))!==null){const c=m[0].trim().replace(/\s+/g,' ');if(c.length>3)found.add(c.toLowerCase());} }
   return [...found];
 }
-function cvBench(w){const wk=Math.min(parseInt(w)||1,8);return{q:Math.round(3+wk*0.625),g:Math.round(2+wk*0.375),c:Math.round(1+wk*0.375),p:Math.round(1+wk*0.25)};}
+function cvBench(s){const sn=Math.min(parseInt(s)||1,8);return{q:Math.round(3+sn*0.625),b:Math.round(1+sn*0.25),g:Math.round(2+sn*0.375),c:Math.round(1+sn*0.375),p:Math.round(1+sn*0.25)};}
+function cvGetSessionNum(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');return Math.min(h.length+1,8);}catch(e){return 1;}}
 function cvFmt(s){return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
 
 let cvCurrentFilter='all';
@@ -991,23 +1007,41 @@ function cvParseLines(text){
   });
 }
 
+function cvIsHighValue(text){
+  const words=text.trim().split(/\s+/);
+  if(words.length<=6)return false;
+  const lower=text.toLowerCase();
+  if(/does that make sense|does that sound good|(^|\s)make sense\??$|(^|\s)sound good\??$/.test(lower))return false;
+  if(/^\s*(right|yeah|okay|you know)\??\s*$/.test(lower))return false;
+  if(/are you free|are you available|can we meet|when works|what time|which day|does thursday|does friday/.test(lower))return false;
+  if(words.length<8&&/^(did you|have you|is it|are you|will you|do you)\b/i.test(text.trim()))return false;
+  return true;
+}
+function cvQType(text){
+  const lower=text.toLowerCase();
+  if(CV_BUILD_PAT.test(lower))return 'building';
+  const txPat=/what time|when is|who is responsible|what is the status|what is the update|have you sent|did you send/;
+  if(txPat.test(lower))return 'transactional';
+  const cuPat=/\b(what|how|why|tell me|help me understand|what if|what else|what would|what got|what is getting|what are you noticing|what does that mean)\b/;
+  if(cuPat.test(lower))return 'curious';
+  return 'other';
+}
 function cvAnalyzeQuestions(lines){
   const questions=[];
   const openPat=/\b(what|how|tell me|help me understand|what if|what else)\b/i;
-  const closedPat=/\b(did you|is it|are you|have you|will you)\b/i;
   const responsePat=/\b(yes|no|i think|well|because|so|the reason|actually|right|sure|of course|that's|we|i)\b/i;
   const commitPat=/\b(i will|i'll|will do|i'll send|i'll follow up|i'll circle back|by (monday|tuesday|wednesday|thursday|friday|end of (day|week)))\b/i;
-
   lines.forEach((line,i)=>{
     const t=line.text;
-    if(!t.includes('?')&&!openPat.test(t))return;
+    if(!t.includes('?')&&!openPat.test(t)&&!CV_BUILD_PAT.test(t))return;
     const qTexts=[];
     if(t.includes('?')){
       (t.match(/[^.!]*\?/g)||[]).forEach(p=>{if(p.trim().length>5)qTexts.push(p.trim());});
-    } else if(openPat.test(t)&&t.length>10){
+    } else if((openPat.test(t)||CV_BUILD_PAT.test(t))&&t.length>10){
       qTexts.push(t);
     }
     qTexts.forEach(qText=>{
+      if(!cvIsHighValue(qText))return;
       const next3=lines.slice(i+1,i+4).map(l=>l.text).join(' ');
       const next5=lines.slice(i+1,i+6).map(l=>l.text).join(' ');
       const sameSpkFollowUp=lines.slice(i+1,i+4).some(l=>l.speaker&&l.speaker===line.speaker&&l.text.includes('?'));
@@ -1017,8 +1051,9 @@ function cvAnalyzeQuestions(lines){
       if(!hasResponse&&!hasCommit&&!sameSpkFollowUp){outcome='unanswered';}
       else if(hasCommit){outcome='answered-action';}
       else{outcome='answered-no-action';}
-      const isOpen=openPat.test(qText);
-      questions.push({text:qText,outcome,isOpen});
+      const type=cvQType(qText);
+      const isOpen=/^(building|curious)$/.test(type)||/\b(what|how|why|tell me)\b/i.test(qText);
+      questions.push({text:qText,outcome,type,isOpen});
     });
   });
   return questions;
@@ -1026,54 +1061,89 @@ function cvAnalyzeQuestions(lines){
 
 function cvExtractActionItems(lines){
   const actionPat=/\b(i will|i'll|i commit|by (monday|tuesday|wednesday|thursday|friday|tomorrow|end of (day|week))|will do|i'll send|i'll follow up|i'll circle back)\b/i;
+  const ftPat=/\b(i did|i sent|i finished|i completed|following up on|as i said i would|i wanted to follow up|i got that done|update on|quick update)\b/i;
   const seen=new Set();
-  return lines.map(l=>l.text).filter(t=>actionPat.test(t)).map(t=>t.replace(/^[^:]+:\s*/,'').trim()).filter(t=>{if(t.length<10||seen.has(t))return false;seen.add(t);return true;});
+  return lines.map((l,i)=>({text:l.text,idx:i})).filter(({text})=>actionPat.test(text)).map(({text,idx})=>{
+    const clean=text.replace(/^[^:]+:\s*/,'').trim();
+    if(clean.length<10||seen.has(clean))return null;
+    seen.add(clean);
+    const nearby=lines.slice(Math.max(0,idx-10),idx+11).map(l=>l.text).join(' ');
+    const followed=ftPat.test(nearby);
+    return{text:clean,followed};
+  }).filter(Boolean);
 }
 
 function cvShowResults(text,dur,restoredSession){
   document.getElementById('cv-up-area').classList.remove('vis');
   document.getElementById('cv-results').classList.add('vis');
   const sn=restoredSession?restoredSession.name:(document.getElementById('cv-sname').value.trim()||'Untitled Session');
-  const week=restoredSession?restoredSession.week:document.getElementById('cv-week').value;
+  const session=restoredSession?(restoredSession.session||restoredSession.week||1):cvGetSessionNum();
   const meettype=restoredSession?restoredSession.meettype:(document.getElementById('cv-meettype').value||'1on1');
   const now=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  const q=cvExtract(text,'q'),g=cvExtract(text,'g'),c=cvExtract(text,'c'),p=cvExtract(text,'p');
-  document.getElementById('cv-rq').textContent=q.length;
+  const lines=cvParseLines(text);
+  const questions=restoredSession&&restoredSession.questions?restoredSession.questions:cvAnalyzeQuestions(lines);
+  cvCurrentQuestions=questions;
+  const bldQs=questions.filter(q2=>q2.type==='building');
+  const g=cvExtract(text,'g'),cc=cvExtract(text,'c'),p=cvExtract(text,'p');
+  document.getElementById('cv-rq').textContent=questions.length;
+  document.getElementById('cv-rb').textContent=bldQs.length;
   document.getElementById('cv-rg').textContent=g.length;
-  document.getElementById('cv-rc').textContent=c.length;
+  document.getElementById('cv-rc').textContent=cc.length;
   document.getElementById('cv-rp').textContent=p.length;
   document.getElementById('cv-tx').textContent=text.trim()||'(No transcript)';
   document.getElementById('cv-res-title').textContent=sn;
-  document.getElementById('cv-res-meta').innerHTML=`${restoredSession?restoredSession.date:('Analyzed '+now)}<br>Week ${week} · ${meettype==='1on1'?'1:1':'Team'}`;
+  document.getElementById('cv-res-meta').innerHTML=`${restoredSession?restoredSession.date:('Analyzed '+now)}<br>Session ${session} · ${meettype==='1on1'?'1:1':'Team'}`;
   document.getElementById('cv-score-right').innerHTML=`${dur}<br>${sn}`;
-  const bench=cvBench(week);
-  const sc={q:Math.min(100,Math.round((q.length/bench.q)*100)),g:Math.min(100,Math.round((g.length/bench.g)*100)),c:Math.min(100,Math.round((c.length/bench.c)*100)),p:Math.min(100,Math.round((p.length/bench.p)*100))};
-  const overall=Math.round((sc.q+sc.g+sc.c+sc.p)/4);
+  const bench=cvBench(session);
+  const sc={q:Math.min(100,Math.round((questions.length/bench.q)*100)),b:Math.min(100,Math.round((bldQs.length/bench.b)*100)),g:Math.min(100,Math.round((g.length/bench.g)*100)),c:Math.min(100,Math.round((cc.length/bench.c)*100)),p:Math.min(100,Math.round((p.length/bench.p)*100))};
+  const overall=Math.round((sc.q+sc.b+sc.g+sc.c+sc.p)/5);
   document.getElementById('cv-score').textContent=overall;
   let gr,gc;if(overall>=75){gr='Excellent';gc='excellent';}else if(overall>=50){gr='Good';gc='good';}else if(overall>=25){gr='Developing';gc='developing';}else{gr='Needs Work';gc='needs-work';}
   const ge=document.getElementById('cv-grade');ge.textContent=gr;ge.className='cv-grade '+gc;
   setTimeout(()=>{
-    ['q','g','c','p'].forEach(k=>{document.getElementById('cv-br-'+k).style.width=sc[k]+'%';document.getElementById('cv-br-'+k+'v').textContent=sc[k];});
-    document.getElementById('cv-bwk').textContent='Week '+week;
-    const bm={q:[q.length,bench.q],g:[g.length,bench.g],c:[c.length,bench.c],p:[p.length,bench.p]};
+    ['q','b','g','c','p'].forEach(k=>{document.getElementById('cv-br-'+k).style.width=sc[k]+'%';document.getElementById('cv-br-'+k+'v').textContent=sc[k];});
+    document.getElementById('cv-bwk').textContent='Session '+session;
+    const bm={q:[questions.length,bench.q],b:[bldQs.length,bench.b],g:[g.length,bench.g],c:[cc.length,bench.c],p:[p.length,bench.p]};
     for(const[k,[a,t2]]of Object.entries(bm)){const mx=Math.max(a,t2,1);document.getElementById('cv-b'+k).style.width=Math.min(100,(a/mx)*100)+'%';document.getElementById('cv-bm'+k).style.left=Math.min(98,(t2/mx)*100)+'%';document.getElementById('cv-b'+k+'v').textContent=a;document.getElementById('cv-b'+k+'t').textContent=t2;}
   },150);
   const mp=document.getElementById('cv-matches');mp.innerHTML='';
-  [{k:'q',l:'Questions',m:q},{k:'g',l:'Gratitude',m:g},{k:'c',l:'Commits',m:c},{k:'p',l:'Proactive',m:p}].forEach(md=>{if(!md.m.length)return;mp.innerHTML+=`<div class="cv-match-sec-lbl">${md.l}</div>`;md.m.slice(0,4).forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});});
+  [{k:'g',l:'Gratitude',m:g},{k:'c',l:'Commits',m:cc},{k:'p',l:'Proactive',m:p}].forEach(md=>{if(!md.m.length)return;mp.innerHTML+=`<div class="cv-match-sec-lbl">${md.l}</div>`;md.m.slice(0,4).forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});});
   if(!mp.innerHTML)mp.innerHTML='<div class="cv-empty">No skill phrases detected.</div>';
 
   // Section 2: Question Intelligence
-  const lines=cvParseLines(text);
-  const questions=restoredSession&&restoredSession.questions?restoredSession.questions:cvAnalyzeQuestions(lines);
-  cvCurrentQuestions=questions;
-  const qList=document.getElementById('cv-qlist');
-  if(!questions.length){qList.innerHTML='<div class="cv-empty">No questions detected in this transcript.</div>';}
-  else{
+  let cvQFilter='all';
+  function cvRenderQList(){
+    const qfBar=document.getElementById('cv-qf-bar');
+    const qList=document.getElementById('cv-qlist');
+    let filtered=questions;
+    if(cvQFilter==='high-value')filtered=questions.filter(q2=>q2.type!=='transactional');
+    else if(cvQFilter==='building')filtered=questions.filter(q2=>q2.type==='building');
+    else if(cvQFilter==='unanswered')filtered=questions.filter(q2=>q2.outcome==='unanswered');
+    else if(cvQFilter==='curious')filtered=questions.filter(q2=>q2.type==='curious');
+    else if(cvQFilter==='transactional')filtered=questions.filter(q2=>q2.type==='transactional');
+    if(!filtered.length){qList.innerHTML='<div class="cv-empty">No questions match this filter.</div>';document.getElementById('cv-qintel-meta').textContent=cvQFilter!=='all'?'0 matching':'';return;}
     const tagLabel={'answered-action':'Answered + Action','answered-no-action':'Answered','unanswered':'Unanswered'};
-    qList.innerHTML=questions.map((q2,i)=>`<div class="cv-qitem" id="cv-qi-${i}"><div class="cv-qitem-head" data-qi="${i}"><span class="cv-qitem-text">${q2.text.length>120?q2.text.substring(0,120)+'…':q2.text}</span><span class="cv-qtag ${q2.outcome}">${tagLabel[q2.outcome]}</span></div><div class="cv-qitem-body">${q2.text}<br><br><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${q2.isOpen?'Open question':'Closed question'}</span></div></div>`).join('');
-    document.getElementById('cv-qintel-meta').textContent=`${questions.length} question${questions.length!==1?'s':''}`;
-    // wire expand/collapse
+    const typeLabel={building:'◆ Building',curious:'Curious',transactional:'Transactional',other:''};
+    qList.innerHTML=filtered.map((q2,i)=>`<div class="cv-qitem" id="cv-qi-${i}"><div class="cv-qitem-head" data-qi="${i}"><span class="cv-qitem-text">${q2.text.length>120?q2.text.substring(0,120)+'…':q2.text}</span><span class="cv-qtag ${q2.outcome}">${tagLabel[q2.outcome]}</span></div><div class="cv-qitem-body">${q2.text}<br><br><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${typeLabel[q2.type]||''} ${q2.isOpen?'· Open':'· Closed'}</span></div></div>`).join('');
+    document.getElementById('cv-qintel-meta').textContent=`${filtered.length} question${filtered.length!==1?'s':''}${cvQFilter!=='all'?' (filtered)':''}`;
     qList.querySelectorAll('.cv-qitem-head').forEach(h=>{h.addEventListener('click',()=>{document.getElementById('cv-qi-'+h.dataset.qi).classList.toggle('open');});});
+  }
+  if(questions.length){
+    const qfBar=document.getElementById('cv-qf-bar');
+    qfBar.style.display='flex';
+    qfBar.querySelectorAll('.cv-qf-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        cvQFilter=btn.dataset.qf;
+        qfBar.querySelectorAll('.cv-qf-btn').forEach(b=>b.classList.remove('on'));
+        btn.classList.add('on');
+        cvRenderQList();
+      });
+    });
+    cvRenderQList();
+  } else {
+    document.getElementById('cv-qlist').innerHTML='<div class="cv-empty">No high-value questions detected in this transcript.</div>';
+    document.getElementById('cv-qintel-meta').textContent='';
+    document.getElementById('cv-qf-bar').style.display='none';
   }
   const openQs=questions.filter(q2=>q2.isOpen);
   const closedQs=questions.filter(q2=>!q2.isOpen);
@@ -1085,6 +1155,11 @@ function cvShowResults(text,dur,restoredSession){
     document.getElementById('cv-qratio-nums').textContent=`${openQs.length} open · ${closedQs.length} closed`;
     setTimeout(()=>{document.getElementById('cv-qratio-fill').style.width=openRatio+'%';},50);
   }
+  const curiousQs=questions.filter(q2=>q2.type==='curious');
+  const transQs=questions.filter(q2=>q2.type==='transactional');
+  const crEl=document.getElementById('cv-curiosity-ratio');
+  if(totalQs>0){crEl.style.display='block';crEl.innerHTML=`<strong>${curiousQs.length} curious</strong> · ${transQs.length} transactional`;}
+  else{crEl.style.display='none';}
 
   // Section 3: Unanswered Questions
   const unanswered=questions.filter(q2=>q2.outcome==='unanswered');
@@ -1104,31 +1179,35 @@ function cvShowResults(text,dur,restoredSession){
   }
 
   // Section 4: Action Items
-  const actions=restoredSession&&restoredSession.actions?restoredSession.actions:cvExtractActionItems(lines);
-  cvCurrentActions=[...actions];
+  const rawActions=restoredSession&&restoredSession.actions?restoredSession.actions:cvExtractActionItems(lines);
+  cvCurrentActions=[...rawActions];
   cvRenderActions();
 
   // Section 5: Insights
   const openRatioPct=totalQs>0?Math.round((openQs.length/totalQs)*100):0;
-  const ins=cvInsights(q.length,g.length,c.length,p.length,overall,bench,openRatioPct,totalQs);
+  const ins=cvInsights(questions.length,g.length,cc.length,p.length,overall,bench,openRatioPct,totalQs,bldQs.length);
   document.getElementById('cv-insights').innerHTML='<div class="cv-panel-title">Insights</div>'+ins.map(i=>`<div class="cv-insight-line"><span style="flex-shrink:0;">${i.e}</span><span>${i.t}</span></div>`).join('');
 
   if(!restoredSession){
-    cvSaveHist({name:sn,week:parseInt(week),meettype,q:q.length,g:g.length,c:c.length,p:p.length,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),questions,actions});
+    cvSaveHist({name:sn,session:parseInt(session),meettype,q:questions.length,b:bldQs.length,g:g.length,c:cc.length,p:p.length,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),questions,actions:cvCurrentActions});
   }
   cvRenderHist();
 }
 
 function cvAddActionItem(text){
-  if(cvCurrentActions.includes(text))return;
-  cvCurrentActions.push(text);
+  if(cvCurrentActions.some(a=>(typeof a==='object'?a.text:a)===text))return;
+  cvCurrentActions.push({text,followed:false});
   cvRenderActions();
 }
 
 function cvRenderActions(){
   const el=document.getElementById('cv-actions-list');
   if(!cvCurrentActions.length){el.innerHTML='<div class="cv-empty">No action items detected.</div>';return;}
-  el.innerHTML=cvCurrentActions.map((a,i)=>`<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><span class="cv-action-text">${a}</span></div>`).join('');
+  el.innerHTML=cvCurrentActions.map((a,i)=>{
+    const item=typeof a==='object'?a:{text:a,followed:false};
+    const tag=item.followed?'<span class="cv-ft-tag followed">✓ Followed Through</span>':'<span class="cv-ft-tag pending">● Pending</span>';
+    return `<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><span class="cv-action-text">${item.text}</span>${tag}</div>`;
+  }).join('');
 }
 
 function cvAddAgendaItem(text){
@@ -1147,14 +1226,17 @@ function cvRenderAgenda(){
   el.querySelectorAll('.cv-agenda-rm').forEach(btn=>{btn.addEventListener('click',()=>{cvAgendaItems.splice(btn.dataset.ai,1);cvRenderAgenda();});});
 }
 
-function cvInsights(q,g,c,p,overall,bench,openRatioPct,totalQs){
+function cvInsights(q,g,c,p,overall,bench,openRatioPct,totalQs,b){
   const ins=[];
-  if(q===0)ins.push({e:'❓',t:'No questions detected. Questions are the primary signal of active engagement. Try "How does that work?" or "What would be most useful here?"'});
-  else if(q>=bench.q)ins.push({e:'💡',t:`${q} questions — met the week target of ${bench.q}. Strong curiosity throughout.`});
-  else ins.push({e:'❓',t:`${q} question(s). Week target is ${bench.q}. More questions signal deeper engagement and care for the other person.`});
+  if(q===0)ins.push({e:'❓',t:'No high-value questions detected. Questions are the primary signal of active engagement. Try "How does that sit with you?" or "What would be most useful here?"'});
+  else if(q>=bench.q)ins.push({e:'💡',t:`${q} high-value question${q!==1?'s':''} — met the session target of ${bench.q}. Strong curiosity throughout.`});
+  else ins.push({e:'❓',t:`${q} high-value question(s). Session target is ${bench.q}. More open questions signal deeper engagement and care for the other person.`});
+  const bv=b||0;
+  if(bv===0)ins.push({e:'🔗',t:'No building questions detected. Try "Tell me more about that" or "What is underneath that?" to deepen the thread of a response.'});
+  else ins.push({e:'🔗',t:`${bv} building question${bv!==1?'s':''} — excellent work deepening the conversation thread.`});
   if(g===0)ins.push({e:'🤝',t:'No gratitude expressed. Acknowledgment builds the psychological safety that makes honest conversation possible over time.'});
-  else if(g>=bench.g)ins.push({e:'✨',t:`${g} expressions of gratitude — above the week target of ${bench.g}. Warm, respectful tone throughout.`});
-  else ins.push({e:'🤝',t:`${g} gratitude expression(s). Week target is ${bench.g}. Consistent acknowledgment builds trust over the coaching arc.`});
+  else if(g>=bench.g)ins.push({e:'✨',t:`${g} expressions of gratitude — above the session target of ${bench.g}. Warm, respectful tone throughout.`});
+  else ins.push({e:'🤝',t:`${g} gratitude expression(s). Session target is ${bench.g}. Consistent acknowledgment builds trust over the coaching arc.`});
   if(c===0)ins.push({e:'✅',t:'No commitments made. Closing with a specific next step — "I will have that done by Friday" — is a clear signal of ownership.'});
   else ins.push({e:'✅',t:`${c} commitment(s). Each topic should end with a concrete next step and an owner.`});
   if(p===0)ins.push({e:'🚀',t:'No proactive help offered. Asking "What is getting in the way?" marks a shift from individual performance to shared accountability.'});
@@ -1172,7 +1254,7 @@ function cvRenderHist(){
     document.getElementById('cv-hist-wrap').style.display='block';
     const filtered=cvCurrentFilter==='all'?all:all.filter(s=>s.meettype===cvCurrentFilter);
     const row=document.getElementById('cv-hist-row');
-    row.innerHTML=filtered.map((s,i)=>`<div class="cv-hist-chip" data-hi="${i}" data-meettype="${s.meettype||'1on1'}"><div class="cv-hist-name">${s.name}</div><div class="cv-hist-date">${s.date} · Wk ${s.week}${s.meettype?' · '+(s.meettype==='1on1'?'1:1':'Team'):''}</div><div class="cv-hist-nums"><span class="cv-hn q">${s.q}</span><span class="cv-hn g">${s.g}</span><span class="cv-hn c">${s.c}</span><span class="cv-hn p">${s.p}</span><span class="cv-hs">${s.overall}/100</span></div></div>`).join('');
+    row.innerHTML=filtered.map((s,i)=>`<div class="cv-hist-chip" data-hi="${i}" data-meettype="${s.meettype||'1on1'}"><div class="cv-hist-name">${s.name}</div><div class="cv-hist-date">${s.date} · Session ${s.session||s.week||'?'}${s.meettype?' · '+(s.meettype==='1on1'?'1:1':'Team'):''}</div><div class="cv-hist-nums"><span class="cv-hn q">${s.q}</span><span class="cv-hn b">${s.b||0}</span><span class="cv-hn g">${s.g}</span><span class="cv-hn c">${s.c}</span><span class="cv-hn p">${s.p}</span><span class="cv-hs">${s.overall}/100</span></div></div>`).join('');
     // wire chip clicks
     row.querySelectorAll('.cv-hist-chip').forEach(chip=>{
       chip.addEventListener('click',()=>{
@@ -1191,7 +1273,7 @@ function cvRenderHist(){
       const maxes={q:Math.max(...trend5.map(s=>s.q),1),g:Math.max(...trend5.map(s=>s.g),1),c:Math.max(...trend5.map(s=>s.c),1),p:Math.max(...trend5.map(s=>s.p),1)};
       ['q','g','c','p'].forEach(k=>{
         const labels={q:'Questions',g:'Gratitude',c:'Commits',p:'Proactive'};
-        const bars=trend5.map(s=>`<div class="cv-trend-bar ${k}" style="height:${Math.max(4,Math.round((s[k]/maxes[k])*40))}px;" title="Wk ${s.week}: ${s[k]}"></div>`).join('');
+        const bars=trend5.map(s=>`<div class="cv-trend-bar ${k}" style="height:${Math.max(4,Math.round((s[k]/maxes[k])*40))}px;" title="S${s.session||s.week||'?'}: ${s[k]}"></div>`).join('');
         trendEl.innerHTML+=`<div class="cv-trend-col"><div class="cv-trend-label">${labels[k]}</div><div class="cv-trend-bars">${bars}</div></div>`;
       });
     } else {trendEl.style.display='none';}
@@ -1201,7 +1283,7 @@ function cvRenderHist(){
 window.cvClearHist = function(){localStorage.removeItem('curio-hist');document.getElementById('cv-hist-wrap').style.display='none';}
 
 window.cvDownload = function(){
-  const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nACTION ITEMS\n${cvCurrentActions.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None detected'}\n\nNEXT SESSION AGENDA\n${cvAgendaItems.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None saved'}\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;
+  const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nBuilding: ${document.getElementById('cv-rb').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nACTION ITEMS\n${cvCurrentActions.map((a,i)=>{const item=typeof a==='object'?a:{text:a};return `${i+1}. ${item.text}${item.followed?' [followed through]':' [pending]'}`;}).join('\n')||'None detected'}\n\nNEXT SESSION AGENDA\n${cvAgendaItems.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None saved'}\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;
   const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='curio-report.txt';a.click();
 }
 
@@ -1218,6 +1300,7 @@ window.cvReset = function(){
   document.getElementById('cv-paste').value='';
   document.getElementById('cv-cc').textContent='0 chars';
   document.getElementById('cv-agenda-section').style.display='none';
+  const qfBar=document.getElementById('cv-qf-bar');if(qfBar){qfBar.style.display='none';qfBar.querySelectorAll('.cv-qf-btn').forEach(b=>{b.classList.remove('on');if(b.dataset.qf==='all')b.classList.add('on');});}
   cvRenderHist();
 }
 
