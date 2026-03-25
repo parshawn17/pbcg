@@ -325,6 +325,16 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-hn.q{color:#e63946}.cv-hn.g{color:#2a9d8f}.cv-hn.c{color:#e76f51}.cv-hn.p{color:var(--accent)}.cv-hn.b{color:#7c5cbf}
 .cv-hs{font-size:9px;color:var(--muted);margin-left:auto;}
 
+.cv-top-insight{background:#f2f5f2;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--soft);line-height:1.6;}
+.cv-pp-row{display:flex;align-items:baseline;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);}
+.cv-pp-row:last-child{border-bottom:none;}
+.cv-pp-name{font-size:13px;font-weight:500;color:var(--ink);}
+.cv-pp-stats{font-size:11px;color:var(--muted);}
+.cv-action-body{display:flex;flex-direction:column;gap:3px;flex:1;}
+.cv-action-spk{font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;}
+.cv-at-developed{background:#e6f4ea;color:#2a6e3f;}
+.cv-at-single{background:#e8f0f7;color:#2a5a8a;}
+.cv-at-unclear{background:#fdf3e0;color:#a06000;}
 /* ════════════════════════
    SYMBIO TOOL
 ════════════════════════ */
@@ -641,16 +651,9 @@ window.go = go;
           <div class="cv-grade" id="cv-grade">—</div>
           <div class="cv-score-right" id="cv-score-right"></div>
         </div>
-        <div class="cv-bench">
-          <div class="cv-bench-title">Counts vs Session Target — <span id="cv-bwk"></span></div>
-          <div class="cv-bench-bars">
-            <div><div class="cv-bench-lbl">Questions</div><div class="cv-bench-track"><div class="cv-bench-fill q" id="cv-bq"></div><div class="cv-bench-marker" id="cv-bmq"></div></div><div class="cv-bench-nums"><span id="cv-bqv">0</span> / <span id="cv-bqt">0</span></div></div>
-            <div><div class="cv-bench-lbl">Gratitude</div><div class="cv-bench-track"><div class="cv-bench-fill g" id="cv-bg"></div><div class="cv-bench-marker" id="cv-bmg"></div></div><div class="cv-bench-nums"><span id="cv-bgv">0</span> / <span id="cv-bgt">0</span></div></div>
-            <div><div class="cv-bench-lbl">Commits</div><div class="cv-bench-track"><div class="cv-bench-fill c" id="cv-bc"></div><div class="cv-bench-marker" id="cv-bmc"></div></div><div class="cv-bench-nums"><span id="cv-bcv">0</span> / <span id="cv-bct">0</span></div></div>
-            <div><div class="cv-bench-lbl">Proactive</div><div class="cv-bench-track"><div class="cv-bench-fill p" id="cv-bp"></div><div class="cv-bench-marker" id="cv-bmp"></div></div><div class="cv-bench-nums"><span id="cv-bpv">0</span> / <span id="cv-bpt">0</span></div></div>
-            <div><div class="cv-bench-lbl">Building</div><div class="cv-bench-track"><div class="cv-bench-fill b" id="cv-bb"></div><div class="cv-bench-marker" id="cv-bmb"></div></div><div class="cv-bench-nums"><span id="cv-bbv">0</span> / <span id="cv-bbt">0</span></div></div>
-          </div>
-        </div>
+
+        <div class="cv-top-insight" id="cv-top-insight" style="display:none;"></div>
+        <div class="cv-section" id="cv-per-person" style="display:none;"><div class="cv-section-head"><div class="cv-section-title">Per Person</div></div><div id="cv-per-person-list"></div></div>
         <div class="cv-bottom">
           <div class="cv-panel">
             <div class="cv-panel-title">Score Breakdown</div>
@@ -674,7 +677,6 @@ window.go = go;
           </div>
           <div class="cv-qf-bar" id="cv-qf-bar" style="display:none;">
             <button class="cv-qf-btn on" data-qf="all">All</button>
-            <button class="cv-qf-btn" data-qf="high-value">High Value</button>
             <button class="cv-qf-btn" data-qf="building">Building</button>
             <button class="cv-qf-btn" data-qf="unanswered">Unanswered</button>
             <button class="cv-qf-btn" data-qf="curious">Curious</button>
@@ -739,7 +741,6 @@ window.go = go;
           </div>
         </div>
         <div class="cv-hist-row" id="cv-hist-row"></div>
-        <div class="cv-trend" id="cv-trend" style="display:none;"></div>
       </div>
 
     </div>
@@ -979,100 +980,192 @@ window.go = function(id) {
 // ══════════════════════════
 // CURIO TOOL
 // ══════════════════════════
-const CV_PAT = {
-  g:[/\b(thank you|thanks|thank you so much|many thanks)\b/gi,/\b(i appreciate|i'm grateful|appreciate that|appreciate your)\b/gi,/\b(please|kindly)\b/gi,/\b(that's (really |very |so )?(helpful|great|perfect|wonderful|amazing|fantastic|excellent))\b/gi,/\b(good (point|call|idea|thinking|catch|question))\b/gi],
-  c:[/\b(i will|i'll|i commit|i promise|i agree|i can do that|i'll make sure)\b/gi,/\b(got it|understood|absolutely|count on me|on it|will do|sounds good)\b/gi,/\b(by (monday|tuesday|wednesday|thursday|friday|tomorrow|next week|end of (day|week)))\b/gi,/\b(i'll (send|have|deliver|complete|finish|get|share|update|follow up|circle back))\b/gi],
-  p:[/\b(what (do you need|help do you need|can i (do|help with)))\b/gi,/\b(what's (going to get in the way|blocking you|the blocker))\b/gi,/\b(is there anything (i can|we can) (help|support|assist))\b/gi,/\b(how can i (help|support|assist))\b/gi,/\b(let me know if you need|here if you need)\b/gi,/\b(any (blockers|obstacles|challenges) (i should know about))\b/gi]
-};
-
-const CV_BUILD_PAT=/\b(and what else|tell me more|what is underneath that|what would that look like|say more about that|what do you mean by|can you say more|what else is there|and how does that|what makes that)\b/i;
-function cvExtract(text, k) {
-  const found = new Set();
-  for (const p of CV_PAT[k]) { const r=new RegExp(p.source,p.flags); let m; while((m=r.exec(text))!==null){const c=m[0].trim().replace(/\s+/g,' ');if(c.length>3)found.add(c.toLowerCase());} }
-  return [...found];
-}
-function cvBench(s){const sn=Math.min(parseInt(s)||1,8);return{q:Math.round(3+sn*0.625),b:Math.round(1+sn*0.25),g:Math.round(2+sn*0.375),c:Math.round(1+sn*0.375),p:Math.round(1+sn*0.25)};}
-function cvGetSessionNum(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');return Math.min(h.length+1,8);}catch(e){return 1;}}
-function cvFmt(s){return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
 
 let cvCurrentFilter='all';
 let cvAgendaItems=[];
 let cvCurrentActions=[];
 let cvCurrentQuestions=[];
 
-function cvParseLines(text){
-  return text.split('\n').map(l=>l.trim()).filter(l=>l.length>0).map(l=>{
-    const m=l.match(/^([^:]{1,40}):\s*(.+)$/);
-    return m?{speaker:m[1].trim(),text:m[2].trim()}:{speaker:null,text:l};
-  });
+function cvGetSessionNum(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');return h.length+1;}catch(e){return 1;}}
+
+// ── Pre-processing ────────────────────────────────────────────
+const CV_FILLERS=/\b(um|uh|you know what i mean|you know|kind of|sort of|i mean|basically|literally)\b,?\s*/gi;
+
+function cvPreProcess(text){
+  const turns=[];
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>2);
+  for(const line of lines){
+    let speaker=null,content=line;
+    const colonM=line.match(/^([^:]{1,50}):\s*(.+)$/);
+    if(colonM){speaker=colonM[1].trim();content=colonM[2].trim();}
+    else{
+      const teamsM=line.match(/^([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s{2,}(.+)$/);
+      if(teamsM){speaker=teamsM[1].trim();content=teamsM[2].trim();}
+    }
+    let cleaned=content.replace(CV_FILLERS,' ').replace(/\s+/g,' ').trim();
+    cleaned=cleaned.replace(/\b(\w+)(\s+\1)+\b/gi,'$1');
+    const sentences=[];let cur='';
+    for(let i=0;i<cleaned.length;i++){
+      cur+=cleaned[i];
+      if('.!?'.includes(cleaned[i])){const tr=cur.trim();if(tr.length>3)sentences.push(tr);cur='';}
+    }
+    if(cur.trim().length>3)sentences.push(cur.trim());
+    if(!sentences.length&&cleaned.length>3)sentences.push(cleaned);
+    for(const sentence of sentences)turns.push({speaker,sentence});
+  }
+  return turns;
 }
 
-function cvIsHighValue(text){
-  const words=text.trim().split(/\s+/);
-  if(words.length<=6)return false;
-  const lower=text.toLowerCase();
-  if(/does that make sense|does that sound good|(^|\s)make sense\??$|(^|\s)sound good\??$/.test(lower))return false;
-  if(/^\s*(right|yeah|okay|you know)\??\s*$/.test(lower))return false;
-  if(/are you free|are you available|can we meet|when works|what time|which day|does thursday|does friday/.test(lower))return false;
-  if(words.length<8&&/^(did you|have you|is it|are you|will you|do you)\b/i.test(text.trim()))return false;
-  return true;
+// ── Classification constants ──────────────────────────────────
+const CV_Q_OPENERS=/^(what|how|why|tell me|help me understand|describe|walk me through|what if|what would|what got|what's|what are you)\b/i;
+const CV_BUILD_OPENERS=/^(and what else|tell me more|what's underneath that|what would that look like|say more about that|what do you mean by|can you say more|what else is there|how does that connect|what makes that)\b/i;
+const CV_TX_PAT=/what time|when is|who is responsible|what is the status|what is the update|have you sent|did you send/i;
+const CV_CU_PAT=/\b(what|how|why|tell me|help me understand|what if|what else|what would|what got|what is getting|what are you noticing|what does that mean)\b/i;
+const CV_COMMIT_PAT=/\b(i will|i'll|i'm going to|i plan to|i need to|i should|by friday|by end of week|this week|next week|i'll follow up|i'll send|i'll reach out|i'll set up|will do)\b/i;
+const CV_DIRECT_RESP=/\b(yes|no|i think|well|because|so|the reason|actually|honestly|i believe|what i mean)\b/i;
+const CV_G_PAT=/\b(thank you|thanks|i appreciate|appreciate that|that's helpful|that's great|good point|good question)\b/i;
+const CV_P_PAT=/\b(what do you need|what's getting in the way|blocking you|how can i help|let me know if you need|is there anything i can|how can i support)\b/i;
+const CV_STOP=new Set(['the','a','an','is','it','of','to','and','or','in','on','at','be','was','were','are','this','that','with','for','as','by','do','have','has','had','will','would','could','should','may','might','can','not','but','if','we','i','you','me','he','she','they','them','their','our','your','my']);
+
+function cvClassifyQType(text){
+  if(CV_TX_PAT.test(text))return'transactional';
+  if(CV_CU_PAT.test(text))return'curious';
+  return'other';
 }
-function cvQType(text){
-  const lower=text.toLowerCase();
-  if(CV_BUILD_PAT.test(lower))return 'building';
-  const txPat=/what time|when is|who is responsible|what is the status|what is the update|have you sent|did you send/;
-  if(txPat.test(lower))return 'transactional';
-  const cuPat=/\b(what|how|why|tell me|help me understand|what if|what else|what would|what got|what is getting|what are you noticing|what does that mean)\b/;
-  if(cuPat.test(lower))return 'curious';
-  return 'other';
+
+function cvBuildTurnIdx(turns){
+  let idx=0,last=null;
+  return turns.map(t=>{if(t.speaker!==last){idx++;last=t.speaker;}return idx;});
 }
-function cvAnalyzeQuestions(lines){
+
+// ── Question detection — 2-of-3 signals ──────────────────────
+function cvDetectQuestions(turns){
   const questions=[];
-  const openPat=/\b(what|how|tell me|help me understand|what if|what else)\b/i;
-  const responsePat=/\b(yes|no|i think|well|because|so|the reason|actually|right|sure|of course|that's|we|i)\b/i;
-  const commitPat=/\b(i will|i'll|will do|i'll send|i'll follow up|i'll circle back|by (monday|tuesday|wednesday|thursday|friday|end of (day|week)))\b/i;
-  lines.forEach((line,i)=>{
-    const t=line.text;
-    if(!t.includes('?')&&!openPat.test(t)&&!CV_BUILD_PAT.test(t))return;
-    const qTexts=[];
-    if(t.includes('?')){
-      (t.match(/[^.!]*\?/g)||[]).forEach(p=>{if(p.trim().length>5)qTexts.push(p.trim());});
-    } else if((openPat.test(t)||CV_BUILD_PAT.test(t))&&t.length>10){
-      qTexts.push(t);
+  turns.forEach((turn,i)=>{
+    const t=turn.sentence;
+    if(!t.includes('?')&&!CV_Q_OPENERS.test(t))return;
+    const sigA=CV_Q_OPENERS.test(t)||t.trim().endsWith('?');
+    // Signal B: receiver responded with 3+ sentences
+    let sigB=false;
+    for(let j=i+1;j<Math.min(i+40,turns.length);j++){
+      if(turns[j].speaker&&turns[j].speaker!==turn.speaker){
+        let cnt=0;
+        for(let k=j;k<Math.min(j+30,turns.length)&&turns[k].speaker===turns[j].speaker;k++)cnt++;
+        sigB=cnt>=3;break;
+      }
     }
-    qTexts.forEach(qText=>{
-      if(!cvIsHighValue(qText))return;
-      const next3=lines.slice(i+1,i+4).map(l=>l.text).join(' ');
-      const next5=lines.slice(i+1,i+6).map(l=>l.text).join(' ');
-      const sameSpkFollowUp=lines.slice(i+1,i+4).some(l=>l.speaker&&l.speaker===line.speaker&&l.text.includes('?'));
-      const hasResponse=responsePat.test(next3);
-      const hasCommit=commitPat.test(next5);
-      let outcome;
-      if(!hasResponse&&!hasCommit&&!sameSpkFollowUp){outcome='unanswered';}
-      else if(hasCommit){outcome='answered-action';}
-      else{outcome='answered-no-action';}
-      const type=cvQType(qText);
-      const isOpen=/^(building|curious)$/.test(type)||/\b(what|how|why|tell me)\b/i.test(qText);
-      questions.push({text:qText,outcome,type,isOpen});
-    });
+    // Signal C: key concepts appear in 2/3 turns before AND after
+    const concepts=t.toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
+    let sigC=false;
+    if(concepts.length>0){
+      const prev3=turns.slice(Math.max(0,i-3),i).map(t=>t.sentence.toLowerCase());
+      const next3=turns.slice(i+1,i+4).map(t=>t.sentence.toLowerCase());
+      const ph=prev3.filter(pt=>concepts.some(c=>pt.includes(c))).length;
+      const nh=next3.filter(nt=>concepts.some(c=>nt.includes(c))).length;
+      sigC=ph>=2&&nh>=2;
+    }
+    const sigCount=(sigA?1:0)+(sigB?1:0)+(sigC?1:0);
+    if(sigCount<2)return;
+    let outcome='answered-no-action';
+    const nxt=turns.slice(i+1,i+20);
+    const firstOther=nxt.find(t2=>t2.speaker&&t2.speaker!==turn.speaker);
+    if(!firstOther){outcome='unanswered';}
+    else{
+      const oi=nxt.indexOf(firstOther);
+      const rb=[];
+      for(let j=oi;j<nxt.length&&nxt[j].speaker===firstOther.speaker;j++)rb.push(nxt[j].sentence);
+      const rt=rb.join(' ');
+      if(rb.length<2&&!CV_DIRECT_RESP.test(rt))outcome='unanswered';
+      else if(CV_COMMIT_PAT.test(nxt.map(t=>t.sentence).join(' ')))outcome='answered-action';
+    }
+    questions.push({text:t,speaker:turn.speaker||'Unknown',outcome,type:cvClassifyQType(t),allThree:sigCount===3,isBuilding:false,isOpen:CV_Q_OPENERS.test(t)});
   });
   return questions;
 }
 
-function cvExtractActionItems(lines){
-  const actionPat=/\b(i will|i'll|i commit|by (monday|tuesday|wednesday|thursday|friday|tomorrow|end of (day|week))|will do|i'll send|i'll follow up|i'll circle back)\b/i;
-  const ftPat=/\b(i did|i sent|i finished|i completed|following up on|as i said i would|i wanted to follow up|i got that done|update on|quick update)\b/i;
-  const seen=new Set();
-  return lines.map((l,i)=>({text:l.text,idx:i})).filter(({text})=>actionPat.test(text)).map(({text,idx})=>{
-    const clean=text.replace(/^[^:]+:\s*/,'').trim();
-    if(clean.length<10||seen.has(clean))return null;
-    seen.add(clean);
-    const nearby=lines.slice(Math.max(0,idx-10),idx+11).map(l=>l.text).join(' ');
-    const followed=ftPat.test(nearby);
-    return{text:clean,followed};
-  }).filter(Boolean);
+// ── Building question detection ───────────────────────────────
+function cvDetectBuilding(turns,mainQs){
+  const buildQs=[];
+  const tidx=cvBuildTurnIdx(turns);
+  const qTurnMap=mainQs.map(q=>{
+    const idx=turns.findIndex(t=>t.sentence===q.text&&t.speaker===q.speaker);
+    return{q,ti:idx>=0?tidx[idx]:-1};
+  });
+  turns.forEach((turn,i)=>{
+    if(!CV_BUILD_OPENERS.test(turn.sentence))return;
+    const myTi=tidx[i];
+    const hasAnchor=qTurnMap.some(({q,ti})=>q.speaker===turn.speaker&&ti>=0&&myTi-ti<=3&&myTi>ti);
+    if(!hasAnchor)return;
+    let outcome='answered-no-action';
+    const nxt=turns.slice(i+1,i+20);
+    const firstOther=nxt.find(t2=>t2.speaker&&t2.speaker!==turn.speaker);
+    if(!firstOther){outcome='unanswered';}
+    else{
+      const oi=nxt.indexOf(firstOther);
+      const rb=[];
+      for(let j=oi;j<nxt.length&&nxt[j].speaker===firstOther.speaker;j++)rb.push(nxt[j].sentence);
+      if(rb.length<2&&!CV_DIRECT_RESP.test(rb.join(' ')))outcome='unanswered';
+      else if(CV_COMMIT_PAT.test(nxt.map(t=>t.sentence).join(' ')))outcome='answered-action';
+    }
+    buildQs.push({text:turn.sentence,speaker:turn.speaker||'Unknown',outcome,type:'building',allThree:false,isBuilding:true,isOpen:true});
+  });
+  return buildQs;
 }
 
+// ── Action item detection + clustering ───────────────────────
+function cvDetectActions(turns){
+  const raw=[];
+  turns.forEach((turn,i)=>{if(!CV_COMMIT_PAT.test(turn.sentence))return;raw.push({text:turn.sentence,speaker:turn.speaker||'Unknown',idx:i});});
+  const clusters=[];const used=new Set();
+  raw.forEach((item,i)=>{
+    if(used.has(i))return;
+    const cluster=[item];used.add(i);
+    const words=item.text.toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
+    for(let j=i+1;j<raw.length;j++){
+      if(used.has(j))continue;
+      const w2=raw[j].text.toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
+      if(words.filter(w=>w2.includes(w)).length>=3){cluster.push(raw[j]);used.add(j);}
+    }
+    clusters.push(cluster);
+  });
+  return clusters.map(cluster=>{
+    const best=cluster.reduce((a,b)=>a.text.length>b.text.length?a:b);
+    const tag=cluster.length>1?'developed':best.text.split(/\s+/).length>6?'single':'unclear';
+    return{text:best.text,speaker:best.speaker,tag,count:cluster.length};
+  });
+}
+
+// ── Per-person scoring ────────────────────────────────────────
+function cvScorePerPerson(turns,questions){
+  const people={};
+  const ensure=spk=>{if(!people[spk])people[spk]={q:0,b:0,g:0,c:0,p:0};};
+  turns.forEach(t=>{
+    const spk=t.speaker||'Unknown';ensure(spk);
+    if(CV_G_PAT.test(t.sentence))people[spk].g++;
+    if(CV_P_PAT.test(t.sentence))people[spk].p++;
+    if(CV_COMMIT_PAT.test(t.sentence))people[spk].c++;
+  });
+  questions.forEach(q=>{
+    const spk=q.speaker||'Unknown';ensure(spk);
+    if(q.isBuilding)people[spk].b++;else people[spk].q++;
+  });
+  return people;
+}
+
+// ── Top insight ───────────────────────────────────────────────
+function cvTopInsight(q,b,curious,trans,unanswered){
+  if(q===0)return'No high-value questions detected. Every meaningful conversation starts with a genuine question.';
+  if(unanswered>0&&unanswered===q)return`All ${q} questions went unanswered. Consider revisiting these before the next session.`;
+  if(b>0&&curious>trans)return`${q} high-value questions including ${b} building \u2014 strong deepening pattern across this session.`;
+  if(trans>curious&&trans>0)return`More transactional than curious questions this session. Try shifting from status-checking to exploration.`;
+  if(q>=5)return`${q} high-value questions \u2014 strong engagement throughout this session.`;
+  const parts=[`${q} high-value question${q!==1?'s':''} logged`];
+  if(b>0)parts.push(`${b} building`);
+  if(unanswered>0)parts.push(`${unanswered} unanswered`);
+  return parts.join(' \xb7 ')+'.';
+}
+
+// ── Show Results ──────────────────────────────────────────────
 function cvShowResults(text,dur,restoredSession){
   document.getElementById('cv-up-area').classList.remove('vis');
   document.getElementById('cv-results').classList.add('vis');
@@ -1080,51 +1173,102 @@ function cvShowResults(text,dur,restoredSession){
   const session=restoredSession?(restoredSession.session||restoredSession.week||1):cvGetSessionNum();
   const meettype=restoredSession?restoredSession.meettype:(document.getElementById('cv-meettype').value||'1on1');
   const now=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  const lines=cvParseLines(text);
-  const questions=restoredSession&&restoredSession.questions?restoredSession.questions:cvAnalyzeQuestions(lines);
+
+  const turns=cvPreProcess(text);
+  const mainQs=restoredSession&&restoredSession.questions?restoredSession.questions.filter(q=>!q.isBuilding):cvDetectQuestions(turns);
+  const buildQs=restoredSession&&restoredSession.questions?restoredSession.questions.filter(q=>q.isBuilding):cvDetectBuilding(turns,mainQs);
+  const questions=[...mainQs,...buildQs];
   cvCurrentQuestions=questions;
-  const bldQs=questions.filter(q2=>q2.type==='building');
-  const g=cvExtract(text,'g'),cc=cvExtract(text,'c'),p=cvExtract(text,'p');
-  document.getElementById('cv-rq').textContent=questions.length;
-  document.getElementById('cv-rb').textContent=bldQs.length;
-  document.getElementById('cv-rg').textContent=g.length;
-  document.getElementById('cv-rc').textContent=cc.length;
-  document.getElementById('cv-rp').textContent=p.length;
+
+  const totalQ=mainQs.length,totalB=buildQs.length;
+  const curiousQs=mainQs.filter(q=>q.type==='curious');
+  const transQs=mainQs.filter(q=>q.type==='transactional');
+  const unanswered=questions.filter(q=>q.outcome==='unanswered');
+  const perPerson=cvScorePerPerson(turns,questions);
+  const speakers=Object.keys(perPerson).filter(s=>s&&s!=='Unknown');
+
+  const allVals=Object.values(perPerson);
+  const gTotal=allVals.reduce((s,v)=>s+v.g,0);
+  const cTotal=allVals.reduce((s,v)=>s+v.c,0);
+  const pTotal=allVals.reduce((s,v)=>s+v.p,0);
+
+  document.getElementById('cv-rq').textContent=totalQ;
+  document.getElementById('cv-rb').textContent=totalB;
+  document.getElementById('cv-rg').textContent=gTotal;
+  document.getElementById('cv-rc').textContent=cTotal;
+  document.getElementById('cv-rp').textContent=pTotal;
   document.getElementById('cv-tx').textContent=text.trim()||'(No transcript)';
   document.getElementById('cv-res-title').textContent=sn;
-  document.getElementById('cv-res-meta').innerHTML=`${restoredSession?restoredSession.date:('Analyzed '+now)}<br>Session ${session} · ${meettype==='1on1'?'1:1':'Team'}`;
+  document.getElementById('cv-res-meta').innerHTML=`${restoredSession?restoredSession.date:('Analyzed '+now)}<br>Session ${session} \xb7 ${meettype==='1on1'?'1:1':'Team'}`;
   document.getElementById('cv-score-right').innerHTML=`${dur}<br>${sn}`;
-  const bench=cvBench(session);
-  const sc={q:Math.min(100,Math.round((questions.length/bench.q)*100)),b:Math.min(100,Math.round((bldQs.length/bench.b)*100)),g:Math.min(100,Math.round((g.length/bench.g)*100)),c:Math.min(100,Math.round((cc.length/bench.c)*100)),p:Math.min(100,Math.round((p.length/bench.p)*100))};
-  const overall=Math.round((sc.q+sc.b+sc.g+sc.c+sc.p)/5);
+
+  // Score
+  const scores=[Math.min(100,Math.round((totalQ/5)*100)),Math.min(100,Math.round((totalB/2)*100)),Math.min(100,Math.round((gTotal/3)*100)),Math.min(100,Math.round((cTotal/3)*100)),Math.min(100,Math.round((pTotal/2)*100))];
+  const overall=Math.round(scores.reduce((a,b)=>a+b,0)/5);
   document.getElementById('cv-score').textContent=overall;
-  let gr,gc;if(overall>=75){gr='Excellent';gc='excellent';}else if(overall>=50){gr='Good';gc='good';}else if(overall>=25){gr='Developing';gc='developing';}else{gr='Needs Work';gc='needs-work';}
+  let gr,gc;
+  if(overall>=75){gr='Excellent';gc='excellent';}else if(overall>=50){gr='Good';gc='good';}else if(overall>=25){gr='Developing';gc='developing';}else{gr='Needs Work';gc='needs-work';}
   const ge=document.getElementById('cv-grade');ge.textContent=gr;ge.className='cv-grade '+gc;
   setTimeout(()=>{
-    ['q','b','g','c','p'].forEach(k=>{document.getElementById('cv-br-'+k).style.width=sc[k]+'%';document.getElementById('cv-br-'+k+'v').textContent=sc[k];});
-    document.getElementById('cv-bwk').textContent='Session '+session;
-    const bm={q:[questions.length,bench.q],b:[bldQs.length,bench.b],g:[g.length,bench.g],c:[cc.length,bench.c],p:[p.length,bench.p]};
-    for(const[k,[a,t2]]of Object.entries(bm)){const mx=Math.max(a,t2,1);document.getElementById('cv-b'+k).style.width=Math.min(100,(a/mx)*100)+'%';document.getElementById('cv-bm'+k).style.left=Math.min(98,(t2/mx)*100)+'%';document.getElementById('cv-b'+k+'v').textContent=a;document.getElementById('cv-b'+k+'t').textContent=t2;}
+    ['q','b','g','c','p'].forEach((k,ki)=>{
+      const el=document.getElementById('cv-br-'+k);if(el)el.style.width=scores[ki]+'%';
+      const elv=document.getElementById('cv-br-'+k+'v');if(elv)elv.textContent=scores[ki];
+    });
   },150);
-  const mp=document.getElementById('cv-matches');mp.innerHTML='';
-  [{k:'g',l:'Gratitude',m:g},{k:'c',l:'Commits',m:cc},{k:'p',l:'Proactive',m:p}].forEach(md=>{if(!md.m.length)return;mp.innerHTML+=`<div class="cv-match-sec-lbl">${md.l}</div>`;md.m.slice(0,4).forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});});
-  if(!mp.innerHTML)mp.innerHTML='<div class="cv-empty">No skill phrases detected.</div>';
 
-  // Section 2: Question Intelligence
+  // Curiosity ratio
+  const crEl=document.getElementById('cv-curiosity-ratio');
+  if(totalQ>0){crEl.style.display='block';crEl.innerHTML=`<strong>${curiousQs.length} curious</strong> \xb7 ${transQs.length} transactional`;}
+  else crEl.style.display='none';
+
+  // Top insight
+  const tiEl=document.getElementById('cv-top-insight');
+  if(tiEl){const ins=cvTopInsight(totalQ,totalB,curiousQs.length,transQs.length,unanswered.length);tiEl.style.display=ins?'block':'none';tiEl.textContent=ins;}
+
+  // Per-person breakdown
+  const ppEl=document.getElementById('cv-per-person');
+  if(ppEl){
+    if(speakers.length>1){
+      ppEl.style.display='block';
+      document.getElementById('cv-per-person-list').innerHTML=speakers.map(spk=>{
+        const sc=perPerson[spk];
+        return`<div class="cv-pp-row"><span class="cv-pp-name">${spk}</span><span class="cv-pp-stats">${sc.q} Q \xb7 ${sc.b} Building \xb7 ${sc.g} Gratitude \xb7 ${sc.c} Commits</span></div>`;
+      }).join('');
+    } else ppEl.style.display='none';
+  }
+
+  // Detected phrases
+  const mp=document.getElementById('cv-matches');
+  if(mp){
+    const gm=[...new Set((text.match(CV_G_PAT)||[]).map(m=>m.toLowerCase()))].slice(0,4);
+    const cm=[...new Set((text.match(CV_COMMIT_PAT)||[]).map(m=>m.toLowerCase()))].slice(0,4);
+    const pm=[...new Set((text.match(CV_P_PAT)||[]).map(m=>m.toLowerCase()))].slice(0,4);
+    mp.innerHTML='';
+    [{l:'Gratitude',m:gm},{l:'Commits',m:cm},{l:'Proactive',m:pm}].forEach(md=>{
+      if(!md.m.length)return;
+      mp.innerHTML+=`<div class="cv-match-sec-lbl">${md.l}</div>`;
+      md.m.forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});
+    });
+    if(!mp.innerHTML)mp.innerHTML='<div class="cv-empty">No skill phrases detected.</div>';
+  }
+
+  // Question list with filter bar
   let cvQFilter='all';
   function cvRenderQList(){
     const qfBar=document.getElementById('cv-qf-bar');
     const qList=document.getElementById('cv-qlist');
     let filtered=questions;
-    if(cvQFilter==='high-value')filtered=questions.filter(q2=>q2.type!=='transactional');
-    else if(cvQFilter==='building')filtered=questions.filter(q2=>q2.type==='building');
-    else if(cvQFilter==='unanswered')filtered=questions.filter(q2=>q2.outcome==='unanswered');
-    else if(cvQFilter==='curious')filtered=questions.filter(q2=>q2.type==='curious');
-    else if(cvQFilter==='transactional')filtered=questions.filter(q2=>q2.type==='transactional');
+    if(cvQFilter==='building')filtered=questions.filter(q=>q.isBuilding);
+    else if(cvQFilter==='unanswered')filtered=questions.filter(q=>q.outcome==='unanswered');
+    else if(cvQFilter==='curious')filtered=questions.filter(q=>q.type==='curious');
+    else if(cvQFilter==='transactional')filtered=questions.filter(q=>q.type==='transactional');
     if(!filtered.length){qList.innerHTML='<div class="cv-empty">No questions match this filter.</div>';document.getElementById('cv-qintel-meta').textContent=cvQFilter!=='all'?'0 matching':'';return;}
     const tagLabel={'answered-action':'Answered + Action','answered-no-action':'Answered','unanswered':'Unanswered'};
-    const typeLabel={building:'◆ Building',curious:'Curious',transactional:'Transactional',other:''};
-    qList.innerHTML=filtered.map((q2,i)=>`<div class="cv-qitem" id="cv-qi-${i}"><div class="cv-qitem-head" data-qi="${i}"><span class="cv-qitem-text">${q2.text.length>120?q2.text.substring(0,120)+'…':q2.text}</span><span class="cv-qtag ${q2.outcome}">${tagLabel[q2.outcome]}</span></div><div class="cv-qitem-body">${q2.text}<br><br><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${typeLabel[q2.type]||''} ${q2.isOpen?'· Open':'· Closed'}</span></div></div>`).join('');
+    const typeLabel={building:'\u25c6 Building',curious:'Curious',transactional:'Transactional',other:''};
+    qList.innerHTML=filtered.map((q,i)=>{
+      const marker=q.allThree?' \ud83d\udc4d':'';
+      return`<div class="cv-qitem" id="cv-qi-${i}"><div class="cv-qitem-head" data-qi="${i}"><span class="cv-qitem-text">${q.text.length>120?q.text.substring(0,120)+'\u2026':q.text}${marker}</span><span class="cv-qtag ${q.outcome}">${tagLabel[q.outcome]}</span></div><div class="cv-qitem-body">${q.text}${marker}<br><em style="font-size:11px;color:var(--muted);">Asked by ${q.speaker}</em><br><br><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${typeLabel[q.type]||''} ${q.isOpen?'\xb7 Open':'\xb7 Closed'}</span></div></div>`;
+    }).join('');
     document.getElementById('cv-qintel-meta').textContent=`${filtered.length} question${filtered.length!==1?'s':''}${cvQFilter!=='all'?' (filtered)':''}`;
     qList.querySelectorAll('.cv-qitem-head').forEach(h=>{h.addEventListener('click',()=>{document.getElementById('cv-qi-'+h.dataset.qi).classList.toggle('open');});});
   }
@@ -1145,58 +1289,52 @@ function cvShowResults(text,dur,restoredSession){
     document.getElementById('cv-qintel-meta').textContent='';
     document.getElementById('cv-qf-bar').style.display='none';
   }
-  const openQs=questions.filter(q2=>q2.isOpen);
-  const closedQs=questions.filter(q2=>!q2.isOpen);
-  const totalQs=questions.length;
-  if(totalQs>0){
-    const openRatio=Math.round((openQs.length/totalQs)*100);
-    document.getElementById('cv-qratio').style.display='flex';
-    document.getElementById('cv-qratio-fill').style.width=openRatio+'%';
-    document.getElementById('cv-qratio-nums').textContent=`${openQs.length} open · ${closedQs.length} closed`;
-    setTimeout(()=>{document.getElementById('cv-qratio-fill').style.width=openRatio+'%';},50);
-  }
-  const curiousQs=questions.filter(q2=>q2.type==='curious');
-  const transQs=questions.filter(q2=>q2.type==='transactional');
-  const crEl=document.getElementById('cv-curiosity-ratio');
-  if(totalQs>0){crEl.style.display='block';crEl.innerHTML=`<strong>${curiousQs.length} curious</strong> · ${transQs.length} transactional`;}
-  else{crEl.style.display='none';}
 
-  // Section 3: Unanswered Questions
-  const unanswered=questions.filter(q2=>q2.outcome==='unanswered');
+  // Open/closed ratio
+  const openQs=questions.filter(q=>q.isOpen);
+  if(questions.length>0){
+    const or=Math.round((openQs.length/questions.length)*100);
+    document.getElementById('cv-qratio').style.display='flex';
+    document.getElementById('cv-qratio-fill').style.width=or+'%';
+    document.getElementById('cv-qratio-nums').textContent=`${openQs.length} open \xb7 ${questions.length-openQs.length} closed`;
+    setTimeout(()=>{document.getElementById('cv-qratio-fill').style.width=or+'%';},50);
+  }
+
+  // Unanswered questions
   document.getElementById('cv-uq-count').textContent=unanswered.length?`${unanswered.length} flagged`:'None';
   const uqList=document.getElementById('cv-unanswered-list');
   if(!unanswered.length){uqList.innerHTML='<div class="cv-empty">All questions received a response.</div>';}
   else{
-    uqList.innerHTML=unanswered.map((q2,i)=>`<div class="cv-uq-item"><div class="cv-uq-text">${q2.text}</div><div class="cv-uq-btns"><button class="cv-uq-btn" data-uqi="${i}" data-action="add-action">+ Add to Action Items</button><button class="cv-uq-btn" data-uqi="${i}" data-action="add-agenda">Save as Next Session Agenda</button></div></div>`).join('');
+    uqList.innerHTML=unanswered.map((q,i)=>`<div class="cv-uq-item"><div class="cv-uq-text">${q.text}</div><div class="cv-uq-btns"><button class="cv-uq-btn" data-uqi="${i}" data-action="add-action">+ Add to Action Items</button><button class="cv-uq-btn" data-uqi="${i}" data-action="add-agenda">Save as Next Session Agenda</button></div></div>`).join('');
     uqList.querySelectorAll('[data-action]').forEach(btn=>{
       btn.addEventListener('click',()=>{
-        const q2=unanswered[btn.dataset.uqi];
-        if(btn.dataset.action==='add-action'){cvAddActionItem('Follow up: '+q2.text);}
-        else{cvAddAgendaItem(q2.text);}
-        btn.textContent='✓ Added';btn.disabled=true;
+        const q=unanswered[btn.dataset.uqi];
+        if(btn.dataset.action==='add-action')cvAddActionItem({text:'Follow up: '+q.text,speaker:q.speaker,tag:'single'});
+        else cvAddAgendaItem(q.text);
+        btn.textContent='\u2713 Added';btn.disabled=true;
       });
     });
   }
 
-  // Section 4: Action Items
-  const rawActions=restoredSession&&restoredSession.actions?restoredSession.actions:cvExtractActionItems(lines);
+  // Action items
+  const rawActions=restoredSession&&restoredSession.actions?restoredSession.actions:cvDetectActions(turns);
   cvCurrentActions=[...rawActions];
   cvRenderActions();
 
-  // Section 5: Insights
-  const openRatioPct=totalQs>0?Math.round((openQs.length/totalQs)*100):0;
-  const ins=cvInsights(questions.length,g.length,cc.length,p.length,overall,bench,openRatioPct,totalQs,bldQs.length);
-  document.getElementById('cv-insights').innerHTML='<div class="cv-panel-title">Insights</div>'+ins.map(i=>`<div class="cv-insight-line"><span style="flex-shrink:0;">${i.e}</span><span>${i.t}</span></div>`).join('');
+  // Insights
+  const ins=cvInsights(totalQ,gTotal,cTotal,pTotal,overall,totalB,curiousQs.length,transQs.length);
+  document.getElementById('cv-insights').innerHTML='<div class="cv-panel-title">Insights</div>'+ins.map(item=>`<div class="cv-insight-line"><span style="flex-shrink:0;">${item.e}</span><span>${item.t}</span></div>`).join('');
 
   if(!restoredSession){
-    cvSaveHist({name:sn,session:parseInt(session),meettype,q:questions.length,b:bldQs.length,g:g.length,c:cc.length,p:p.length,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),questions,actions:cvCurrentActions});
+    cvSaveHist({name:sn,session:parseInt(session),meettype,q:totalQ,b:totalB,g:gTotal,c:cTotal,p:pTotal,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),questions,actions:cvCurrentActions});
   }
   cvRenderHist();
 }
 
-function cvAddActionItem(text){
-  if(cvCurrentActions.some(a=>(typeof a==='object'?a.text:a)===text))return;
-  cvCurrentActions.push({text,followed:false});
+function cvAddActionItem(item){
+  const obj=typeof item==='object'?item:{text:item,speaker:'',tag:'single'};
+  if(cvCurrentActions.some(a=>(typeof a==='object'?a.text:a)===obj.text))return;
+  cvCurrentActions.push(obj);
   cvRenderActions();
 }
 
@@ -1204,9 +1342,12 @@ function cvRenderActions(){
   const el=document.getElementById('cv-actions-list');
   if(!cvCurrentActions.length){el.innerHTML='<div class="cv-empty">No action items detected.</div>';return;}
   el.innerHTML=cvCurrentActions.map((a,i)=>{
-    const item=typeof a==='object'?a:{text:a,followed:false};
-    const tag=item.followed?'<span class="cv-ft-tag followed">✓ Followed Through</span>':'<span class="cv-ft-tag pending">● Pending</span>';
-    return `<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><span class="cv-action-text">${item.text}</span>${tag}</div>`;
+    const item=typeof a==='object'?a:{text:a,speaker:'',tag:'single'};
+    const tagMap={developed:'Developed',single:'Single mention',unclear:'Unclear'};
+    const tclass=item.tag==='developed'?'cv-at-developed':item.tag==='unclear'?'cv-at-unclear':'cv-at-single';
+    const tagHtml=item.tag?`<span class="cv-ft-tag ${tclass}">${tagMap[item.tag]||item.tag}</span>`:'';
+    const spkHtml=item.speaker?`<span class="cv-action-spk">${item.speaker}</span>`:'';
+    return`<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><div class="cv-action-body"><span class="cv-action-text">${item.text}</span>${spkHtml}${tagHtml}</div></div>`;
   }).join('');
 }
 
@@ -1222,26 +1363,20 @@ function cvRenderAgenda(){
   if(!cvAgendaItems.length){sec.style.display='none';return;}
   sec.style.display='block';
   document.getElementById('cv-agenda-count').textContent=`${cvAgendaItems.length} item${cvAgendaItems.length!==1?'s':''}`;
-  el.innerHTML=cvAgendaItems.map((a,i)=>`<div class="cv-agenda-item"><span class="cv-agenda-text">${a}</span><button class="cv-agenda-rm" data-ai="${i}">×</button></div>`).join('');
+  el.innerHTML=cvAgendaItems.map((a,i)=>`<div class="cv-agenda-item"><span class="cv-agenda-text">${a}</span><button class="cv-agenda-rm" data-ai="${i}">\xd7</button></div>`).join('');
   el.querySelectorAll('.cv-agenda-rm').forEach(btn=>{btn.addEventListener('click',()=>{cvAgendaItems.splice(btn.dataset.ai,1);cvRenderAgenda();});});
 }
 
-function cvInsights(q,g,c,p,overall,bench,openRatioPct,totalQs,b){
+function cvInsights(q,g,c,p,overall,b,curious,trans){
   const ins=[];
-  if(q===0)ins.push({e:'❓',t:'No high-value questions detected. Questions are the primary signal of active engagement. Try "How does that sit with you?" or "What would be most useful here?"'});
-  else if(q>=bench.q)ins.push({e:'💡',t:`${q} high-value question${q!==1?'s':''} — met the session target of ${bench.q}. Strong curiosity throughout.`});
-  else ins.push({e:'❓',t:`${q} high-value question(s). Session target is ${bench.q}. More open questions signal deeper engagement and care for the other person.`});
-  const bv=b||0;
-  if(bv===0)ins.push({e:'🔗',t:'No building questions detected. Try "Tell me more about that" or "What is underneath that?" to deepen the thread of a response.'});
-  else ins.push({e:'🔗',t:`${bv} building question${bv!==1?'s':''} — excellent work deepening the conversation thread.`});
-  if(g===0)ins.push({e:'🤝',t:'No gratitude expressed. Acknowledgment builds the psychological safety that makes honest conversation possible over time.'});
-  else if(g>=bench.g)ins.push({e:'✨',t:`${g} expressions of gratitude — above the session target of ${bench.g}. Warm, respectful tone throughout.`});
-  else ins.push({e:'🤝',t:`${g} gratitude expression(s). Session target is ${bench.g}. Consistent acknowledgment builds trust over the coaching arc.`});
-  if(c===0)ins.push({e:'✅',t:'No commitments made. Closing with a specific next step — "I will have that done by Friday" — is a clear signal of ownership.'});
-  else ins.push({e:'✅',t:`${c} commitment(s). Each topic should end with a concrete next step and an owner.`});
-  if(p===0)ins.push({e:'🚀',t:'No proactive help offered. Asking "What is getting in the way?" marks a shift from individual performance to shared accountability.'});
-  else ins.push({e:'🚀',t:`${p} proactive check(s) for blockers or resources. This reflects a growing orientation toward collective success.`});
-  if(totalQs>0&&openRatioPct<50)ins.push({e:'🔍',t:`Closed questions made up more than half of all questions this session. Shifting toward open questions — what, how, tell me — tends to unlock richer responses and deeper reflection.`});
+  if(q===0)ins.push({e:'\u2753',t:'No high-value questions detected. Questions are the primary signal of active engagement.'});
+  else ins.push({e:'\U0001f4a1',t:`${q} high-value question${q!==1?'s':''} logged \u2014 ${b>0?b+' building question'+(b!==1?'s':'')+' included.':'consider adding building questions to deepen threads.'}`});
+  if(curious>trans)ins.push({e:'\U0001f50d',t:`Curiosity-forward session \u2014 ${curious} curious vs ${trans} transactional. Strong coaching orientation.`});
+  else if(trans>curious&&trans>0)ins.push({e:'\U0001f50d',t:`${trans} transactional question${trans!==1?'s':''} vs ${curious} curious. Shifting toward exploration tends to unlock deeper thinking.`});
+  if(c===0)ins.push({e:'\u2705',t:'No commitments detected. Closing with "I will\u2026" is the clearest signal of ownership.'});
+  else ins.push({e:'\u2705',t:`${c} commitment${c!==1?'s':''} detected. Follow up on these next session.`});
+  if(g===0)ins.push({e:'\U0001f91d',t:'No gratitude expressed. Acknowledgment builds the psychological safety that makes honest conversation possible.'});
+  else ins.push({e:'\u2728',t:`${g} expression${g!==1?'s':''} of gratitude. Consistent acknowledgment builds trust over the coaching arc.`});
   return ins;
 }
 
@@ -1254,53 +1389,40 @@ function cvRenderHist(){
     document.getElementById('cv-hist-wrap').style.display='block';
     const filtered=cvCurrentFilter==='all'?all:all.filter(s=>s.meettype===cvCurrentFilter);
     const row=document.getElementById('cv-hist-row');
-    row.innerHTML=filtered.map((s,i)=>`<div class="cv-hist-chip" data-hi="${i}" data-meettype="${s.meettype||'1on1'}"><div class="cv-hist-name">${s.name}</div><div class="cv-hist-date">${s.date} · Session ${s.session||s.week||'?'}${s.meettype?' · '+(s.meettype==='1on1'?'1:1':'Team'):''}</div><div class="cv-hist-nums"><span class="cv-hn q">${s.q}</span><span class="cv-hn b">${s.b||0}</span><span class="cv-hn g">${s.g}</span><span class="cv-hn c">${s.c}</span><span class="cv-hn p">${s.p}</span><span class="cv-hs">${s.overall}/100</span></div></div>`).join('');
-    // wire chip clicks
+    row.innerHTML=filtered.map((s,i)=>`<div class="cv-hist-chip" data-hi="${i}"><div class="cv-hist-name">${s.name}</div><div class="cv-hist-date">${s.date} \xb7 Session ${s.session||s.week||'?'} \xb7 ${s.meettype==='1on1'?'1:1':'Team'}</div><div class="cv-hist-nums"><span class="cv-hn q">${s.q}</span><span class="cv-hn b">${s.b||0}</span><span class="cv-hn g">${s.g}</span><span class="cv-hn c">${s.c}</span><span class="cv-hn p">${s.p}</span></div></div>`).join('');
     row.querySelectorAll('.cv-hist-chip').forEach(chip=>{
       chip.addEventListener('click',()=>{
         const s=filtered[chip.dataset.hi];
-        const fakeText=s.questions?s.questions.map(q=>`${q.text}${q.outcome==='unanswered'?'':' Yes.'}`).join('\n'):'';
-        cvShowResults(fakeText,'—',s);
+        const fakeText=s.questions?s.questions.map(q=>`${q.speaker||''}${q.speaker?': ':''}${q.text}${q.outcome==='unanswered'?'':' Yes.'}`).join('\n'):'';
+        cvShowResults(fakeText,'\u2014',s);
         window.scrollTo({top:0,behavior:'smooth'});
       });
     });
-    // trend view — last 5 from filtered
-    const trend5=filtered.slice(0,5).reverse();
-    const trendEl=document.getElementById('cv-trend');
-    trendEl.innerHTML='';
-    if(trend5.length>1){
-      trendEl.style.display='grid';
-      const maxes={q:Math.max(...trend5.map(s=>s.q),1),g:Math.max(...trend5.map(s=>s.g),1),c:Math.max(...trend5.map(s=>s.c),1),p:Math.max(...trend5.map(s=>s.p),1)};
-      ['q','g','c','p'].forEach(k=>{
-        const labels={q:'Questions',g:'Gratitude',c:'Commits',p:'Proactive'};
-        const bars=trend5.map(s=>`<div class="cv-trend-bar ${k}" style="height:${Math.max(4,Math.round((s[k]/maxes[k])*40))}px;" title="S${s.session||s.week||'?'}: ${s[k]}"></div>`).join('');
-        trendEl.innerHTML+=`<div class="cv-trend-col"><div class="cv-trend-label">${labels[k]}</div><div class="cv-trend-bars">${bars}</div></div>`;
-      });
-    } else {trendEl.style.display='none';}
   }catch(e){}
 }
 
-window.cvClearHist = function(){localStorage.removeItem('curio-hist');document.getElementById('cv-hist-wrap').style.display='none';}
+window.cvClearHist=function(){localStorage.removeItem('curio-hist');document.getElementById('cv-hist-wrap').style.display='none';}
 
-window.cvDownload = function(){
-  const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nBuilding: ${document.getElementById('cv-rb').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nACTION ITEMS\n${cvCurrentActions.map((a,i)=>{const item=typeof a==='object'?a:{text:a};return `${i+1}. ${item.text}${item.followed?' [followed through]':' [pending]'}`;}).join('\n')||'None detected'}\n\nNEXT SESSION AGENDA\n${cvAgendaItems.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None saved'}\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;
+window.cvDownload=function(){
+  const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'\u2500'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nBuilding: ${document.getElementById('cv-rb').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nACTION ITEMS\n${cvCurrentActions.map((a,i)=>{const item=typeof a==='object'?a:{text:a};return`${i+1}. [${item.speaker||'?'}] ${item.text} (${item.tag||''})`;}).join('\n')||'None detected'}\n\nNEXT SESSION AGENDA\n${cvAgendaItems.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None saved'}\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;
   const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='curio-report.txt';a.click();
 }
 
 function cvDownloadActions(){
   if(!cvCurrentActions.length)return;
-  const t=`ACTION ITEMS — ${document.getElementById('cv-res-title').textContent}\n${'─'.repeat(40)}\n${cvCurrentActions.map((a,i)=>`${i+1}. ${a}`).join('\n')}`;
+  const t=`ACTION ITEMS \u2014 ${document.getElementById('cv-res-title').textContent}\n${'\u2500'.repeat(40)}\n${cvCurrentActions.map((a,i)=>{const item=typeof a==='object'?a:{text:a};return`${i+1}. [${item.speaker||'?'}] ${item.text}`;}).join('\n')}`;
   const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='action-items.txt';a.click();
 }
 
-window.cvReset = function(){
+window.cvReset=function(){
   cvCurrentActions=[];cvAgendaItems=[];cvCurrentQuestions=[];
   document.getElementById('cv-results').classList.remove('vis');
   document.getElementById('cv-up-area').classList.add('vis');
   document.getElementById('cv-paste').value='';
   document.getElementById('cv-cc').textContent='0 chars';
   document.getElementById('cv-agenda-section').style.display='none';
-  const qfBar=document.getElementById('cv-qf-bar');if(qfBar){qfBar.style.display='none';qfBar.querySelectorAll('.cv-qf-btn').forEach(b=>{b.classList.remove('on');if(b.dataset.qf==='all')b.classList.add('on');});}
+  const qfBar=document.getElementById('cv-qf-bar');
+  if(qfBar){qfBar.style.display='none';qfBar.querySelectorAll('.cv-qf-btn').forEach(b=>{b.classList.remove('on');if(b.dataset.qf==='all')b.classList.add('on');});}
   cvRenderHist();
 }
 
@@ -1308,7 +1430,6 @@ function cvDragOver(e){e.preventDefault();document.getElementById('cv-drop').cla
 function cvDragLeave(){document.getElementById('cv-drop').classList.remove('drag');}
 function cvDrop(e){e.preventDefault();document.getElementById('cv-drop').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)cvReadFile(f);}
 function cvReadFile(f){const r=new FileReader();r.onload=(ev)=>{const t=ev.target.result;document.getElementById('cv-paste').value=t;document.getElementById('cv-cc').textContent=t.length+' chars';const sn=document.getElementById('cv-sname');if(!sn.value)sn.value=f.name.replace(/\.[^.]+$/,'');};r.readAsText(f);}
-
 // ══════════════════════════
 // SYMBIO TOOL
 // ══════════════════════════
