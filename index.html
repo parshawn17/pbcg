@@ -211,7 +211,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-transcript-box{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:20px;max-height:110px;overflow-y:auto;}
 .cv-transcript-text{font-size:11px;color:var(--muted);line-height:1.8;white-space:pre-wrap;}
 
-.cv-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:20px;}
+.cv-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:20px;}
 .cv-kpi{background:var(--white);padding:20px 16px;position:relative;}
 .cv-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
 .cv-kpi.q::before{background:#e63946}.cv-kpi.g::before{background:#2a9d8f}.cv-kpi.c::before{background:#e76f51}.cv-kpi.p::before{background:var(--accent)}.cv-kpi.b::before{background:#7c5cbf}
@@ -352,6 +352,21 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-ctx-q{font-size:13px;color:#7c5cbf;font-weight:600;padding:6px 10px;border-left:3px solid #7c5cbf;margin-bottom:4px;line-height:1.5;}
 .cv-action-ctx{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;border-top:1px solid var(--border);padding-top:5px;}
 .cv-action-ctx-lbl{font-weight:700;color:var(--ink);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-right:5px;}
+/* ── Clickable KPI cards ── */
+.cv-kpi-card{cursor:pointer;transition:box-shadow 0.2s,transform 0.2s;}
+.cv-kpi-card:hover{background:#fafafa;}
+.cv-kpi-card.cv-kpi-active{box-shadow:0 4px 16px rgba(44,58,46,0.12);transform:translateY(-2px);}
+.cv-kpi-card.cv-kpi-active::before{height:3px;}
+.cv-kpi-card.cv-kpi-active .cv-kpi-cat{color:var(--ink);}
+/* ── Dynamic panel system ── */
+.cv-dyn-panels{position:relative;margin-bottom:14px;}
+.cv-dyn-panel{display:none;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px 20px;transition:opacity 250ms ease-in-out,transform 250ms ease-in-out;}
+.cv-panel-meta{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+/* ── Phrase cards (gratitude / proactive) ── */
+.cv-phrase-card{border:1px solid var(--border);border-radius:6px;padding:11px 14px;margin-bottom:7px;background:var(--white);}
+.cv-phrase-text{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:4px;}
+.cv-phrase-spk{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+
 /* ════════════════════════
    SYMBIO TOOL
 ════════════════════════ */
@@ -655,72 +670,54 @@ window.go = go;
         </div>
         <div class="cv-transcript-box"><div class="cv-transcript-text" id="cv-tx"></div></div>
 
-        <!-- Section 1: KPIs + Score -->
-        <div class="cv-kpi-row">
-          <div class="cv-kpi q"><div class="cv-kpi-cat">Questions</div><div class="cv-kpi-num" id="cv-rq">0</div><div class="cv-kpi-desc">Clarifying &amp; open-ended</div></div>
-          <div class="cv-kpi g"><div class="cv-kpi-cat">Gratitude</div><div class="cv-kpi-num" id="cv-rg">0</div><div class="cv-kpi-desc">Respect &amp; appreciation</div></div>
-          <div class="cv-kpi c"><div class="cv-kpi-cat">Commitments</div><div class="cv-kpi-num" id="cv-rc">0</div><div class="cv-kpi-desc">Ownership &amp; follow-through</div></div>
-          <div class="cv-kpi p"><div class="cv-kpi-cat">Proactive Help</div><div class="cv-kpi-num" id="cv-rp">0</div><div class="cv-kpi-desc">Blocker &amp; resource checks</div></div>
-
-        </div>
+        <!-- Layer 1: Summary bar -->
         <div class="cv-score-strip">
           <div class="cv-score-left"><div class="cv-score-num" id="cv-score">—</div><div class="cv-score-out">/ 100</div></div>
           <div class="cv-grade" id="cv-grade">—</div>
           <div class="cv-score-right" id="cv-score-right"></div>
         </div>
-
         <div class="cv-top-insight" id="cv-top-insight" style="display:none;"></div>
         <div class="cv-section" id="cv-per-person" style="display:none;"><div class="cv-section-head"><div class="cv-section-title">Per Person</div></div><div id="cv-per-person-list"></div></div>
-        <div class="cv-bottom">
-          <div class="cv-panel">
-            <div class="cv-panel-title">Score Breakdown</div>
-            <div class="cv-bar-item"><div class="cv-bar-name">Questions</div><div class="cv-bar-track"><div class="cv-bar-fill q" id="cv-br-q"></div></div><div class="cv-bar-pct" id="cv-br-qv">—</div></div>
-            <div class="cv-bar-item"><div class="cv-bar-name">Gratitude</div><div class="cv-bar-track"><div class="cv-bar-fill g" id="cv-br-g"></div></div><div class="cv-bar-pct" id="cv-br-gv">—</div></div>
-            <div class="cv-bar-item"><div class="cv-bar-name">Commits</div><div class="cv-bar-track"><div class="cv-bar-fill c" id="cv-br-c"></div></div><div class="cv-bar-pct" id="cv-br-cv">—</div></div>
-            <div class="cv-bar-item"><div class="cv-bar-name">Proactive</div><div class="cv-bar-track"><div class="cv-bar-fill p" id="cv-br-p"></div></div><div class="cv-bar-pct" id="cv-br-pv">—</div></div>
 
+        <!-- Layer 2: Clickable scorecard -->
+        <div class="cv-kpi-row" id="cv-kpi-row">
+          <div class="cv-kpi q cv-kpi-card" data-panel="questions"><div class="cv-kpi-cat">Questions</div><div class="cv-kpi-num" id="cv-rq">0</div><div class="cv-kpi-desc">Clarifying &amp; open-ended</div></div>
+          <div class="cv-kpi g cv-kpi-card" data-panel="gratitude"><div class="cv-kpi-cat">Gratitude</div><div class="cv-kpi-num" id="cv-rg">0</div><div class="cv-kpi-desc">Respect &amp; appreciation</div></div>
+          <div class="cv-kpi c cv-kpi-card" data-panel="commitments"><div class="cv-kpi-cat">Commitments</div><div class="cv-kpi-num" id="cv-rc">0</div><div class="cv-kpi-desc">Ownership &amp; follow-through</div></div>
+          <div class="cv-kpi p cv-kpi-card" data-panel="proactive"><div class="cv-kpi-cat">Proactive Help</div><div class="cv-kpi-num" id="cv-rp">0</div><div class="cv-kpi-desc">Blocker &amp; resource checks</div></div>
+        </div>
+
+        <!-- Layer 3: Dynamic panels -->
+        <div class="cv-dyn-panels" id="cv-dyn-panels">
+          <div class="cv-dyn-panel" id="cv-panel-questions">
+            <div class="cv-panel-meta" id="cv-qintel-meta"></div>
+            <div class="cv-qf-bar" id="cv-qf-bar" style="display:none;">
+              <button class="cv-qf-btn on" data-qf="all">All</button>
+              <button class="cv-qf-btn" data-qf="building">Building</button>
+              <button class="cv-qf-btn" data-qf="unanswered">Unanswered</button>
+              <button class="cv-qf-btn" data-qf="curious">Curious</button>
+              <button class="cv-qf-btn" data-qf="transactional">Transactional</button>
+            </div>
+            <div id="cv-qlist"></div>
+            <div class="cv-curiosity-ratio" id="cv-curiosity-ratio" style="display:none;"></div>
+            <div class="cv-qratio" id="cv-qratio" style="display:none;">
+              <span class="cv-qratio-label">Open</span>
+              <div class="cv-qratio-bar"><div class="cv-qratio-fill" id="cv-qratio-fill"></div></div>
+              <span class="cv-qratio-nums" id="cv-qratio-nums"></span>
+            </div>
           </div>
-          <div class="cv-panel">
-            <div class="cv-panel-title">Detected Phrases</div>
-            <div id="cv-matches"></div>
+          <div class="cv-dyn-panel" id="cv-panel-gratitude">
+            <div id="cv-gratitude-list"></div>
+          </div>
+          <div class="cv-dyn-panel" id="cv-panel-commitments">
+            <div id="cv-actions-list"></div>
+          </div>
+          <div class="cv-dyn-panel" id="cv-panel-proactive">
+            <div id="cv-proactive-list"></div>
           </div>
         </div>
 
-        <!-- Section 2: Question Intelligence -->
-        <div class="cv-section">
-          <div class="cv-section-head">
-            <div class="cv-section-title">Question Intelligence</div>
-            <div class="cv-section-sub" id="cv-qintel-meta"></div>
-          </div>
-          <div class="cv-qf-bar" id="cv-qf-bar" style="display:none;">
-            <button class="cv-qf-btn on" data-qf="all">All</button>
-            <button class="cv-qf-btn" data-qf="building">Building</button>
-            <button class="cv-qf-btn" data-qf="unanswered">Unanswered</button>
-            <button class="cv-qf-btn" data-qf="curious">Curious</button>
-            <button class="cv-qf-btn" data-qf="transactional">Transactional</button>
-          </div>
-          <div id="cv-qlist"></div>
-          <div class="cv-curiosity-ratio" id="cv-curiosity-ratio" style="display:none;"></div>
-          <div class="cv-qratio" id="cv-qratio" style="display:none;">
-            <span class="cv-qratio-label">Open</span>
-            <div class="cv-qratio-bar"><div class="cv-qratio-fill" id="cv-qratio-fill"></div></div>
-            <span class="cv-qratio-nums" id="cv-qratio-nums"></span>
-          </div>
-        </div>
-
-        <!-- Section 3: Action Items -->
-        <div class="cv-section">
-          <div class="cv-section-head">
-            <div class="cv-section-title">Action Items</div>
-            <button class="cv-reset-btn" id="cv-dl-actions-btn" style="font-size:10px;padding:5px 12px;">↓ Download</button>
-          </div>
-          <div id="cv-actions-list"></div>
-        </div>
-
-        <!-- Section 5: Insights -->
-        <div class="cv-insights" id="cv-insights"></div>
-
-        <!-- Running Next Session Agenda -->
+        <!-- Next Session Agenda -->
         <div class="cv-section" id="cv-agenda-section" style="display:none;">
           <div class="cv-section-head">
             <div class="cv-section-title">Next Session Agenda</div>
@@ -994,6 +991,9 @@ let cvAgendaItems=[];
 let cvCurrentActions=[];
 let cvCurrentQuestions=[];
 let cvCurrentTurns=[];
+let cvActivePanel=null;
+let cvCurrentGratitudeMatches=[];
+let cvCurrentProactiveMatches=[];
 
 function cvGetSessionNum(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');return h.length+1;}catch(e){return 1;}}
 
@@ -1281,6 +1281,69 @@ function cvBuildContextHtml(turns,turnIdx,question,centerLabel){
   return html;
 }
 
+// ── Panel switcher ────────────────────────────────────────────
+function cvSwitchPanel(name){
+  const newPanel=document.getElementById('cv-panel-'+name);
+  if(!newPanel)return;
+  document.querySelectorAll('.cv-kpi-card').forEach(k=>{k.classList.toggle('cv-kpi-active',k.dataset.panel===name);});
+  if(cvActivePanel&&cvActivePanel!==newPanel){
+    const old=cvActivePanel;
+    old.style.opacity='0';old.style.transform='translateY(-8px)';
+    cvActivePanel=newPanel;
+    setTimeout(()=>{
+      old.style.display='none';old.style.opacity='';old.style.transform='';
+      newPanel.style.display='block';newPanel.style.opacity='0';newPanel.style.transform='translateY(8px)';
+      requestAnimationFrame(()=>{requestAnimationFrame(()=>{newPanel.style.opacity='1';newPanel.style.transform='translateY(0)';});});
+    },250);
+  }else{
+    cvActivePanel=newPanel;
+    newPanel.style.display='block';newPanel.style.opacity='0';newPanel.style.transform='translateY(8px)';
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{newPanel.style.opacity='1';newPanel.style.transform='translateY(0)';});});
+  }
+}
+
+// ── Gratitude panel renderer ──────────────────────────────────
+function cvRenderGratitudePanel(){
+  const el=document.getElementById('cv-gratitude-list');
+  if(!el)return;
+  if(!cvCurrentGratitudeMatches.length){el.innerHTML='<div class="cv-empty">No gratitude phrases detected in this session.</div>';return;}
+  el.innerHTML=cvCurrentGratitudeMatches.map((m,i)=>{
+    const spkHtml=m.speaker?`<span class="cv-phrase-spk">${m.speaker}</span>`:'';
+    return`<div class="cv-phrase-card"><div class="cv-phrase-text">${m.text}</div>${spkHtml}<button class="cv-ctx-btn cv-phrase-ctx-btn" data-pi="${i}" data-ptype="g">Give Context</button><div class="cv-ctx-area" id="cv-gctx-${i}" style="display:none;"></div></div>`;
+  }).join('');
+  el.querySelectorAll('.cv-phrase-ctx-btn[data-ptype="g"]').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      const i=parseInt(btn.dataset.pi);const m=cvCurrentGratitudeMatches[i];
+      const ctxDiv=document.getElementById('cv-gctx-'+i);
+      if(ctxDiv.style.display!=='none'){ctxDiv.style.display='none';btn.textContent='Give Context';return;}
+      ctxDiv.innerHTML=cvCurrentTurns.length?cvBuildContextHtml(cvCurrentTurns,m.turnIdx,{text:m.text}):'<p>Context not available.</p>';
+      ctxDiv.style.display='block';btn.textContent='Hide Context';
+    });
+  });
+}
+
+// ── Proactive Help panel renderer ────────────────────────────
+function cvRenderProactivePanel(){
+  const el=document.getElementById('cv-proactive-list');
+  if(!el)return;
+  if(!cvCurrentProactiveMatches.length){el.innerHTML='<div class="cv-empty">No proactive help phrases detected in this session.</div>';return;}
+  el.innerHTML=cvCurrentProactiveMatches.map((m,i)=>{
+    const spkHtml=m.speaker?`<span class="cv-phrase-spk">${m.speaker}</span>`:'';
+    return`<div class="cv-phrase-card"><div class="cv-phrase-text">${m.text}</div>${spkHtml}<button class="cv-ctx-btn cv-phrase-ctx-btn" data-pi="${i}" data-ptype="p">Give Context</button><div class="cv-ctx-area" id="cv-pctx-${i}" style="display:none;"></div></div>`;
+  }).join('');
+  el.querySelectorAll('.cv-phrase-ctx-btn[data-ptype="p"]').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      const i=parseInt(btn.dataset.pi);const m=cvCurrentProactiveMatches[i];
+      const ctxDiv=document.getElementById('cv-pctx-'+i);
+      if(ctxDiv.style.display!=='none'){ctxDiv.style.display='none';btn.textContent='Give Context';return;}
+      ctxDiv.innerHTML=cvCurrentTurns.length?cvBuildContextHtml(cvCurrentTurns,m.turnIdx,{text:m.text}):'<p>Context not available.</p>';
+      ctxDiv.style.display='block';btn.textContent='Hide Context';
+    });
+  });
+}
+
 // ── Show Results ──────────────────────────────────────────────
 function cvShowResults(text,dur,restoredSession){
   document.getElementById('cv-up-area').classList.remove('vis');
@@ -1354,34 +1417,7 @@ function cvShowResults(text,dur,restoredSession){
     } else ppEl.style.display='none';
   }
 
-  // Detected phrases — full expandable lists
-  const mp=document.getElementById('cv-matches');
-  if(mp){
-    function buildChipList(matches,label){
-      if(!matches.length)return'';
-      const chips=matches.map(m=>`<span class="cv-match-tag">"${m}"</span>`);
-      let h=`<div class="cv-match-sec-lbl">${label}</div>`;
-      if(chips.length<=8){h+=chips.join('');}
-      else{
-        h+=chips.slice(0,8).join('');
-        h+=`<div class="cv-match-expand"><button class="cv-match-more-btn">Show All (${chips.length})</button><span class="cv-match-extra" style="display:none;">${chips.slice(8).join('')}</span></div>`;
-      }
-      return h;
-    }
-    const gm=[...new Set((text.match(CV_G_PAT)||[]).map(m=>m.toLowerCase()))];
-    const cm=[...new Set((text.match(CV_COMMIT_PAT)||[]).map(m=>m.toLowerCase()))];
-    const pm=[...new Set((text.match(CV_P_PAT)||[]).map(m=>m.toLowerCase()))].slice(0,4);
-    mp.innerHTML=buildChipList(gm,'Gratitude')+buildChipList(cm,'Commitments');
-    if(pm.length){mp.innerHTML+=`<div class="cv-match-sec-lbl">Proactive</div>`;pm.forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});}
-    if(!mp.innerHTML)mp.innerHTML='<div class="cv-empty">No skill phrases detected.</div>';
-    mp.querySelectorAll('.cv-match-more-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const extra=btn.nextElementSibling;
-        if(extra.style.display==='none'){extra.style.display='inline';btn.textContent='Show Less';}
-        else{extra.style.display='none';btn.textContent=`Show All`;}
-      });
-    });
-  }
+
 
   // Question list with filter bar
   let cvQFilter='all';
@@ -1460,9 +1496,17 @@ function cvShowResults(text,dur,restoredSession){
   cvCurrentActions=[...rawActions];
   cvRenderActions();
 
-  // Insights
-  const ins=cvInsights(totalQ,gTotal,cTotal,pTotal,overall,totalB,curiousQs.length,transQs.length);
-  document.getElementById('cv-insights').innerHTML='<div class="cv-panel-title">Insights</div>'+ins.map(item=>`<div class="cv-insight-line"><span style="flex-shrink:0;">${item.e}</span><span>${item.t}</span></div>`).join('');
+  // Phrase matches for Gratitude and Proactive panels
+  cvCurrentGratitudeMatches=[];cvCurrentProactiveMatches=[];
+  turns.forEach((t,i)=>{
+    if(CV_G_PAT.test(t.sentence))cvCurrentGratitudeMatches.push({text:t.sentence,speaker:t.speaker,turnIdx:i});
+    if(CV_P_PAT.test(t.sentence))cvCurrentProactiveMatches.push({text:t.sentence,speaker:t.speaker,turnIdx:i});
+  });
+  cvRenderGratitudePanel();
+  cvRenderProactivePanel();
+  // Init panel click handlers and open Questions panel by default
+  document.querySelectorAll('.cv-kpi-card').forEach(k=>{k.addEventListener('click',()=>cvSwitchPanel(k.dataset.panel));});
+  cvSwitchPanel('questions');
 
   if(!restoredSession){
     cvSaveHist({name:sn,session:parseInt(session),meettype,q:totalQ,b:totalB,g:gTotal,c:cTotal,p:pTotal,dur,overall,date:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),questions,actions:cvCurrentActions});
@@ -1555,7 +1599,7 @@ function cvRenderHist(){
 window.cvClearHist=function(){localStorage.removeItem('curio-hist');document.getElementById('cv-hist-wrap').style.display='none';}
 
 window.cvDownload=function(){
-  const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'\u2500'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nBuilding: ${document.getElementById('cv-rb').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nACTION ITEMS\n${cvCurrentActions.map((a,i)=>{const item=typeof a==='object'?a:{text:a};return`${i+1}. [${item.speaker||'?'}] ${item.text} (${item.tag||''})`;}).join('\n')||'None detected'}\n\nNEXT SESSION AGENDA\n${cvAgendaItems.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None saved'}\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;
+  const t=`CURIO SESSION REPORT\n${document.getElementById('cv-res-title').textContent}\n${'\u2500'.repeat(40)}\nQuestions: ${document.getElementById('cv-rq').textContent}\nGratitude: ${document.getElementById('cv-rg').textContent}\nCommitments: ${document.getElementById('cv-rc').textContent}\nProactive: ${document.getElementById('cv-rp').textContent}\nScore: ${document.getElementById('cv-score').textContent}/100\n\nACTION ITEMS\n${cvCurrentActions.map((a,i)=>{const item=typeof a==='object'?a:{text:a};return`${i+1}. [${item.speaker||'?'}] ${item.text} (${item.tag||''})`;}).join('\n')||'None detected'}\n\nNEXT SESSION AGENDA\n${cvAgendaItems.map((a,i)=>`${i+1}. ${a}`).join('\n')||'None saved'}\n\nTRANSCRIPT\n${document.getElementById('cv-tx').textContent}`;
   const b=new Blob([t],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='curio-report.txt';a.click();
 }
 
@@ -1566,7 +1610,9 @@ function cvDownloadActions(){
 }
 
 window.cvReset=function(){
-  cvCurrentActions=[];cvAgendaItems=[];cvCurrentQuestions=[];
+  cvCurrentActions=[];cvAgendaItems=[];cvCurrentQuestions=[];cvCurrentGratitudeMatches=[];cvCurrentProactiveMatches=[];cvActivePanel=null;
+  document.querySelectorAll('.cv-dyn-panel').forEach(p=>{p.style.display='none';p.style.opacity='';p.style.transform='';});
+  document.querySelectorAll('.cv-kpi-card').forEach(k=>k.classList.remove('cv-kpi-active'));
   document.getElementById('cv-results').classList.remove('vis');
   document.getElementById('cv-up-area').classList.add('vis');
   document.getElementById('cv-paste').value='';
