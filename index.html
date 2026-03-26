@@ -343,6 +343,15 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-ctx-btn:hover{background:#dde6ff;}
 .cv-ctx-area{margin-top:8px;background:#f8f9fb;border-left:3px solid #7c5cbf;padding:10px 12px;border-radius:0 6px 6px 0;font-size:12px;color:var(--ink);line-height:1.6;}
 .cv-ctx-area p{margin:0;}
+.cv-ctx-section{padding:2px 0;}
+.cv-ctx-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px;margin-bottom:4px;font-weight:600;}
+.cv-ctx-q-label{color:#7c5cbf;}
+.cv-ctx-line{display:flex;gap:8px;margin-bottom:4px;align-items:flex-start;}
+.cv-ctx-spk{font-size:11px;font-weight:600;color:var(--ink);min-width:80px;flex-shrink:0;}
+.cv-ctx-text{font-size:12px;color:var(--ink);line-height:1.5;}
+.cv-ctx-q{font-size:13px;color:#7c5cbf;font-weight:600;padding:6px 10px;border-left:3px solid #7c5cbf;margin-bottom:4px;line-height:1.5;}
+.cv-action-ctx{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;border-top:1px solid var(--border);padding-top:5px;}
+.cv-action-ctx-lbl{font-weight:700;color:var(--ink);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-right:5px;}
 /* ════════════════════════
    SYMBIO TOOL
 ════════════════════════ */
@@ -1022,30 +1031,6 @@ function cvSplitSentences(text){
   return sentences;
 }
 
-function cvGenerateContext(turns,turnIdx,question){
-  const before=turns.slice(Math.max(0,turnIdx-3),turnIdx);
-  const after=turns.slice(turnIdx+1,Math.min(turns.length,turnIdx+4));
-  let summary='';
-  if(before.length){
-    const spks=[...new Set(before.map(t=>t.speaker).filter(Boolean))];
-    const allText=before.map(t=>t.sentence).join(' ');
-    const keywords=allText.split(/\W+/).filter(w=>w.length>4&&!CV_STOP.has(w.toLowerCase())).slice(0,4);
-    const spkStr=spks.length?spks.join(' and '):'The participant';
-    summary+=spks.length&&keywords.length?`${spkStr} was discussing ${keywords.join(', ')}.`:keywords.length?`The conversation touched on ${keywords.join(', ')} before this question.`:'This question came up early in the conversation.';
-    summary+=' ';
-  } else {summary='This question came up early in the conversation. ';}
-  summary+=`${question.speaker||'The coach'} then raised this question. `;
-  if(after.length){
-    const respSpks=[...new Set(after.map(t=>t.speaker).filter(Boolean))].filter(s=>s!==question.speaker);
-    const respSpk=respSpks[0]||([...new Set(after.map(t=>t.speaker).filter(Boolean))][0]);
-    if(respSpk){
-      const respText=after.filter(t=>t.speaker===respSpk).map(t=>t.sentence).join(' ');
-      const kw=respText.split(/\W+/).filter(w=>w.length>4&&!CV_STOP.has(w.toLowerCase())).slice(0,4);
-      summary+=kw.length?`${respSpk} responded, touching on ${kw.join(', ')}.`:`${respSpk} responded following the question.`;
-    } else {summary+='No direct response followed.';}
-  } else {summary+='No further conversation followed.';}
-  return summary;
-}
 
 function cvPreProcess(text){
   const rawLines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>2);
@@ -1091,7 +1076,7 @@ const CV_Q_OPENERS=/^(what|how|why|tell me|help me understand|describe|walk me t
 const CV_BUILD_OPENERS=/^(and what else|tell me more|what's underneath that|what would that look like|say more about that|what do you mean by|can you say more|what else is there|how does that connect|what makes that)\b/i;
 const CV_TX_PAT=/what time|when is|who is responsible|what is the status|what is the update|have you sent|did you send/i;
 const CV_CU_PAT=/\b(what|how|why|tell me|help me understand|what if|what else|what would|what got|what is getting|what are you noticing|what does that mean)\b/i;
-const CV_COMMIT_PAT=/\b(i will|i'll|i'm going to|i plan to|i need to|i should|by friday|by end of week|this week|next week|i'll follow up|i'll send|i'll reach out|i'll set up|will do)\b/i;
+const CV_COMMIT_PAT=/\b(i will|i'll|i'm going to|i plan to|i need to|i should|by friday|by end of week|this week|next week|i'll follow up|i'll send|i'll reach out|i'll set up)\b/i;
 const CV_DIRECT_RESP=/\b(yes|no|i think|well|because|so|the reason|actually|honestly|i believe|what i mean)\b/i;
 const CV_G_PAT=/\b(thank you|thanks|i appreciate|appreciate that|that's helpful|that's great|good point|good question)\b/i;
 const CV_P_PAT=/\b(what do you need|what's getting in the way|blocking you|how can i help|let me know if you need|is there anything i can|how can i support)\b/i;
@@ -1108,14 +1093,16 @@ function cvBuildTurnIdx(turns){
   return turns.map(t=>{if(t.speaker!==last){idx++;last=t.speaker;}return idx;});
 }
 
-// ── Question detection — 2-of-3 signals ──────────────────────
+// ── REWRITE 1: Question detection — ends with ?, 3 signals, cap at 15 ────────
 function cvDetectQuestions(turns){
   const questions=[];
   turns.forEach((turn,i)=>{
     const t=turn.sentence;
-    if(!t.includes('?')&&!CV_Q_OPENERS.test(t))return;
-    const sigA=CV_Q_OPENERS.test(t)||t.trim().endsWith('?');
-    // Signal B: receiver responded with 3+ sentences
+    // Only sentences ending with a question mark
+    if(!t.trimEnd().endsWith('?'))return;
+    // Signal A: genuine opener is first word (after filler removal already done)
+    const sigA=CV_Q_OPENERS.test(t);
+    // Signal B: receiving speaker responded with 3+ cleaned sentences
     let sigB=false;
     for(let j=i+1;j<Math.min(i+40,turns.length);j++){
       if(turns[j].speaker&&turns[j].speaker!==turn.speaker){
@@ -1124,21 +1111,21 @@ function cvDetectQuestions(turns){
         sigB=cnt>=3;break;
       }
     }
-    // Signal C: key concepts appear in 2/3 turns before AND after
+    // Signal C: key nouns/verbs in 2/3 turns before AND 2/3 turns after
     const concepts=t.toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
     let sigC=false;
     if(concepts.length>0){
-      const prev3=turns.slice(Math.max(0,i-3),i).map(t=>t.sentence.toLowerCase());
-      const next3=turns.slice(i+1,i+4).map(t=>t.sentence.toLowerCase());
-      const ph=prev3.filter(pt=>concepts.some(c=>pt.includes(c))).length;
-      const nh=next3.filter(nt=>concepts.some(c=>nt.includes(c))).length;
+      const prev3=turns.slice(Math.max(0,i-3),i).map(u=>u.sentence.toLowerCase());
+      const next3=turns.slice(i+1,i+4).map(u=>u.sentence.toLowerCase());
+      const ph=prev3.filter(pt=>concepts.some(cv=>pt.includes(cv))).length;
+      const nh=next3.filter(nt=>concepts.some(cv=>nt.includes(cv))).length;
       sigC=ph>=2&&nh>=2;
     }
     const sigCount=(sigA?1:0)+(sigB?1:0)+(sigC?1:0);
     if(sigCount<2)return;
     let outcome='answered-no-action';
     const nxt=turns.slice(i+1,i+20);
-    const firstOther=nxt.find(t2=>t2.speaker&&t2.speaker!==turn.speaker);
+    const firstOther=nxt.find(u=>u.speaker&&u.speaker!==turn.speaker);
     if(!firstOther){outcome='unanswered';}
     else{
       const oi=nxt.indexOf(firstOther);
@@ -1146,10 +1133,12 @@ function cvDetectQuestions(turns){
       for(let j=oi;j<nxt.length&&nxt[j].speaker===firstOther.speaker;j++)rb.push(nxt[j].sentence);
       const rt=rb.join(' ');
       if(rb.length<2&&!CV_DIRECT_RESP.test(rt))outcome='unanswered';
-      else if(CV_COMMIT_PAT.test(nxt.map(t=>t.sentence).join(' ')))outcome='answered-action';
+      else if(CV_COMMIT_PAT.test(nxt.map(u=>u.sentence).join(' ')))outcome='answered-action';
     }
-    questions.push({text:t,speaker:turn.speaker||'Unknown',outcome,type:cvClassifyQType(t),allThree:sigCount===3,isBuilding:false,isOpen:CV_Q_OPENERS.test(t),turnIdx:i});
+    questions.push({text:t,speaker:turn.speaker||'Unknown',outcome,type:cvClassifyQType(t),allThree:sigCount===3,isBuilding:false,isOpen:sigA,turnIdx:i});
   });
+  // Tighten: if >15 logged, keep only those with opener as first word
+  if(questions.length>15)return questions.filter(q=>CV_Q_OPENERS.test(q.text));
   return questions;
 }
 
@@ -1158,7 +1147,7 @@ function cvDetectBuilding(turns,mainQs){
   const buildQs=[];
   const tidx=cvBuildTurnIdx(turns);
   const qTurnMap=mainQs.map(q=>{
-    const idx=q.turnIdx!=null?q.turnIdx:turns.findIndex(t=>t.sentence===q.text&&t.speaker===q.speaker);
+    const idx=q.turnIdx!=null?q.turnIdx:-1;
     return{q,ti:idx>=0?tidx[idx]:-1};
   });
   turns.forEach((turn,i)=>{
@@ -1168,53 +1157,74 @@ function cvDetectBuilding(turns,mainQs){
     if(!hasAnchor)return;
     let outcome='answered-no-action';
     const nxt=turns.slice(i+1,i+20);
-    const firstOther=nxt.find(t2=>t2.speaker&&t2.speaker!==turn.speaker);
+    const firstOther=nxt.find(u=>u.speaker&&u.speaker!==turn.speaker);
     if(!firstOther){outcome='unanswered';}
     else{
       const oi=nxt.indexOf(firstOther);
       const rb=[];
       for(let j=oi;j<nxt.length&&nxt[j].speaker===firstOther.speaker;j++)rb.push(nxt[j].sentence);
       if(rb.length<2&&!CV_DIRECT_RESP.test(rb.join(' ')))outcome='unanswered';
-      else if(CV_COMMIT_PAT.test(nxt.map(t=>t.sentence).join(' ')))outcome='answered-action';
+      else if(CV_COMMIT_PAT.test(nxt.map(u=>u.sentence).join(' ')))outcome='answered-action';
     }
     buildQs.push({text:turn.sentence,speaker:turn.speaker||'Unknown',outcome,type:'building',allThree:false,isBuilding:true,isOpen:true,turnIdx:i});
   });
   return buildQs;
 }
 
-// ── Action item detection + clustering ───────────────────────
+// ── REWRITE 2: Action item detection — verb-object extract + context ──────────
 function cvDetectActions(turns){
-  // Step 1: detect seeds
+  // Step 1: find seeds, capture context = sentence immediately before
   const seeds=[];
-  turns.forEach((turn,i)=>{if(!CV_COMMIT_PAT.test(turn.sentence))return;seeds.push({text:turn.sentence,speaker:turn.speaker||'Unknown',idx:i});});
-  // Step 2: extract verb-object task
+  turns.forEach((turn,i)=>{
+    if(!CV_COMMIT_PAT.test(turn.sentence))return;
+    const context=i>0?turns[i-1].sentence:'';
+    seeds.push({text:turn.sentence,speaker:turn.speaker||'Unknown',idx:i,context});
+  });
+  // Step 2: extract verb + object only
   function extractTask(text){
-    const m=text.match(/\b(i will|i'll|i'm going to|i plan to|i need to|i should)\s+(.{5,60}?)(?:[.,!?]|$)/i);
-    return m?m[2].toLowerCase().trim():text.toLowerCase().trim();
+    const m=text.match(/\b(i will|i'll|i'm going to|i plan to|i need to|i should)\s+(.{4,60}?)(?:[.,!?]|$)/i);
+    if(m)return m[2].trim();
+    const m2=text.match(/\b(i'll follow up|i'll send|i'll reach out|i'll set up)\s*(.{0,50}?)(?:[.,!?]|$)/i);
+    if(m2)return(m2[1]+' '+(m2[2]||'')).trim();
+    return text.trim();
   }
-  // Step 3: cluster by verb-object/topic overlap
+  // Step 3: cluster aggressively by verb/person/topic
   const clusters=[];const used=new Set();
-  seeds.forEach((seed,i)=>{
-    if(used.has(i))return;
-    const cluster=[seed];used.add(i);
-    const taskA=extractTask(seed.text);
+  seeds.forEach((seed,si)=>{
+    if(used.has(si))return;
+    const cluster=[seed];used.add(si);
+    const taskA=extractTask(seed.text).toLowerCase();
     const wordsA=taskA.split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
-    for(let j=i+1;j<seeds.length;j++){
-      if(used.has(j))continue;
-      const taskB=extractTask(seeds[j].text);
+    for(let sj=si+1;sj<seeds.length;sj++){
+      if(used.has(sj))continue;
+      const taskB=extractTask(seeds[sj].text).toLowerCase();
       const wordsB=taskB.split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
       const overlap=wordsA.filter(w=>wordsB.includes(w)).length;
-      if(overlap>=2||(overlap>=1&&seeds[j].speaker===seed.speaker)){cluster.push(seeds[j]);used.add(j);}
+      if(overlap>=2||(overlap>=1&&seeds[sj].speaker===seed.speaker)){cluster.push(seeds[sj]);used.add(sj);}
     }
     clusters.push(cluster);
   });
-  // Step 4: cap at 8, derive display text + tag
+  // Merge most similar pairs until <=8
+  while(clusters.length>8){
+    let bI=-1,bJ=-1,bS=0;
+    for(let ci=0;ci<clusters.length;ci++){
+      for(let cj=ci+1;cj<clusters.length;cj++){
+        const wA=extractTask(clusters[ci][0].text).toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
+        const wB=extractTask(clusters[cj][0].text).toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
+        const sc=wA.filter(w=>wB.includes(w)).length;
+        if(sc>bS){bS=sc;bI=ci;bJ=cj;}
+      }
+    }
+    if(bI<0)break;
+    clusters[bI]=[...clusters[bI],...clusters[bJ]];clusters.splice(bJ,1);
+  }
+  // Step 4: tag and attribute; clean task + one context sentence
   return clusters.slice(0,8).map(cluster=>{
     const best=cluster.reduce((a,b)=>a.text.length>b.text.length?a:b);
-    const tag=cluster.length>=3?'developed':cluster.length===1&&best.text.split(/\s+/).length>5?'single':'unclear';
     const taskText=extractTask(best.text);
     const display=taskText.charAt(0).toUpperCase()+taskText.slice(1);
-    return{text:display||best.text,speaker:best.speaker,tag,count:cluster.length};
+    const tag=cluster.length>=3?'developed':taskText.split(/\s+/).length>4?'single':'unclear';
+    return{text:display||best.text,speaker:best.speaker,tag,count:cluster.length,context:best.context};
   });
 }
 
@@ -1246,6 +1256,24 @@ function cvTopInsight(q,b,curious,trans,unanswered){
   if(b>0)parts.push(`${b} building`);
   if(unanswered>0)parts.push(`${unanswered} unanswered`);
   return parts.join(' \xb7 ')+'.';
+}
+
+// ── REWRITE 3: Give Context — labeled before/question/after sections ──────────
+function cvBuildContextHtml(turns,turnIdx,question){
+  const before=turns.slice(Math.max(0,turnIdx-2),turnIdx);
+  const after=turns.slice(turnIdx+1,Math.min(turns.length,turnIdx+3));
+  let html='<div class="cv-ctx-section">';
+  if(before.length){
+    html+='<div class="cv-ctx-label">Before</div>';
+    before.forEach(u=>{html+=`<div class="cv-ctx-line"><span class="cv-ctx-spk">${u.speaker||'\u2014'}</span><span class="cv-ctx-text">${u.sentence}</span></div>`;});
+  }
+  html+=`<div class="cv-ctx-label cv-ctx-q-label">Question</div><div class="cv-ctx-q">${question.text}</div>`;
+  if(after.length){
+    html+='<div class="cv-ctx-label">After</div>';
+    after.forEach(u=>{html+=`<div class="cv-ctx-line"><span class="cv-ctx-spk">${u.speaker||'\u2014'}</span><span class="cv-ctx-text">${u.sentence}</span></div>`;});
+  }
+  html+='</div>';
+  return html;
 }
 
 // ── Show Results ──────────────────────────────────────────────
@@ -1363,8 +1391,8 @@ function cvShowResults(text,dur,restoredSession){
         const ctxDiv=document.getElementById('cv-ctx-'+i);
         if(ctxDiv.style.display!=='none'){ctxDiv.style.display='none';btn.textContent='Give Context';return;}
         const ti=q.turnIdx!=null?q.turnIdx:-1;
-        const ctx=ti>=0?cvGenerateContext(turns,ti,q):'Context not available for this session.';
-        ctxDiv.innerHTML=`<p>${ctx}</p>`;ctxDiv.style.display='block';btn.textContent='Hide Context';
+        ctxDiv.innerHTML=ti>=0?cvBuildContextHtml(turns,ti,q):'<p>Context not available for this session.</p>';
+        ctxDiv.style.display='block';btn.textContent='Hide Context';
       });
     });
     qList.querySelectorAll('.cv-uq-add-action').forEach(btn=>{
@@ -1438,7 +1466,8 @@ function cvRenderActions(){
     const tclass=item.tag==='developed'?'cv-at-developed':item.tag==='unclear'?'cv-at-unclear':'cv-at-single';
     const tagHtml=item.tag?`<span class="cv-ft-tag ${tclass}">${tagMap[item.tag]||item.tag}</span>`:'';
     const spkHtml=item.speaker?`<span class="cv-action-spk">${item.speaker}</span>`:'';
-    return`<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><div class="cv-action-body"><span class="cv-action-text">${item.text}</span>${spkHtml}${tagHtml}</div></div>`;
+    const ctxHtml=item.context?`<div class="cv-action-ctx"><span class="cv-action-ctx-lbl">Context</span> ${item.context}</div>`:'';
+    return`<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><div class="cv-action-body"><span class="cv-action-text">${item.text}</span>${spkHtml}${tagHtml}${ctxHtml}</div></div>`;
   }).join('');
 }
 
