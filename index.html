@@ -335,6 +335,14 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:18px 6
 .cv-at-developed{background:#e6f4ea;color:#2a6e3f;}
 .cv-at-single{background:#e8f0f7;color:#2a5a8a;}
 .cv-at-unclear{background:#fdf3e0;color:#a06000;}
+.cv-uq-inline-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.cv-uq-btn{background:#fff3e0;color:#c67700;border:1px solid #f0c060;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;transition:background .15s;}
+.cv-uq-btn:hover{background:#ffe0a0;}
+.cv-uq-btn:disabled{opacity:.5;cursor:default;}
+.cv-ctx-btn{background:#f0f4ff;color:#3a5bcd;border:1px solid #c8d4f8;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;margin-top:10px;display:inline-block;transition:background .15s;}
+.cv-ctx-btn:hover{background:#dde6ff;}
+.cv-ctx-area{margin-top:8px;background:#f8f9fb;border-left:3px solid #7c5cbf;padding:10px 12px;border-radius:0 6px 6px 0;font-size:12px;color:var(--ink);line-height:1.6;}
+.cv-ctx-area p{margin:0;}
 /* ════════════════════════
    SYMBIO TOOL
 ════════════════════════ */
@@ -691,16 +699,7 @@ window.go = go;
           </div>
         </div>
 
-        <!-- Section 3: Unanswered Questions -->
-        <div class="cv-section" id="cv-unanswered-section">
-          <div class="cv-section-head">
-            <div class="cv-section-title">Unanswered Questions</div>
-            <div class="cv-section-sub" id="cv-uq-count"></div>
-          </div>
-          <div id="cv-unanswered-list"></div>
-        </div>
-
-        <!-- Section 4: Action Items -->
+        <!-- Section 3: Action Items -->
         <div class="cv-section">
           <div class="cv-section-head">
             <div class="cv-section-title">Action Items</div>
@@ -989,29 +988,100 @@ let cvCurrentQuestions=[];
 function cvGetSessionNum(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');return h.length+1;}catch(e){return 1;}}
 
 // ── Pre-processing ────────────────────────────────────────────
-const CV_FILLERS=/\b(um|uh|you know what i mean|you know|kind of|sort of|i mean|basically|literally)\b,?\s*/gi;
+const CV_FILLERS=/\b(um+|uh+|you know what i mean|you know like|you know|kind of like|sort of like|like literally|just like|i'm like|kind of|sort of|basically|literally|i mean|right|i guess|i suppose)\b,?\s*/gi;
+const CV_SENT_START_FILLERS=/^(honestly|actually)[,\s]+/i;
+const CV_META_PAT=/^(transcription|recording|meeting|notes|summary)\b/i;
+const CV_TIMESTAMP_PAT=/^\d{1,2}:\d{2}(:\d{2})?(\s*(am|pm))?$/i;
+
+function cvSplitSentences(text){
+  const sentences=[];let cur='';
+  for(let i=0;i<text.length;i++){
+    cur+=text[i];
+    if(text[i]==='?'||text[i]==='!'){
+      const tr=cur.trim();
+      if(tr.split(/\s+/).length>=4)sentences.push(tr);
+      else if(sentences.length)sentences[sentences.length-1]+=' '+tr;
+      cur='';
+    } else if(text[i]==='.'&&i+1<text.length){
+      const rest=text.slice(i+1).match(/^\s+([A-Z])/);
+      if(rest){
+        const tr=cur.trim();
+        if(tr.split(/\s+/).length>=4)sentences.push(tr);
+        else if(sentences.length)sentences[sentences.length-1]+=' '+tr;
+        cur='';
+      }
+    }
+  }
+  if(cur.trim()){
+    const tr=cur.trim();
+    if(tr.split(/\s+/).length>=4)sentences.push(tr);
+    else if(sentences.length)sentences[sentences.length-1]+=' '+tr;
+    else sentences.push(tr);
+  }
+  if(!sentences.length&&text.trim())sentences.push(text.trim());
+  return sentences;
+}
+
+function cvGenerateContext(turns,turnIdx,question){
+  const before=turns.slice(Math.max(0,turnIdx-3),turnIdx);
+  const after=turns.slice(turnIdx+1,Math.min(turns.length,turnIdx+4));
+  let summary='';
+  if(before.length){
+    const spks=[...new Set(before.map(t=>t.speaker).filter(Boolean))];
+    const allText=before.map(t=>t.sentence).join(' ');
+    const keywords=allText.split(/\W+/).filter(w=>w.length>4&&!CV_STOP.has(w.toLowerCase())).slice(0,4);
+    const spkStr=spks.length?spks.join(' and '):'The participant';
+    summary+=spks.length&&keywords.length?`${spkStr} was discussing ${keywords.join(', ')}.`:keywords.length?`The conversation touched on ${keywords.join(', ')} before this question.`:'This question came up early in the conversation.';
+    summary+=' ';
+  } else {summary='This question came up early in the conversation. ';}
+  summary+=`${question.speaker||'The coach'} then raised this question. `;
+  if(after.length){
+    const respSpks=[...new Set(after.map(t=>t.speaker).filter(Boolean))].filter(s=>s!==question.speaker);
+    const respSpk=respSpks[0]||([...new Set(after.map(t=>t.speaker).filter(Boolean))][0]);
+    if(respSpk){
+      const respText=after.filter(t=>t.speaker===respSpk).map(t=>t.sentence).join(' ');
+      const kw=respText.split(/\W+/).filter(w=>w.length>4&&!CV_STOP.has(w.toLowerCase())).slice(0,4);
+      summary+=kw.length?`${respSpk} responded, touching on ${kw.join(', ')}.`:`${respSpk} responded following the question.`;
+    } else {summary+='No direct response followed.';}
+  } else {summary+='No further conversation followed.';}
+  return summary;
+}
 
 function cvPreProcess(text){
-  const turns=[];
-  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>2);
-  for(const line of lines){
+  const rawLines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>2);
+  const rawTurns=[];
+  const speakerCount={};
+  for(const line of rawLines){
+    if(CV_META_PAT.test(line)||CV_TIMESTAMP_PAT.test(line))continue;
     let speaker=null,content=line;
     const colonM=line.match(/^([^:]{1,50}):\s*(.+)$/);
-    if(colonM){speaker=colonM[1].trim();content=colonM[2].trim();}
-    else{
+    if(colonM&&colonM[1].trim().length>1&&!/^\d/.test(colonM[1])){
+      speaker=colonM[1].trim();content=colonM[2].trim();
+    } else {
       const teamsM=line.match(/^([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s{2,}(.+)$/);
       if(teamsM){speaker=teamsM[1].trim();content=teamsM[2].trim();}
     }
-    let cleaned=content.replace(CV_FILLERS,' ').replace(/\s+/g,' ').trim();
-    cleaned=cleaned.replace(/\b(\w+)(\s+\1)+\b/gi,'$1');
-    const sentences=[];let cur='';
-    for(let i=0;i<cleaned.length;i++){
-      cur+=cleaned[i];
-      if('.!?'.includes(cleaned[i])){const tr=cur.trim();if(tr.length>3)sentences.push(tr);cur='';}
+    if(speaker){
+      const words=speaker.split(/\s+/);
+      const valid=words.length>=1&&words.length<=4&&/^[A-Z][a-z]/.test(speaker)&&!CV_META_PAT.test(speaker);
+      if(!valid)speaker=null;
     }
-    if(cur.trim().length>3)sentences.push(cur.trim());
-    if(!sentences.length&&cleaned.length>3)sentences.push(cleaned);
-    for(const sentence of sentences)turns.push({speaker,sentence});
+    if(speaker)speakerCount[speaker]=(speakerCount[speaker]||0)+1;
+    rawTurns.push({speaker,content});
+  }
+  const validSpeakers=new Set(Object.entries(speakerCount).filter(([,v])=>v>=3).map(([k])=>k));
+  const turns=[];
+  for(const {speaker,content} of rawTurns){
+    const spk=(speaker&&validSpeakers.has(speaker))?speaker:null;
+    let cleaned=content.replace(CV_FILLERS,' ').replace(CV_SENT_START_FILLERS,'').replace(/\s+/g,' ').trim();
+    cleaned=cleaned.replace(/\b(\w+)(\s+\1)+\b/gi,'$1');
+    if(!cleaned)continue;
+    cleaned=cleaned.charAt(0).toUpperCase()+cleaned.slice(1);
+    const sentences=cvSplitSentences(cleaned);
+    for(const sentence of sentences){
+      if(sentence.split(/\s+/).length<4)continue;
+      turns.push({speaker:spk,sentence});
+    }
   }
   return turns;
 }
@@ -1078,7 +1148,7 @@ function cvDetectQuestions(turns){
       if(rb.length<2&&!CV_DIRECT_RESP.test(rt))outcome='unanswered';
       else if(CV_COMMIT_PAT.test(nxt.map(t=>t.sentence).join(' ')))outcome='answered-action';
     }
-    questions.push({text:t,speaker:turn.speaker||'Unknown',outcome,type:cvClassifyQType(t),allThree:sigCount===3,isBuilding:false,isOpen:CV_Q_OPENERS.test(t)});
+    questions.push({text:t,speaker:turn.speaker||'Unknown',outcome,type:cvClassifyQType(t),allThree:sigCount===3,isBuilding:false,isOpen:CV_Q_OPENERS.test(t),turnIdx:i});
   });
   return questions;
 }
@@ -1088,7 +1158,7 @@ function cvDetectBuilding(turns,mainQs){
   const buildQs=[];
   const tidx=cvBuildTurnIdx(turns);
   const qTurnMap=mainQs.map(q=>{
-    const idx=turns.findIndex(t=>t.sentence===q.text&&t.speaker===q.speaker);
+    const idx=q.turnIdx!=null?q.turnIdx:turns.findIndex(t=>t.sentence===q.text&&t.speaker===q.speaker);
     return{q,ti:idx>=0?tidx[idx]:-1};
   });
   turns.forEach((turn,i)=>{
@@ -1107,31 +1177,44 @@ function cvDetectBuilding(turns,mainQs){
       if(rb.length<2&&!CV_DIRECT_RESP.test(rb.join(' ')))outcome='unanswered';
       else if(CV_COMMIT_PAT.test(nxt.map(t=>t.sentence).join(' ')))outcome='answered-action';
     }
-    buildQs.push({text:turn.sentence,speaker:turn.speaker||'Unknown',outcome,type:'building',allThree:false,isBuilding:true,isOpen:true});
+    buildQs.push({text:turn.sentence,speaker:turn.speaker||'Unknown',outcome,type:'building',allThree:false,isBuilding:true,isOpen:true,turnIdx:i});
   });
   return buildQs;
 }
 
 // ── Action item detection + clustering ───────────────────────
 function cvDetectActions(turns){
-  const raw=[];
-  turns.forEach((turn,i)=>{if(!CV_COMMIT_PAT.test(turn.sentence))return;raw.push({text:turn.sentence,speaker:turn.speaker||'Unknown',idx:i});});
+  // Step 1: detect seeds
+  const seeds=[];
+  turns.forEach((turn,i)=>{if(!CV_COMMIT_PAT.test(turn.sentence))return;seeds.push({text:turn.sentence,speaker:turn.speaker||'Unknown',idx:i});});
+  // Step 2: extract verb-object task
+  function extractTask(text){
+    const m=text.match(/\b(i will|i'll|i'm going to|i plan to|i need to|i should)\s+(.{5,60}?)(?:[.,!?]|$)/i);
+    return m?m[2].toLowerCase().trim():text.toLowerCase().trim();
+  }
+  // Step 3: cluster by verb-object/topic overlap
   const clusters=[];const used=new Set();
-  raw.forEach((item,i)=>{
+  seeds.forEach((seed,i)=>{
     if(used.has(i))return;
-    const cluster=[item];used.add(i);
-    const words=item.text.toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
-    for(let j=i+1;j<raw.length;j++){
+    const cluster=[seed];used.add(i);
+    const taskA=extractTask(seed.text);
+    const wordsA=taskA.split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
+    for(let j=i+1;j<seeds.length;j++){
       if(used.has(j))continue;
-      const w2=raw[j].text.toLowerCase().split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
-      if(words.filter(w=>w2.includes(w)).length>=3){cluster.push(raw[j]);used.add(j);}
+      const taskB=extractTask(seeds[j].text);
+      const wordsB=taskB.split(/\W+/).filter(w=>w.length>3&&!CV_STOP.has(w));
+      const overlap=wordsA.filter(w=>wordsB.includes(w)).length;
+      if(overlap>=2||(overlap>=1&&seeds[j].speaker===seed.speaker)){cluster.push(seeds[j]);used.add(j);}
     }
     clusters.push(cluster);
   });
-  return clusters.map(cluster=>{
+  // Step 4: cap at 8, derive display text + tag
+  return clusters.slice(0,8).map(cluster=>{
     const best=cluster.reduce((a,b)=>a.text.length>b.text.length?a:b);
-    const tag=cluster.length>1?'developed':best.text.split(/\s+/).length>6?'single':'unclear';
-    return{text:best.text,speaker:best.speaker,tag,count:cluster.length};
+    const tag=cluster.length>=3?'developed':cluster.length===1&&best.text.split(/\s+/).length>5?'single':'unclear';
+    const taskText=extractTask(best.text);
+    const display=taskText.charAt(0).toUpperCase()+taskText.slice(1);
+    return{text:display||best.text,speaker:best.speaker,tag,count:cluster.length};
   });
 }
 
@@ -1267,10 +1350,32 @@ function cvShowResults(text,dur,restoredSession){
     const typeLabel={building:'\u25c6 Building',curious:'Curious',transactional:'Transactional',other:''};
     qList.innerHTML=filtered.map((q,i)=>{
       const marker=q.allThree?' \ud83d\udc4d':'';
-      return`<div class="cv-qitem" id="cv-qi-${i}"><div class="cv-qitem-head" data-qi="${i}"><span class="cv-qitem-text">${q.text.length>120?q.text.substring(0,120)+'\u2026':q.text}${marker}</span><span class="cv-qtag ${q.outcome}">${tagLabel[q.outcome]}</span></div><div class="cv-qitem-body">${q.text}${marker}<br><em style="font-size:11px;color:var(--muted);">Asked by ${q.speaker}</em><br><br><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${typeLabel[q.type]||''} ${q.isOpen?'\xb7 Open':'\xb7 Closed'}</span></div></div>`;
+      const uqBtns=q.outcome==='unanswered'?`<div class="cv-uq-inline-btns"><button class="cv-uq-btn cv-uq-add-action" data-qi="${i}">+ Add to Action Items</button><button class="cv-uq-btn cv-uq-add-agenda" data-qi="${i}">Save as Next Session Agenda</button><button class="cv-uq-btn cv-uq-delete" data-qi="${i}">\u00d7 Delete</button></div>`:'';
+      return`<div class="cv-qitem" id="cv-qi-${i}"><div class="cv-qitem-head" data-qi="${i}"><span class="cv-qitem-text">${q.text.length>120?q.text.substring(0,120)+'\u2026':q.text}${marker}</span><span class="cv-qtag ${q.outcome}">${tagLabel[q.outcome]}</span></div><div class="cv-qitem-body">${q.text}${marker}<br><em style="font-size:11px;color:var(--muted);">Asked by ${q.speaker}</em><br><br><span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">${typeLabel[q.type]||''} ${q.isOpen?'\xb7 Open':'\xb7 Closed'}</span>${uqBtns}<button class="cv-ctx-btn" data-ctxi="${i}">Give Context</button><div class="cv-ctx-area" id="cv-ctx-${i}" style="display:none;"></div></div></div>`;
     }).join('');
     document.getElementById('cv-qintel-meta').textContent=`${filtered.length} question${filtered.length!==1?'s':''}${cvQFilter!=='all'?' (filtered)':''}`;
     qList.querySelectorAll('.cv-qitem-head').forEach(h=>{h.addEventListener('click',()=>{document.getElementById('cv-qi-'+h.dataset.qi).classList.toggle('open');});});
+    qList.querySelectorAll('.cv-ctx-btn').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.stopPropagation();
+        const i=parseInt(btn.dataset.ctxi);
+        const q=filtered[i];
+        const ctxDiv=document.getElementById('cv-ctx-'+i);
+        if(ctxDiv.style.display!=='none'){ctxDiv.style.display='none';btn.textContent='Give Context';return;}
+        const ti=q.turnIdx!=null?q.turnIdx:-1;
+        const ctx=ti>=0?cvGenerateContext(turns,ti,q):'Context not available for this session.';
+        ctxDiv.innerHTML=`<p>${ctx}</p>`;ctxDiv.style.display='block';btn.textContent='Hide Context';
+      });
+    });
+    qList.querySelectorAll('.cv-uq-add-action').forEach(btn=>{
+      btn.addEventListener('click',e=>{e.stopPropagation();const q=filtered[parseInt(btn.dataset.qi)];cvAddActionItem({text:'Follow up: '+q.text,speaker:q.speaker,tag:'single'});btn.textContent='\u2713 Added';btn.disabled=true;});
+    });
+    qList.querySelectorAll('.cv-uq-add-agenda').forEach(btn=>{
+      btn.addEventListener('click',e=>{e.stopPropagation();const q=filtered[parseInt(btn.dataset.qi)];cvAddAgendaItem(q.text);btn.textContent='\u2713 Saved';btn.disabled=true;});
+    });
+    qList.querySelectorAll('.cv-uq-delete').forEach(btn=>{
+      btn.addEventListener('click',e=>{e.stopPropagation();const q=filtered[parseInt(btn.dataset.qi)];const idx=questions.indexOf(q);if(idx>=0)questions.splice(idx,1);cvRenderQList();});
+    });
   }
   if(questions.length){
     const qfBar=document.getElementById('cv-qf-bar');
@@ -1300,21 +1405,7 @@ function cvShowResults(text,dur,restoredSession){
     setTimeout(()=>{document.getElementById('cv-qratio-fill').style.width=or+'%';},50);
   }
 
-  // Unanswered questions
-  document.getElementById('cv-uq-count').textContent=unanswered.length?`${unanswered.length} flagged`:'None';
-  const uqList=document.getElementById('cv-unanswered-list');
-  if(!unanswered.length){uqList.innerHTML='<div class="cv-empty">All questions received a response.</div>';}
-  else{
-    uqList.innerHTML=unanswered.map((q,i)=>`<div class="cv-uq-item"><div class="cv-uq-text">${q.text}</div><div class="cv-uq-btns"><button class="cv-uq-btn" data-uqi="${i}" data-action="add-action">+ Add to Action Items</button><button class="cv-uq-btn" data-uqi="${i}" data-action="add-agenda">Save as Next Session Agenda</button></div></div>`).join('');
-    uqList.querySelectorAll('[data-action]').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const q=unanswered[btn.dataset.uqi];
-        if(btn.dataset.action==='add-action')cvAddActionItem({text:'Follow up: '+q.text,speaker:q.speaker,tag:'single'});
-        else cvAddAgendaItem(q.text);
-        btn.textContent='\u2713 Added';btn.disabled=true;
-      });
-    });
-  }
+  // Unanswered question count tracked for insights only (inline buttons on question cards)
 
   // Action items
   const rawActions=restoredSession&&restoredSession.actions?restoredSession.actions:cvDetectActions(turns);
