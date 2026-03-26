@@ -661,7 +661,7 @@ window.go = go;
           <div class="cv-kpi g"><div class="cv-kpi-cat">Gratitude</div><div class="cv-kpi-num" id="cv-rg">0</div><div class="cv-kpi-desc">Respect &amp; appreciation</div></div>
           <div class="cv-kpi c"><div class="cv-kpi-cat">Commitments</div><div class="cv-kpi-num" id="cv-rc">0</div><div class="cv-kpi-desc">Ownership &amp; follow-through</div></div>
           <div class="cv-kpi p"><div class="cv-kpi-cat">Proactive Help</div><div class="cv-kpi-num" id="cv-rp">0</div><div class="cv-kpi-desc">Blocker &amp; resource checks</div></div>
-          <div class="cv-kpi b"><div class="cv-kpi-cat">Building</div><div class="cv-kpi-num" id="cv-rb">0</div><div class="cv-kpi-desc">Deepening questions</div></div>
+
         </div>
         <div class="cv-score-strip">
           <div class="cv-score-left"><div class="cv-score-num" id="cv-score">—</div><div class="cv-score-out">/ 100</div></div>
@@ -678,7 +678,7 @@ window.go = go;
             <div class="cv-bar-item"><div class="cv-bar-name">Gratitude</div><div class="cv-bar-track"><div class="cv-bar-fill g" id="cv-br-g"></div></div><div class="cv-bar-pct" id="cv-br-gv">—</div></div>
             <div class="cv-bar-item"><div class="cv-bar-name">Commits</div><div class="cv-bar-track"><div class="cv-bar-fill c" id="cv-br-c"></div></div><div class="cv-bar-pct" id="cv-br-cv">—</div></div>
             <div class="cv-bar-item"><div class="cv-bar-name">Proactive</div><div class="cv-bar-track"><div class="cv-bar-fill p" id="cv-br-p"></div></div><div class="cv-bar-pct" id="cv-br-pv">—</div></div>
-            <div class="cv-bar-item"><div class="cv-bar-name">Building</div><div class="cv-bar-track"><div class="cv-bar-fill b" id="cv-br-b"></div></div><div class="cv-bar-pct" id="cv-br-bv">—</div></div>
+
           </div>
           <div class="cv-panel">
             <div class="cv-panel-title">Detected Phrases</div>
@@ -993,6 +993,7 @@ let cvCurrentFilter='all';
 let cvAgendaItems=[];
 let cvCurrentActions=[];
 let cvCurrentQuestions=[];
+let cvCurrentTurns=[];
 
 function cvGetSessionNum(){try{const h=JSON.parse(localStorage.getItem('curio-hist')||'[]');return h.length+1;}catch(e){return 1;}}
 
@@ -1064,7 +1065,7 @@ function cvPreProcess(text){
     cleaned=cleaned.charAt(0).toUpperCase()+cleaned.slice(1);
     const sentences=cvSplitSentences(cleaned);
     for(const sentence of sentences){
-      if(sentence.split(/\s+/).length<4)continue;
+      if(sentence.split(/\s+/).length<2)continue;
       turns.push({speaker:spk,sentence});
     }
   }
@@ -1077,7 +1078,7 @@ const CV_BUILD_OPENERS=/^(and what else|tell me more|what's underneath that|what
 const CV_TX_PAT=/what time|when is|who is responsible|what is the status|what is the update|have you sent|did you send/i;
 const CV_CU_PAT=/\b(what|how|why|tell me|help me understand|what if|what else|what would|what got|what is getting|what are you noticing|what does that mean)\b/i;
 const CV_COMMIT_PAT=/\b(i will|i'll|i'm going to|i plan to|i need to|i should|by friday|by end of week|this week|next week|i'll follow up|i'll send|i'll reach out|i'll set up)\b/i;
-const CV_DIRECT_RESP=/\b(yes|no|i think|well|because|so|the reason|actually|honestly|i believe|what i mean)\b/i;
+const CV_DIRECT_RESP=/\b(yes|no|i think|well|because|so|the reason|actually|honestly|i believe|what i mean|that is|good question|let me|hmm|yeah|absolutely|definitely|sure|exactly|right|agreed|totally|of course|i would say|i feel|i notice|i see|makes sense|fair point|interesting)\b/i;
 const CV_G_PAT=/\b(thank you|thanks|i appreciate|appreciate that|that's helpful|that's great|good point|good question)\b/i;
 const CV_P_PAT=/\b(what do you need|what's getting in the way|blocking you|how can i help|let me know if you need|is there anything i can|how can i support)\b/i;
 const CV_STOP=new Set(['the','a','an','is','it','of','to','and','or','in','on','at','be','was','were','are','this','that','with','for','as','by','do','have','has','had','will','would','could','should','may','might','can','not','but','if','we','i','you','me','he','she','they','them','their','our','your','my']);
@@ -1091,6 +1092,48 @@ function cvClassifyQType(text){
 function cvBuildTurnIdx(turns){
   let idx=0,last=null;
   return turns.map(t=>{if(t.speaker!==last){idx++;last=t.speaker;}return idx;});
+}
+
+// ── FIX 2: Outcome detection — speaker-exchange window ───────────────────────
+function cvGetOutcome(turns,i){
+  const asker=turns[i].speaker;
+  const blocks=[];let j=i+1;
+  while(j<turns.length&&blocks.length<5){
+    const spk=turns[j].speaker;const sents=[];
+    while(j<turns.length&&turns[j].speaker===spk){sents.push(turns[j].sentence);j++;}
+    blocks.push({speaker:spk,sentences:sents});
+  }
+  const respBlocks=blocks.filter(b=>b.speaker&&b.speaker!==asker);
+  if(!respBlocks.length)return'unanswered';
+  const responder=respBlocks[0].speaker;
+  const allRespSents=blocks.filter(b=>b.speaker===responder).flatMap(b=>b.sentences);
+  const respText=allRespSents.join(' ');
+  const windowText=blocks.flatMap(b=>b.sentences).join(' ');
+  if(allRespSents.length>=2||CV_DIRECT_RESP.test(respText)){
+    return CV_COMMIT_PAT.test(windowText)?'answered-action':'answered-no-action';
+  }
+  return'unanswered';
+}
+
+// ── FIX 1: Building detection — any ? anchor, 6-turn window, min 2 words ─────
+function cvDetectBuilding(turns){
+  const buildQs=[];
+  const tidx=cvBuildTurnIdx(turns);
+  const speakerQTurns={};
+  turns.forEach((turn,i)=>{
+    if(!turn.sentence.trimEnd().endsWith('?')||!turn.speaker)return;
+    if(!speakerQTurns[turn.speaker])speakerQTurns[turn.speaker]=[];
+    speakerQTurns[turn.speaker].push(tidx[i]);
+  });
+  turns.forEach((turn,i)=>{
+    if(!CV_BUILD_OPENERS.test(turn.sentence)||!turn.speaker)return;
+    const myTi=tidx[i];
+    const hasAnchor=(speakerQTurns[turn.speaker]||[]).some(ti=>myTi-ti<=6&&myTi>ti);
+    if(!hasAnchor)return;
+    const outcome=cvGetOutcome(turns,i);
+    buildQs.push({text:turn.sentence,speaker:turn.speaker,outcome,type:'building',allThree:false,isBuilding:true,isOpen:true,turnIdx:i});
+  });
+  return buildQs;
 }
 
 // ── REWRITE 1: Question detection — ends with ?, 3 signals, cap at 15 ────────
@@ -1123,18 +1166,7 @@ function cvDetectQuestions(turns){
     }
     const sigCount=(sigA?1:0)+(sigB?1:0)+(sigC?1:0);
     if(sigCount<2)return;
-    let outcome='answered-no-action';
-    const nxt=turns.slice(i+1,i+20);
-    const firstOther=nxt.find(u=>u.speaker&&u.speaker!==turn.speaker);
-    if(!firstOther){outcome='unanswered';}
-    else{
-      const oi=nxt.indexOf(firstOther);
-      const rb=[];
-      for(let j=oi;j<nxt.length&&nxt[j].speaker===firstOther.speaker;j++)rb.push(nxt[j].sentence);
-      const rt=rb.join(' ');
-      if(rb.length<2&&!CV_DIRECT_RESP.test(rt))outcome='unanswered';
-      else if(CV_COMMIT_PAT.test(nxt.map(u=>u.sentence).join(' ')))outcome='answered-action';
-    }
+    const outcome=cvGetOutcome(turns,i);
     questions.push({text:t,speaker:turn.speaker||'Unknown',outcome,type:cvClassifyQType(t),allThree:sigCount===3,isBuilding:false,isOpen:sigA,turnIdx:i});
   });
   // Tighten: if >15 logged, keep only those with opener as first word
@@ -1143,33 +1175,6 @@ function cvDetectQuestions(turns){
 }
 
 // ── Building question detection ───────────────────────────────
-function cvDetectBuilding(turns,mainQs){
-  const buildQs=[];
-  const tidx=cvBuildTurnIdx(turns);
-  const qTurnMap=mainQs.map(q=>{
-    const idx=q.turnIdx!=null?q.turnIdx:-1;
-    return{q,ti:idx>=0?tidx[idx]:-1};
-  });
-  turns.forEach((turn,i)=>{
-    if(!CV_BUILD_OPENERS.test(turn.sentence))return;
-    const myTi=tidx[i];
-    const hasAnchor=qTurnMap.some(({q,ti})=>q.speaker===turn.speaker&&ti>=0&&myTi-ti<=3&&myTi>ti);
-    if(!hasAnchor)return;
-    let outcome='answered-no-action';
-    const nxt=turns.slice(i+1,i+20);
-    const firstOther=nxt.find(u=>u.speaker&&u.speaker!==turn.speaker);
-    if(!firstOther){outcome='unanswered';}
-    else{
-      const oi=nxt.indexOf(firstOther);
-      const rb=[];
-      for(let j=oi;j<nxt.length&&nxt[j].speaker===firstOther.speaker;j++)rb.push(nxt[j].sentence);
-      if(rb.length<2&&!CV_DIRECT_RESP.test(rb.join(' ')))outcome='unanswered';
-      else if(CV_COMMIT_PAT.test(nxt.map(u=>u.sentence).join(' ')))outcome='answered-action';
-    }
-    buildQs.push({text:turn.sentence,speaker:turn.speaker||'Unknown',outcome,type:'building',allThree:false,isBuilding:true,isOpen:true,turnIdx:i});
-  });
-  return buildQs;
-}
 
 // ── REWRITE 2: Action item detection — verb-object extract + context ──────────
 function cvDetectActions(turns){
@@ -1224,7 +1229,7 @@ function cvDetectActions(turns){
     const taskText=extractTask(best.text);
     const display=taskText.charAt(0).toUpperCase()+taskText.slice(1);
     const tag=cluster.length>=3?'developed':taskText.split(/\s+/).length>4?'single':'unclear';
-    return{text:display||best.text,speaker:best.speaker,tag,count:cluster.length,context:best.context};
+    return{text:display||best.text,speaker:best.speaker,tag,count:cluster.length,context:best.context,turnIdx:best.idx};
   });
 }
 
@@ -1259,7 +1264,7 @@ function cvTopInsight(q,b,curious,trans,unanswered){
 }
 
 // ── REWRITE 3: Give Context — labeled before/question/after sections ──────────
-function cvBuildContextHtml(turns,turnIdx,question){
+function cvBuildContextHtml(turns,turnIdx,question,centerLabel){
   const before=turns.slice(Math.max(0,turnIdx-2),turnIdx);
   const after=turns.slice(turnIdx+1,Math.min(turns.length,turnIdx+3));
   let html='<div class="cv-ctx-section">';
@@ -1267,7 +1272,7 @@ function cvBuildContextHtml(turns,turnIdx,question){
     html+='<div class="cv-ctx-label">Before</div>';
     before.forEach(u=>{html+=`<div class="cv-ctx-line"><span class="cv-ctx-spk">${u.speaker||'\u2014'}</span><span class="cv-ctx-text">${u.sentence}</span></div>`;});
   }
-  html+=`<div class="cv-ctx-label cv-ctx-q-label">Question</div><div class="cv-ctx-q">${question.text}</div>`;
+  html+=`<div class="cv-ctx-label cv-ctx-q-label">${centerLabel||'Question'}</div><div class="cv-ctx-q">${question.text}</div>`;
   if(after.length){
     html+='<div class="cv-ctx-label">After</div>';
     after.forEach(u=>{html+=`<div class="cv-ctx-line"><span class="cv-ctx-spk">${u.speaker||'\u2014'}</span><span class="cv-ctx-text">${u.sentence}</span></div>`;});
@@ -1286,8 +1291,9 @@ function cvShowResults(text,dur,restoredSession){
   const now=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
 
   const turns=cvPreProcess(text);
+  cvCurrentTurns=turns;
   const mainQs=restoredSession&&restoredSession.questions?restoredSession.questions.filter(q=>!q.isBuilding):cvDetectQuestions(turns);
-  const buildQs=restoredSession&&restoredSession.questions?restoredSession.questions.filter(q=>q.isBuilding):cvDetectBuilding(turns,mainQs);
+  const buildQs=restoredSession&&restoredSession.questions?restoredSession.questions.filter(q=>q.isBuilding):cvDetectBuilding(turns);
   const questions=[...mainQs,...buildQs];
   cvCurrentQuestions=questions;
 
@@ -1304,7 +1310,7 @@ function cvShowResults(text,dur,restoredSession){
   const pTotal=allVals.reduce((s,v)=>s+v.p,0);
 
   document.getElementById('cv-rq').textContent=totalQ;
-  document.getElementById('cv-rb').textContent=totalB;
+  const cvRbEl=document.getElementById('cv-rb');if(cvRbEl)cvRbEl.textContent=totalB;
   document.getElementById('cv-rg').textContent=gTotal;
   document.getElementById('cv-rc').textContent=cTotal;
   document.getElementById('cv-rp').textContent=pTotal;
@@ -1314,14 +1320,14 @@ function cvShowResults(text,dur,restoredSession){
   document.getElementById('cv-score-right').innerHTML=`${dur}<br>${sn}`;
 
   // Score
-  const scores=[Math.min(100,Math.round((totalQ/5)*100)),Math.min(100,Math.round((totalB/2)*100)),Math.min(100,Math.round((gTotal/3)*100)),Math.min(100,Math.round((cTotal/3)*100)),Math.min(100,Math.round((pTotal/2)*100))];
-  const overall=Math.round(scores.reduce((a,b)=>a+b,0)/5);
+  const scores=[Math.min(100,Math.round((totalQ/5)*100)),Math.min(100,Math.round((gTotal/3)*100)),Math.min(100,Math.round((cTotal/3)*100)),Math.min(100,Math.round((pTotal/2)*100))];
+  const overall=Math.round(scores.reduce((a,b)=>a+b,0)/4);
   document.getElementById('cv-score').textContent=overall;
   let gr,gc;
   if(overall>=75){gr='Excellent';gc='excellent';}else if(overall>=50){gr='Good';gc='good';}else if(overall>=25){gr='Developing';gc='developing';}else{gr='Needs Work';gc='needs-work';}
   const ge=document.getElementById('cv-grade');ge.textContent=gr;ge.className='cv-grade '+gc;
   setTimeout(()=>{
-    ['q','b','g','c','p'].forEach((k,ki)=>{
+    ['q','g','c','p'].forEach((k,ki)=>{
       const el=document.getElementById('cv-br-'+k);if(el)el.style.width=scores[ki]+'%';
       const elv=document.getElementById('cv-br-'+k+'v');if(elv)elv.textContent=scores[ki];
     });
@@ -1348,19 +1354,33 @@ function cvShowResults(text,dur,restoredSession){
     } else ppEl.style.display='none';
   }
 
-  // Detected phrases
+  // Detected phrases — full expandable lists
   const mp=document.getElementById('cv-matches');
   if(mp){
-    const gm=[...new Set((text.match(CV_G_PAT)||[]).map(m=>m.toLowerCase()))].slice(0,4);
-    const cm=[...new Set((text.match(CV_COMMIT_PAT)||[]).map(m=>m.toLowerCase()))].slice(0,4);
+    function buildChipList(matches,label){
+      if(!matches.length)return'';
+      const chips=matches.map(m=>`<span class="cv-match-tag">"${m}"</span>`);
+      let h=`<div class="cv-match-sec-lbl">${label}</div>`;
+      if(chips.length<=8){h+=chips.join('');}
+      else{
+        h+=chips.slice(0,8).join('');
+        h+=`<div class="cv-match-expand"><button class="cv-match-more-btn">Show All (${chips.length})</button><span class="cv-match-extra" style="display:none;">${chips.slice(8).join('')}</span></div>`;
+      }
+      return h;
+    }
+    const gm=[...new Set((text.match(CV_G_PAT)||[]).map(m=>m.toLowerCase()))];
+    const cm=[...new Set((text.match(CV_COMMIT_PAT)||[]).map(m=>m.toLowerCase()))];
     const pm=[...new Set((text.match(CV_P_PAT)||[]).map(m=>m.toLowerCase()))].slice(0,4);
-    mp.innerHTML='';
-    [{l:'Gratitude',m:gm},{l:'Commits',m:cm},{l:'Proactive',m:pm}].forEach(md=>{
-      if(!md.m.length)return;
-      mp.innerHTML+=`<div class="cv-match-sec-lbl">${md.l}</div>`;
-      md.m.forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});
-    });
+    mp.innerHTML=buildChipList(gm,'Gratitude')+buildChipList(cm,'Commitments');
+    if(pm.length){mp.innerHTML+=`<div class="cv-match-sec-lbl">Proactive</div>`;pm.forEach(ph=>{mp.innerHTML+=`<span class="cv-match-tag">"${ph}"</span>`;});}
     if(!mp.innerHTML)mp.innerHTML='<div class="cv-empty">No skill phrases detected.</div>';
+    mp.querySelectorAll('.cv-match-more-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const extra=btn.nextElementSibling;
+        if(extra.style.display==='none'){extra.style.display='inline';btn.textContent='Show Less';}
+        else{extra.style.display='none';btn.textContent=`Show All`;}
+      });
+    });
   }
 
   // Question list with filter bar
@@ -1466,9 +1486,20 @@ function cvRenderActions(){
     const tclass=item.tag==='developed'?'cv-at-developed':item.tag==='unclear'?'cv-at-unclear':'cv-at-single';
     const tagHtml=item.tag?`<span class="cv-ft-tag ${tclass}">${tagMap[item.tag]||item.tag}</span>`:'';
     const spkHtml=item.speaker?`<span class="cv-action-spk">${item.speaker}</span>`:'';
-    const ctxHtml=item.context?`<div class="cv-action-ctx"><span class="cv-action-ctx-lbl">Context</span> ${item.context}</div>`:'';
-    return`<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><div class="cv-action-body"><span class="cv-action-text">${item.text}</span>${spkHtml}${tagHtml}${ctxHtml}</div></div>`;
+    return`<div class="cv-action-item"><span class="cv-action-num">${i+1}.</span><div class="cv-action-body"><span class="cv-action-text">${item.text}</span>${spkHtml}${tagHtml}<button class="cv-ctx-btn cv-act-ctx-btn" data-aci="${i}">Give Context</button><div class="cv-ctx-area" id="cv-act-ctx-${i}" style="display:none;"></div></div></div>`;
   }).join('');
+  el.querySelectorAll('.cv-act-ctx-btn').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      const ai=parseInt(btn.dataset.aci);
+      const item=typeof cvCurrentActions[ai]==='object'?cvCurrentActions[ai]:{text:cvCurrentActions[ai]};
+      const ctxDiv=document.getElementById('cv-act-ctx-'+ai);
+      if(ctxDiv.style.display!=='none'){ctxDiv.style.display='none';btn.textContent='Give Context';return;}
+      const ti=item.turnIdx!=null?item.turnIdx:-1;
+      ctxDiv.innerHTML=ti>=0&&cvCurrentTurns.length?cvBuildContextHtml(cvCurrentTurns,ti,{text:item.text},'Commitment'):'<p>Context not available.</p>';
+      ctxDiv.style.display='block';btn.textContent='Hide Context';
+    });
+  });
 }
 
 function cvAddAgendaItem(text){
